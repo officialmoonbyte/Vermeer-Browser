@@ -88,12 +88,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Vermeer\bin\IBrowser.cs" />
     <Compile Include="Vermeer\bin\ILogger.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Vermeer\bin\Vermeer.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Vermeer\Controls\DownloadButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Vermeer\Controls\HomeButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Vermeer\Controls\IBrowserHeader.cs" />
     <Compile Include="Vermeer\pages\mainPage.cs">
       <SubType>Form</SubType>
     </Compile>
