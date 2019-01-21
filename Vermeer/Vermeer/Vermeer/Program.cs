@@ -15,12 +15,12 @@ namespace Moonbyte.Vermeer
         [STAThread]
         static void Main()
         {
-            //Running Vermeer startup events
-            vermeer.ExecuteStartupEvents();
-
             //Setting application visual styles
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            //Running Vermeer startup events
+            vermeer.ExecuteStartupEvents();
 
             //Opens the main form
             vermeer.Open(VermeerPages.Mainform);

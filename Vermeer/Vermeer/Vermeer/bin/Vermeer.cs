@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using IndieGoat.MaterialFramework.Controls;
+using System.Windows.Forms;
 using Vermeer.Vermeer.bin;
 using Vermeer.Vermeer.pages;
 
@@ -9,6 +10,12 @@ namespace Moonbyte.Vermeer.bin
     #pragma warning disable IDE1006 // Naming Styles
     public static class vermeer
     {
+
+        #region Vars
+
+        public static MaterialTabControl baseTabControl = new MaterialTabControl();
+
+        #endregion
 
         #region Startup
 

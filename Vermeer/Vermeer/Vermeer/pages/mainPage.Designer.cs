@@ -34,11 +34,20 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
+            this.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(225)))));
+            this.BorderSize = 2;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.HeaderColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(64)))));
             this.Name = "mainPage";
-            this.Text = "mainPage";
+            this.Showicon = false;
+            this.ShowTitleLabel = false;
+            this.Sizeable = false;
+            this.Text = "Vermeer Web Browser";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.mainPage_FormClosed);
+            this.Load += new System.EventHandler(this.mainPage_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
