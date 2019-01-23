@@ -20,7 +20,7 @@ namespace Moonbyte.Vermeer.browser
         MaterialTabPage getTabPage();
 
         /* Initialize */
-        void CreateBrowserHandle(MaterialTabPage tabPage);
+        void CreateBrowserHandle(string URL, MaterialTabPage tabPage);
 
 
         /* Default / required Browser controlls */

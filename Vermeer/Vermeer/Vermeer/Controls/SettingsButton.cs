@@ -49,10 +49,10 @@ namespace Vermeer.Vermeer.Controls
             int Modif = 4;
 
             //Draw the image
-            g.DrawImage(Properties.Resources.settingslogo.ToBitmap(), new Rectangle(ClientRectangle.X + Modif,
-                ClientRectangle.Y + Modif,
-                ClientRectangle.Width - (Modif * 2),
-                ClientRectangle.Height - (Modif * 2)));
+            //g.DrawImage(Properties.Resources.settingslogo.ToBitmap(), new Rectangle(ClientRectangle.X + Modif,
+                //ClientRectangle.Y + Modif,
+                //ClientRectangle.Width - (Modif * 2),
+                //ClientRectangle.Height - (Modif * 2)));
         }
 
         #endregion 

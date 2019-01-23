@@ -114,6 +114,7 @@
     <Compile Include="Vermeer\Controls\SettingsButton.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Vermeer\Engine\DefaultEngine\DefaultBrowserEngine.cs" />
     <Compile Include="Vermeer\pages\mainPage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -148,7 +149,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\VermeerExternalLibrary\VermeerExternalLibrary.csproj">
+      <Project>{5727d907-fa1f-456f-bb4b-7c5a5cb0a538}</Project>
+      <Name>VermeerExternalLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
