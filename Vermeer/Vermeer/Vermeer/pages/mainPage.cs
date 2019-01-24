@@ -1,9 +1,10 @@
 ﻿using IndieGoat.MaterialFramework.Controls;
-using Vermeer.Vermeer.Controls;
 using Moonbyte.Vermeer.bin;
 using System;
 using System.Windows.Forms;
 using System.Drawing;
+using Vermeer.Vermeer.bin;
+using IndieGoat.MaterialFramework.Events;
 
 namespace Vermeer.Vermeer.pages
 {
@@ -41,22 +42,7 @@ namespace Vermeer.Vermeer.pages
             RenderHeaderUI();
             RenderTabControlUI();
 
-            MaterialTabPage tabPage1 = new MaterialTabPage();
-            tabPage1.Text = "testing123";
-            MaterialTabPage tabPage2 = new MaterialTabPage();
-            tabPage2.Text = "texting123";
-            MaterialTabPage tabPage3 = new MaterialTabPage();
-            tabPage3.Text = "texting123";
-            MaterialTabPage tabPage4 = new MaterialTabPage();
-            tabPage4.Text = "texting123";
-            MaterialTabPage tabPage5 = new MaterialTabPage();
-            tabPage5.Text = "texting123";
-
-            vermeer.baseTabControl.TabPages.Add(tabPage1);
-            vermeer.baseTabControl.TabPages.Add(tabPage2);
-            vermeer.baseTabControl.TabPages.Add(tabPage3);
-            vermeer.baseTabControl.TabPages.Add(tabPage4);
-            vermeer.baseTabControl.TabPages.Add(tabPage5);
+            IBrowser.GenerateNewBrowserTab();
         }
 
         #endregion
@@ -76,11 +62,18 @@ namespace Vermeer.Vermeer.pages
             TabHeader tabHeader = new TabHeader();
 
             //Changing TabHeader Properties
+            tabHeader.EnableAddButton = true;
+            tabHeader.ShowCloseButton = true;
             tabHeader.Location = new Point(33, 1); //33 for perfect 32 square. 1 point for the border
             tabHeader.Width = this.Width - 211; //Random number accounted for the border and the min, max, and close button
             tabHeader.BackColor = Color.FromArgb(35, 35, 64);
             tabHeader.Anchor = (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right);
             tabHeader.BasedTabControl = vermeer.baseTabControl;
+            tabHeader.CloseButtonHoverColor = Color.FromArgb(255, 90, 90);
+            tabHeader.NewTabButtonClick += (obj, arg) =>
+            {
+
+            };
 
             headerHeight = tabHeader.Height;
 

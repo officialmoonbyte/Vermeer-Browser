@@ -8,7 +8,7 @@ namespace Moonbyte.Vermeer.browser
     {
         #region Vars
 
-        VermeerBrowserInterface BrowserInterface = null;
+        public VermeerBrowserInterface BrowserInterface = null;
 
         #endregion
 
@@ -19,6 +19,7 @@ namespace Moonbyte.Vermeer.browser
         /// </summary>
         public VermeerBrowserInstance(VermeerBrowserInterface browserInterface)
         {
+
             //Error logging for null
             if (browserInterface == null)
             { Console.WriteLine("VermeerBrowserInstance started with a null interface."); }
@@ -33,6 +34,12 @@ namespace Moonbyte.Vermeer.browser
             control.Size = this.Size;
             control.Location = new Point(0, 0);
             control.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right);
+
+            //Changing events
+            this.Resize += (obj, args) =>
+            {
+                control.Size = this.Size;
+            };
 
             //Adds the control
             this.Controls.Add(control);

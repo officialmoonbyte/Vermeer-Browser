@@ -14,6 +14,9 @@ namespace Moonbyte.Vermeer.browser
 
         /* Default / required Browser Properties */
         Control GetBrowserControl();
+        string GetCurrentURL();
+        string GetCurrentTitle();
+        Image GetCurrentIcon();
         bool IsLoading();
         bool IsBackEnabled();
         bool IsForwardAvailable();
