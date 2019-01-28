@@ -46,5 +46,14 @@ namespace Moonbyte.Vermeer.browser
         }
 
         #endregion
+
+        #region Methods
+
+        public void ChangeSSLStatus(bool Status)
+        {
+
+        }
+
+        #endregion
     }
 }
