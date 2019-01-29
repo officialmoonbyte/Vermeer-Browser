@@ -21,6 +21,7 @@ namespace Moonbyte.Vermeer.browser
         bool IsBackEnabled();
         bool IsForwardAvailable();
         MaterialTabPage getTabPage();
+        VermeerBrowserInstance GetBrowserInstance();
 
         /* Initialize */
         void CreateBrowserHandle(string URL, MaterialTabPage tabPage);

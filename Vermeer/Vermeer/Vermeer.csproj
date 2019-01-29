@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Vermeer\bin\DesignTimer.cs" />
+    <Compile Include="Vermeer\bin\Engine\DefaultRequestHandler.cs" />
     <Compile Include="Vermeer\bin\Engine\DisplayHandler.cs" />
     <Compile Include="Vermeer\bin\IBrowser.cs" />
     <Compile Include="Vermeer\bin\ILogger.cs">

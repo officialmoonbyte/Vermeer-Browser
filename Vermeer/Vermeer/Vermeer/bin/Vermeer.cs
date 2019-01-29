@@ -109,6 +109,7 @@ namespace Moonbyte.Vermeer.bin
             public string GetCurrentURL() { return currentURL; }
             public string GetCurrentTitle() { return currentTitle; }
             public MaterialTabPage getTabPage() { return MainTabPage; }
+            public VermeerBrowserInstance GetBrowserInstance() { return (VermeerBrowserInstance)this.GetBrowserInstance().Parent; }
 
             #endregion
 
@@ -141,6 +142,8 @@ namespace Moonbyte.Vermeer.bin
 
                     //Invoke OnTitleChanged
                     OnTitleChange?.Invoke(this, new DocumentTitleChange { DocumentTitle = arg.Title }); currentTitle = arg.Title;
+
+                    //Get SSL Information
                 };
                 webBrowser.AddressChanged += (obj, args) =>
                 {
