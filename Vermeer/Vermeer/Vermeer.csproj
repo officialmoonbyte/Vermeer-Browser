@@ -101,6 +101,9 @@
     <Compile Include="Vermeer\Controls\BackButton.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Vermeer\Controls\DefaultSearchBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Vermeer\Controls\DownloadButton.cs">
       <SubType>UserControl</SubType>
     </Compile>
