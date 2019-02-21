@@ -16,7 +16,6 @@ namespace Vermeer.Vermeer.bin
             Timer designTimer = new Timer();
             designTimer.Tick += (obj, args) =>
             {
-                mainPage.Text = instance.BrowserInterface.GetCurrentTitle();
                 instance.Size = new Size(mainPage.Width, mainPage.Height - 32);
 
                 foreach (Control c in mainPage.Controls)
@@ -25,7 +24,6 @@ namespace Vermeer.Vermeer.bin
                     {
                         MaterialTextBox searchBar = (MaterialTextBox)c;
 
-                        searchBar.Text = instance.BrowserInterface.GetCurrentURL();
                         searchBar.Width = (mainPage.Width - (32 * 4) - 64);
                     }
                 }

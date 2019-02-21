@@ -19,7 +19,7 @@ namespace Vermeer.Vermeer.Controls
         Color borderColorOnSelected = Color.FromArgb(0, 120, 215);
 
         public SecureButton secureButton;
-        BaseTextbox baseTextBox;
+        public BaseTextbox baseTextBox;
 
         #endregion
 
@@ -56,6 +56,7 @@ namespace Vermeer.Vermeer.Controls
 
             baseTextBox = new BaseTextbox(backColor, new Font("Segoe UI", 11));
             baseTextBox.Location = new Point(secureButton.Width + 12, 4);
+            baseTextBox.Anchor = (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right);
             baseTextBox.MouseEnter += (obj, args) => { if (this.SearchbarState != States.Selected) { this.SearchbarState = States.MouseOver; this.Invalidate(); } };
             baseTextBox.MouseLeave += (obj, args) => { if (this.SearchbarState != States.Selected) { this.SearchbarState = States.Default; this.Invalidate(); } };
             baseTextBox.Width = this.Width - (secureButton.Width + 14 + 10);
@@ -185,6 +186,8 @@ namespace Vermeer.Vermeer.Controls
         Color LockColor = Color.FromArgb(18, 188, 0);
         States buttonState = States.Default;
 
+        bool isLoading = false;
+
         bool secureLogo = false;
 
         enum States { Default, MouseOver }
@@ -194,6 +197,7 @@ namespace Vermeer.Vermeer.Controls
         #region Properties
 
         public bool SecureLogo { get { return secureLogo; } set { secureLogo = value; this.Invalidate(); } }
+        public bool IsLoading { get { return isLoading; } set { isLoading = value; this.Invalidate(); } }
 
         #endregion
 

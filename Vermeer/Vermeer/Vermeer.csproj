@@ -63,6 +63,12 @@
     <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Geckofx-Core, Version=45.0.34.0, Culture=neutral, PublicKeyToken=3209ac31600d1857, processorArchitecture=x86">
+      <HintPath>..\packages\Geckofx45.45.0.34\lib\net45\Geckofx-Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Geckofx-Winforms, Version=45.0.34.0, Culture=neutral, PublicKeyToken=3209ac31600d1857, processorArchitecture=x86">
+      <HintPath>..\packages\Geckofx45.45.0.34\lib\net45\Geckofx-Winforms.dll</HintPath>
+    </Reference>
     <Reference Include="GFS, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GlobalSettingsFramework.1.2.6\lib\net45\GFS.dll</HintPath>
       <Private>True</Private>
@@ -89,8 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Vermeer\bin\DesignTimer.cs" />
-    <Compile Include="Vermeer\bin\Engine\DefaultRequestHandler.cs" />
-    <Compile Include="Vermeer\bin\Engine\DisplayHandler.cs" />
+    <Compile Include="Vermeer\bin\Gecko\CefBrowserInterface.cs" />
     <Compile Include="Vermeer\bin\IBrowser.cs" />
     <Compile Include="Vermeer\bin\ILogger.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -142,6 +147,7 @@
     <EmbeddedResource Include="Vermeer\pages\mainPage.resx">
       <DependentUpon>mainPage.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Cefsharp\omni.ja" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -162,6 +168,28 @@
       <Name>VermeerExternalLibrary</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Cefsharp\AccessibleMarshal.dll" />
+    <Content Include="Cefsharp\breakpadinjector.dll" />
+    <Content Include="Cefsharp\d3dcompiler_47.dll" />
+    <Content Include="Cefsharp\freebl3.dll" />
+    <Content Include="Cefsharp\icudt58.dll" />
+    <Content Include="Cefsharp\icuin58.dll" />
+    <Content Include="Cefsharp\icuuc58.dll" />
+    <Content Include="Cefsharp\lgpllibs.dll" />
+    <Content Include="Cefsharp\libEGL.dll" />
+    <Content Include="Cefsharp\libGLESv2.dll" />
+    <Content Include="Cefsharp\mozglue.dll" />
+    <Content Include="Cefsharp\nss3.dll" />
+    <Content Include="Cefsharp\nssckbi.dll" />
+    <Content Include="Cefsharp\nssdbm3.dll" />
+    <Content Include="Cefsharp\plugin-container.exe" />
+    <Content Include="Cefsharp\plugin-hang-ui.exe" />
+    <Content Include="Cefsharp\sandboxbroker.dll" />
+    <Content Include="Cefsharp\softokn3.dll" />
+    <Content Include="Cefsharp\xul.dll" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -173,7 +201,9 @@
     <Error Condition="!Exists('..\packages\CefSharp.Common.71.0.0\build\CefSharp.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.71.0.0\build\CefSharp.Common.targets'))" />
     <Error Condition="!Exists('..\packages\CefSharp.WinForms.71.0.0\build\CefSharp.WinForms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.WinForms.71.0.0\build\CefSharp.WinForms.props'))" />
     <Error Condition="!Exists('..\packages\CefSharp.WinForms.71.0.0\build\CefSharp.WinForms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.WinForms.71.0.0\build\CefSharp.WinForms.targets'))" />
+    <Error Condition="!Exists('..\packages\Geckofx45.45.0.34\build\Geckofx45.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Geckofx45.45.0.34\build\Geckofx45.targets'))" />
   </Target>
   <Import Project="..\packages\CefSharp.Common.71.0.0\build\CefSharp.Common.targets" Condition="Exists('..\packages\CefSharp.Common.71.0.0\build\CefSharp.Common.targets')" />
   <Import Project="..\packages\CefSharp.WinForms.71.0.0\build\CefSharp.WinForms.targets" Condition="Exists('..\packages\CefSharp.WinForms.71.0.0\build\CefSharp.WinForms.targets')" />
+  <Import Project="..\packages\Geckofx45.45.0.34\build\Geckofx45.targets" Condition="Exists('..\packages\Geckofx45.45.0.34\build\Geckofx45.targets')" />
 </Project>

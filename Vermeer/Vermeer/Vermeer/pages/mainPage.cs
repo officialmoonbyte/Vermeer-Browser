@@ -72,7 +72,7 @@ namespace Vermeer.Vermeer.pages
             tabHeader.CloseButtonHoverColor = Color.FromArgb(255, 90, 90);
             tabHeader.NewTabButtonClick += (obj, arg) =>
             {
-
+                IBrowser.GenerateNewBrowserTab(arg.NewTabpage);
             };
 
             headerHeight = tabHeader.Height;
@@ -97,6 +97,8 @@ namespace Vermeer.Vermeer.pages
             vermeer.baseTabControl.Location = new Point(1, yModifier);
             vermeer.baseTabControl.Anchor = (AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right);
             vermeer.baseTabControl.Size = new Size(this.Width - 2, this.Height - yModifier - 1); //Random numbers are indicated border width's
+            vermeer.baseTabControl.ControlRemoved += (obj, args) =>
+            { if (vermeer.baseTabControl.Controls.Count == 0) this.Close(); };
 
             //Adds the control
             this.Controls.Add(vermeer.baseTabControl);
