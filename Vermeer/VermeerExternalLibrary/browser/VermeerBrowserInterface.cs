@@ -15,7 +15,7 @@ namespace Moonbyte.Vermeer.browser
 
         /* Default / required Browser Properties */
         Control GetBrowserControl();
-        void OnInit(MaterialTabPage page, string StartURL);
+        void OnInit(MaterialTabPage page, string StartURL, string ProxyURI);
         bool IsBackEnabled();
         bool IsForwardAvailable();
         MaterialTabPage getTabPage();
@@ -30,6 +30,7 @@ namespace Moonbyte.Vermeer.browser
         void GoForward();
         void Reload();
         void Navigate(string URL);
+        void SetProxyConnection(string ProxyURI);
     }
 
     public class DocumentTitleChange : EventArgs

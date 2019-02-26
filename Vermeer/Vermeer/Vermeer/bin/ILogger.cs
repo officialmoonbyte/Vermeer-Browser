@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Moonbyte.Vermeer.bin;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -63,11 +64,11 @@ namespace Vermeer.Vermeer.bin
                 this.AddToLog("Current Domain Error", "StackTrace : " + ex.StackTrace);
                 this.AddToLog("Current Domain Error", "Source : " + ex.Source);
 
-                this.WriteLog();
+                this.WriteLog(); vermeer.Dispose();
             });
             AppDomain.CurrentDomain.ProcessExit += ((obj, args) =>
             {
-                this.WriteLog();
+                this.WriteLog(); vermeer.Dispose();
             });
         }
 

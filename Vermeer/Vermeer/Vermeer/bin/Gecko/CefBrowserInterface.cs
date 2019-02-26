@@ -4,6 +4,7 @@ using IndieGoat.MaterialFramework.Controls;
 using Moonbyte.Vermeer.bin;
 using Moonbyte.Vermeer.browser;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using TheDuffman85.Tools;
@@ -26,7 +27,7 @@ namespace Vermeer.Vermeer.bin.Cefsharp
 
         #region Init
 
-        public void OnInit(MaterialTabPage page, string StartURL)
+        public void OnInit(MaterialTabPage page, string StartURL, string ProxyURI)
         {
             mainpage = page;
 
@@ -37,6 +38,12 @@ namespace Vermeer.Vermeer.bin.Cefsharp
             }
 
             CreateBrowserHandle(StartURL, page);
+
+            if (ProxyURI != null)
+            {
+                chromeBrowser.IsBrowserInitializedChanged += (obj, args) =>
+                { if (args.IsBrowserInitialized) { this.SetProxyConnection(ProxyURI); } };
+            }
         }
 
         #endregion
@@ -95,6 +102,25 @@ namespace Vermeer.Vermeer.bin.Cefsharp
         { chromeBrowser.Load(URL); vermeer.ApplicationLogger.AddToLog("INFO", "Chromium Browser Navigated"); }
         public void GoBack()
         { chromeBrowser.GetBrowser().GoBack(); vermeer.ApplicationLogger.AddToLog("INFO", "Chromium Browser GoBack"); }
+
+        #endregion
+
+        #region Proxy
+
+        public void SetProxyConnection(string ProxyURI)
+        {
+            Cef.UIThreadTaskFactory.StartNew(delegate
+            {
+
+                var rc = chromeBrowser.GetBrowser().GetHost().RequestContext;
+                var dict = new Dictionary<string, object>();
+                dict.Add("mode", "fixed_servers");
+                dict.Add("server", ProxyURI);
+                string error;
+                bool success = rc.SetPreference("proxy", dict, out error);
+
+            }); 
+        }
 
         #endregion
 

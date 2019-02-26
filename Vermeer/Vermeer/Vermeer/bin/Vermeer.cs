@@ -1,4 +1,5 @@
 ﻿using IndieGoat.MaterialFramework.Controls;
+using Moonbyte.Vermeer.Tor;
 using System.Windows.Forms;
 using Vermeer.Vermeer.bin;
 using Vermeer.Vermeer.pages;
@@ -14,6 +15,7 @@ namespace Moonbyte.Vermeer.bin
         #region Vars
 
         public static MaterialTabControl baseTabControl = new MaterialTabControl();
+        private static TorClient tor;
 
         #endregion
 
@@ -58,6 +60,16 @@ namespace Moonbyte.Vermeer.bin
 
         #endregion
 
+        #region Tor
+
+        /// <summary>
+        /// Creates a new Tor object
+        /// </summary>
+        public static void InitializeTorConnection()
+        { tor = new TorClient(); }
+
+        #endregion tor
+
         #region Closing Application
 
         public static void Close()
@@ -66,8 +78,11 @@ namespace Moonbyte.Vermeer.bin
             Application.Exit();
         }
 
-        #endregion
+        public static void Dispose()
+        {
+            tor.Dispose();
+        }
 
-        
+        #endregion
     }
 }

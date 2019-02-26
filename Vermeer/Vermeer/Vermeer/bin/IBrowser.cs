@@ -177,8 +177,10 @@ namespace Vermeer.Vermeer.bin
 
         private static void RenderBrowserUI(MaterialTabPage mainPage)
         {
+            vermeer.InitializeTorConnection();
+
             CefBrowserInterface browserEngine = new CefBrowserInterface();
-            browserEngine.OnInit(mainPage, "https://google.com");
+            browserEngine.OnInit(mainPage, "https://google.com", "socks5://127.0.0.1:9150");
 
             VermeerBrowserInstance browserInstance = new VermeerBrowserInstance(browserEngine);
 

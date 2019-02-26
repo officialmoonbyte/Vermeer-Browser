@@ -74,6 +74,9 @@
       <HintPath>..\packages\MaterialFramework.4.4.2\lib\net45\MaterialFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SocksWebProxy">
+      <HintPath>..\..\..\..\..\..\Desktop\New folder (8)\dll\SocksWebProxy.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -133,6 +136,7 @@
     </Compile>
     <Compile Include="Vermeer\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vermeer\tor\TorClient.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

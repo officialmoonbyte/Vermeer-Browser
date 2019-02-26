@@ -11,12 +11,15 @@ namespace Moonbyte.Vermeer.browser
 
         public static X509Certificate2 GetSSLCertificate(string URL)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            response.Close();
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                response.Close();
 
-            X509Certificate cert = request.ServicePoint.Certificate;
-            return new X509Certificate2(cert);
+                X509Certificate cert = request.ServicePoint.Certificate;
+                return new X509Certificate2(cert);
+            } catch { return null; }
         }
 
         #endregion
@@ -26,7 +29,7 @@ namespace Moonbyte.Vermeer.browser
         public static bool VerifySSLCertificate(string URL)
         { return VerifySSLCertificate(GetSSLCertificate(URL)); }
         public static bool VerifySSLCertificate(X509Certificate2 cert2)
-        { return cert2.Verify(); }
+        { try { return cert2.Verify(); } catch { return false; } }
 
         #endregion
 

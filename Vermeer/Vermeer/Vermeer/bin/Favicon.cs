@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace TheDuffman85.Tools
 {
@@ -228,37 +229,43 @@ namespace TheDuffman85.Tools
 
         private Image DownloadFavicon(Uri baseUrl, string iconUrl)
         {
-            Image icon = null;
-            WebClient client = new WebClient();
-
             try
             {
-                // Download fav icon
-                if (!string.IsNullOrEmpty(iconUrl))
+                Image icon = null;
+                WebClient client = new WebClient();
+
+                try
                 {
-                    Uri faviconUrl;
-
-                    if (Uri.TryCreate(iconUrl, UriKind.RelativeOrAbsolute, out faviconUrl))
+                    // Download fav icon
+                    if (!string.IsNullOrEmpty(iconUrl))
                     {
-                        if (!faviconUrl.IsAbsoluteUri)
-                        {
-                            faviconUrl = new Uri(baseUrl, iconUrl);
-                        }
+                        Uri faviconUrl;
 
-                        Stream dataStream = client.OpenRead(faviconUrl);
-                        icon = Image.FromStream(dataStream);
+                        if (Uri.TryCreate(iconUrl, UriKind.RelativeOrAbsolute, out faviconUrl))
+                        {
+                            if (!faviconUrl.IsAbsoluteUri)
+                            {
+                                faviconUrl = new Uri(baseUrl, iconUrl);
+                            }
+
+                            Stream dataStream = client.OpenRead(faviconUrl);
+                            icon = Image.FromStream(dataStream);
+                        }
                     }
                 }
-            }
-            catch (WebException ex)
-            {
-                if (ex.Status != WebExceptionStatus.ProtocolError)
+                catch (WebException ex)
                 {
-                    throw;
+                    if (ex.Status != WebExceptionStatus.ProtocolError)
+                    {
+                        throw;
+                    }
                 }
-            }
 
-            return icon;
+                return icon;
+            } catch
+            {
+                return Image.FromFile(Application.StartupPath + "\\icon.png");
+            }
         }
 
         #endregion
