@@ -15,6 +15,7 @@ namespace Moonbyte.Vermeer.bin
         #region Vars
 
         public static MaterialTabControl baseTabControl = new MaterialTabControl();
+        public static SettingsManager settings = new SettingsManager();
         private static TorClient tor;
 
         #endregion
@@ -66,7 +67,7 @@ namespace Moonbyte.Vermeer.bin
         /// Creates a new Tor object
         /// </summary>
         public static void InitializeTorConnection()
-        { tor = new TorClient(); }
+        { tor = new TorClient(); ApplicationLogger.AddToLog("INFO", "Tor Proxy is currently in use"); }
 
         #endregion tor
 
@@ -80,7 +81,9 @@ namespace Moonbyte.Vermeer.bin
 
         public static void Dispose()
         {
-            tor.Dispose();
+            tor.Dispose(); ApplicationLogger.AddToLog("INFO", "Disposed Tor.");
+            settings.Dispose(); ApplicationLogger.AddToLog("INFO", "Disposed SettingsManager!");
+            ApplicationLogger.AddToLog("INFO", "Disposing Vermeer. Goodbye Human!");
         }
 
         #endregion
