@@ -2,6 +2,7 @@
 using Moonbyte.Vermeer.browser;
 using System.Drawing;
 using System.Windows.Forms;
+using Vermeer.Vermeer.Controls;
 
 namespace Vermeer.Vermeer.bin
 {
@@ -11,7 +12,7 @@ namespace Vermeer.Vermeer.bin
     /// </summary>
     public class DesignTimer
     {
-        public DesignTimer(MaterialTabPage mainPage, VermeerBrowserInstance instance)
+        public DesignTimer(MaterialTabPage mainPage, VermeerBrowserInstance instance, ForwardButton forwardButton, BackButton backButton)
         {
             Timer designTimer = new Timer();
             designTimer.Tick += (obj, args) =>

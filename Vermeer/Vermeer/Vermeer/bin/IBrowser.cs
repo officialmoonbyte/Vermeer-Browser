@@ -47,6 +47,7 @@ namespace Vermeer.Vermeer.bin
             backButton.Location = new Point(0, 0);
             backButton.Click += (obj, args) =>
             {
+                vermeer.ApplicationLogger.AddToLog("INFO", "Browser backButton.Click invoked");
                 instance.BrowserInterface.GoBack();
             };
             mainPage.Controls.Add(backButton);
@@ -56,15 +57,18 @@ namespace Vermeer.Vermeer.bin
             forwardButton.Location = new Point(32, 0);
             forwardButton.Click += (obj, args) =>
             {
+                vermeer.ApplicationLogger.AddToLog("INFO", "Browser forwardButton.Click invoked");
                 instance.BrowserInterface.GoForward();
             };
             mainPage.Controls.Add(forwardButton);
 
             // ** Reload Button ** //
             ReloadButton reloadButton = new ReloadButton();
+            reloadButton.Enabled = true;
             reloadButton.Location = new Point(64, 0);
             reloadButton.Click += (obj, args) =>
             {
+                vermeer.ApplicationLogger.AddToLog("INFO", "Browser reloadButton.Click invoked");
                 instance.BrowserInterface.Reload();
             };
             mainPage.Controls.Add(reloadButton);
@@ -88,7 +92,7 @@ namespace Vermeer.Vermeer.bin
             mainPage.Controls.Add(searchBar);
 
             // ** Design Timer ** //
-            DesignTimer designTimer = new DesignTimer(mainPage, BrowserInstance(mainPage));
+            DesignTimer designTimer = new DesignTimer(mainPage, BrowserInstance(mainPage), forwardButton, backButton);
             instance.BrowserInterface.OnDocumentIconChange += (obj, args) =>
             {
                 DocumentIconChange e = args;
@@ -121,9 +125,18 @@ namespace Vermeer.Vermeer.bin
                     mainPage.Invoke((MethodInvoker)delegate
                     {
                         DocumentURLChange args = (DocumentURLChange)Args;
-                        X509Certificate2 cert2 = Ssl.GetSSLCertificate(args.DocumentURL);
+                        try
+                        {
+                            X509Certificate2 cert2 = Ssl.GetSSLCertificate(args.DocumentURL);
 
-                        searchBar.secureButton.SecureLogo = Ssl.VerifySSLCertificate(cert2);
+                            searchBar.secureButton.SecureLogo = Ssl.VerifySSLCertificate(cert2);
+                        }
+                        catch
+                        {
+                            vermeer.ApplicationLogger.AddToLog("INFO", "Failed to find local ssl encryption. Assuming there's no tls / ssl.");
+                            searchBar.secureButton.SecureLogo = false;
+                        }
+
                         searchBar.baseTextBox.Text = args.DocumentURL;
                     });
                 }
@@ -131,14 +144,30 @@ namespace Vermeer.Vermeer.bin
 
             instance.BrowserInterface.OnDocumentIconChange += (obj, Args) =>
             {
+                DocumentIconChange rArgs = (DocumentIconChange)Args;
 
+                if (mainPage.InvokeRequired)
+                {
+                    mainPage.Invoke((MethodInvoker)delegate
+                    {
+                        MaterialTabPage Page = GetTabPage(rArgs.VermeerVars.Instance);
+                        Page.ChangeTabIcon(rArgs.icon);
+                    });
+                }
             };
 
             instance.BrowserInterface.OnDocumentLoadChange += (obj, Args) =>
             {
                 DocumentLoadingChange args = (DocumentLoadingChange)Args;
 
-
+                if (mainPage.InvokeRequired)
+                {
+                    mainPage.Invoke((MethodInvoker)delegate
+                    {
+                        forwardButton.Enabled = instance.BrowserInterface.IsForwardAvailable();
+                        backButton.Enabled = instance.BrowserInterface.IsBackEnabled();
+                    });
+                }
             };
         }
 
