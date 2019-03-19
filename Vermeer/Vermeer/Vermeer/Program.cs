@@ -1,9 +1,7 @@
 ﻿using Moonbyte.Vermeer.bin;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Vermeer.Vermeer.pages;
 
 namespace Moonbyte.Vermeer
 {
@@ -23,7 +21,7 @@ namespace Moonbyte.Vermeer
             vermeer.ExecuteStartupEvents();
 
             //Opens the main form
-            vermeer.Open(VermeerPages.Mainform);
+            vermeer.Open(new mainPage());
 
             //Runs the application loop
             Application.Run();

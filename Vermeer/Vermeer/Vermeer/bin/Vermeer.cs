@@ -1,5 +1,6 @@
 ﻿using IndieGoat.MaterialFramework.Controls;
 using Moonbyte.Vermeer.Tor;
+using System;
 using System.Windows.Forms;
 using Vermeer.Vermeer.bin;
 using Vermeer.Vermeer.pages;
@@ -7,16 +8,19 @@ using Vermeer.Vermeer.pages;
 namespace Moonbyte.Vermeer.bin
 {
 
-    public enum VermeerPages { Mainform };
+    public enum VermeerPages { Mainform, AltPage };
     #pragma warning disable IDE1006 // Naming Styles
     public static class vermeer
     {
 
         #region Vars
 
-        public static MaterialTabControl baseTabControl = new MaterialTabControl();
-        public static SettingsManager settings = new SettingsManager();
+        public static SettingsManager settings;
+        public static NetworkManager networkManager;
         private static TorClient tor;
+        public static Control UIThread;
+
+        public static bool isTorInitialized = false;
 
         #endregion
 
@@ -25,6 +29,8 @@ namespace Moonbyte.Vermeer.bin
         public static void ExecuteStartupEvents()
         {
             InitializeILogger();
+            settings = new SettingsManager(); // Load settings first before networkManager.
+            networkManager = new NetworkManager();
         }
 
         #endregion
@@ -36,7 +42,6 @@ namespace Moonbyte.Vermeer.bin
         public static class Logger
         {
             public static void WriteLog() { ApplicationLogger.WriteLog(); }
-            public static void SetLoggingEvents() { ApplicationLogger.SetLoggingEvents(); }
             public static void AddWhiteSpace() { ApplicationLogger.AddWhitespace(); }
             public static void AddToLog(string Header, string Value) { ApplicationLogger.AddToLog(Header, Value); }
         }
@@ -45,19 +50,7 @@ namespace Moonbyte.Vermeer.bin
 
         #region Open & Close forms
 
-        public static void Open(VermeerPages page) { Form pageForm = GetForm(page); ApplicationLogger.AddToLog("INFO", "Vermeer opening " + pageForm.Name); pageForm.Show(); }
-        public static void Close(VermeerPages page) { Form pageForm = GetForm(page); ApplicationLogger.AddToLog("INFO", "Vermeer closing " + pageForm.Name); GetForm(page).Close(); GetForm(page).Dispose(); }
-        public static Form GetForm(VermeerPages page)
-        {
-            foreach (Form form in Application.OpenForms) { if (form.Name == GetFormName(page)) { ApplicationLogger.AddToLog("INFO", "Got existing form page : " + form.Name); return form; } }
-            if (page == VermeerPages.Mainform) { return new mainPage(); }
-            return new mainPage();
-        }
-        public static string GetFormName(VermeerPages page)
-        {
-            if (page == VermeerPages.Mainform) { return "mainPage"; }
-            return "mainPage";
-        }
+        public static void Open(Form pageForm) { ApplicationLogger.AddToLog("INFO", "Vermeer opening " + pageForm.Name); pageForm.Show(); }
 
         #endregion
 
@@ -67,7 +60,7 @@ namespace Moonbyte.Vermeer.bin
         /// Creates a new Tor object
         /// </summary>
         public static void InitializeTorConnection()
-        { tor = new TorClient(); ApplicationLogger.AddToLog("INFO", "Tor Proxy is currently in use"); }
+        { tor = new TorClient(); isTorInitialized = true; ApplicationLogger.AddToLog("INFO", "Tor Proxy is currently in use"); }
 
         #endregion tor
 
@@ -76,14 +69,17 @@ namespace Moonbyte.Vermeer.bin
         public static void Close()
         {
             ApplicationLogger.AddToLog("INFO", "Application exiting through vermeer.Close()");
-            Application.Exit();
+            Dispose();
         }
 
         public static void Dispose()
         {
-            tor.Dispose(); ApplicationLogger.AddToLog("INFO", "Disposed Tor.");
-            settings.Dispose(); ApplicationLogger.AddToLog("INFO", "Disposed SettingsManager!");
+            if (isTorInitialized) { ApplicationLogger.AddToLog("INFO", "Disposing Tor."); tor.Dispose(); }
+            ApplicationLogger.AddToLog("INFO", "Setting application last edit value"); settings.LastEdit = DateTime.Now;
+            ApplicationLogger.AddToLog("INFO", "Disposing SettingsManager!"); settings.Dispose();
             ApplicationLogger.AddToLog("INFO", "Disposing Vermeer. Goodbye Human!");
+            ApplicationLogger.WriteLog();
+            Environment.Exit(0);
         }
 
         #endregion

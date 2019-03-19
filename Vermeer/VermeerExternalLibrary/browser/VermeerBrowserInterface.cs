@@ -70,5 +70,7 @@ namespace Moonbyte.Vermeer.browser
     {
         public static VermeerBrowserInstance GetBrowserInstance(VermeerBrowserInterface browserInterface)
         { return (VermeerBrowserInstance)browserInterface.GetBrowserControl().Parent; }
+        public static void AddHistoryObject(string WebTitle, string WebURL)
+        { }
     }
 }

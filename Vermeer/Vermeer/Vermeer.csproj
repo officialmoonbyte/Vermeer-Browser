@@ -70,13 +70,6 @@
       <HintPath>..\packages\GlobalSettingsFramework.1.2.6\lib\net45\GFS.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MaterialFramework, Version=4.4.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialFramework.4.4.2\lib\net45\MaterialFramework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SocksWebProxy">
-      <HintPath>..\..\..\..\..\..\Desktop\New folder (8)\dll\SocksWebProxy.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -90,13 +83,16 @@
     <Reference Include="System.Xml" />
     <Reference Include="UniversalClient, Version=3.3.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\UniversalClient.3.3.4\lib\net45\UniversalClient.dll</HintPath>
-      <Private>True</Private>
+    </Reference>
+    <Reference Include="UniversalServiceUpdater, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IndieGoat.Net.Updater.1.2.6\lib\net45\UniversalServiceUpdater.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Vermeer\bin\DesignTimer.cs" />
     <Compile Include="Vermeer\bin\Favicon.cs" />
-    <Compile Include="Vermeer\bin\Gecko\CefBrowserInterface.cs" />
+    <Compile Include="Vermeer\bin\Cefsharp\CefBrowserInterface.cs" />
+    <Compile Include="Vermeer\bin\HistoryManager.cs" />
     <Compile Include="Vermeer\bin\IBrowser.cs" />
     <Compile Include="Vermeer\bin\ILogger.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -1,10 +1,10 @@
 ﻿using IndieGoat.MaterialFramework.Controls;
+using MaterialFramework.Controls;
 using Moonbyte.Vermeer.bin;
-using System;
-using System.Windows.Forms;
+using Moonbyte.Vermeer.browser;
 using System.Drawing;
+using System.Windows.Forms;
 using Vermeer.Vermeer.bin;
-using IndieGoat.MaterialFramework.Events;
 
 namespace Vermeer.Vermeer.pages
 {
@@ -13,100 +13,80 @@ namespace Vermeer.Vermeer.pages
 
         #region Vars
 
-        int headerHeight;
+        MaterialTabControl tabControl;
+        TabHeader tabHeader;
 
-        #endregion
+        #endregion Vars
+
+        #region Page Initialization
 
         public mainPage()
         {
             InitializeComponent();
-        }
 
-        #region Form Methods
+            //Setting form events
+            this.FormClosed += (obj, args) =>
+            { if (Application.OpenForms.Count == 0) { vermeer.Close(); } };
 
-        #region Form Closed
+            //Initialize the UI Object
+            vermeer.UIThread = new Control();
 
-        private void mainPage_FormClosed(object sender, FormClosedEventArgs e)
-        { if (Application.OpenForms.Count == 0) { vermeer.Close(); } }
-
-        #endregion
-
-        #region Form Load
-
-        private void mainPage_Load(object sender, EventArgs e)
-        {
-            //Changing the form Properties
+            //
+            //mainPage
+            //
+            this.ShowIcon = false;
+            this.ShowTitle = false;
+            this.HeaderColor = Color.FromArgb(35, 35, 64);
             this.HeaderHeight = 33;
 
-            //Renders Form UI
-            RenderHeaderUI();
-            RenderTabControlUI();
+            //
+            // TabControl
+            //
+            tabControl = new MaterialTabControl();
+            tabControl.Location = new Point(1, 33);
+            tabControl.Anchor = (AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right);
+            tabControl.Size = new Size(this.Width - 2, this.Height - 33 - 1);
+            tabControl.MouseMove += (obj, args) => { if (args.Button == MouseButtons.Left) { this.MouseMoveExternal(true); } else { this.MouseMoveExternal(false); } };
+            tabControl.MouseDown += (obj, args) => { if (args.Button == MouseButtons.Left) { this.MouseDownExternal(true); } else { this.MouseDownExternal(false); } };
+            tabControl.MouseUp += (obj, args) => { this.MouseUpExternal(); };
+            tabControl.ControlRemoved += (obj, args) => { if (tabControl.TabPages.Count == 1) { this.Close(); } };
 
-            IBrowser.GenerateNewBrowserTab();
-        }
+            this.Controls.Add(tabControl);
 
-        #endregion
-
-        #endregion
-
-        #region Initializing GUI
-
-        #region Render Header UI
-
-        /// <summary>
-        /// Creates a new tab header and adds it to the form
-        /// </summary>
-        private void RenderHeaderUI()
-        {
-            //Initializing TabHeader
-            TabHeader tabHeader = new TabHeader();
-
-            //Changing TabHeader Properties
+            //
+            // TabHeader
+            //
+            tabHeader = new TabHeader();
             tabHeader.EnableAddButton = true;
             tabHeader.ShowCloseButton = true;
-            tabHeader.Location = new Point(33, 1); //33 for perfect 32 square. 1 point for the border
-            tabHeader.Width = this.Width - 211; //Random number accounted for the border and the min, max, and close button
+            tabHeader.Location = new System.Drawing.Point(33, 1);
+            tabHeader.Width = this.Width - 211;
             tabHeader.BackColor = Color.FromArgb(35, 35, 64);
             tabHeader.Anchor = (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right);
-            tabHeader.BasedTabControl = vermeer.baseTabControl;
+            tabHeader.BasedTabControl = tabControl;
             tabHeader.CloseButtonHoverColor = Color.FromArgb(255, 90, 90);
-            tabHeader.NewTabButtonClick += (obj, arg) =>
+            tabHeader.NewTabButtonClick += (obj, args) =>
             {
-                IBrowser.GenerateNewBrowserTab(arg.NewTabpage);
+                MaterialTabPage page = args.NewTabpage;
+                IBrowser.GenerateNewBrowserTab(page);
             };
-
-            headerHeight = tabHeader.Height;
-
-            //Adds the tabHeader to the form
+            tabHeader.MouseMove += (obj, args) => { if (args.Button == MouseButtons.Left && !tabHeader.IsMouseOverRectangle()) { this.MouseMoveExternal(true); } else { this.MouseMoveExternal(false); } };
+            
             this.Controls.Add(tabHeader);
+
+            //
+            // TabPage
+            //
+            MaterialTabPage browserPage = IBrowser.GenerateNewBrowserTab();
+            tabControl.TabPages.Add(browserPage);
+
         }
 
-        #endregion
+        #endregion Page Initialization
 
-        #region Render TabControl UI
-
-        /// <summary>
-        /// Gets the main baseTabControl and adds it to the form
-        /// </summary>
-        private void RenderTabControlUI()
+        private void mainPage_Load(object sender, System.EventArgs e)
         {
-            //Sets yModifier
-            int yModifier = headerHeight + 1;
-
-            //Change the properties of the tabControl
-            vermeer.baseTabControl.Location = new Point(1, yModifier);
-            vermeer.baseTabControl.Anchor = (AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right);
-            vermeer.baseTabControl.Size = new Size(this.Width - 2, this.Height - yModifier - 1); //Random numbers are indicated border width's
-            vermeer.baseTabControl.ControlRemoved += (obj, args) =>
-            { if (vermeer.baseTabControl.Controls.Count == 0) this.Close(); };
-
-            //Adds the control
-            this.Controls.Add(vermeer.baseTabControl);
+            
         }
-
-        #endregion
-
-        #endregion
-
     }
 }

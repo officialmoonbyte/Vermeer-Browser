@@ -1,6 +1,4 @@
-﻿using com.LandonKey.SocksWebProxy;
-using com.LandonKey.SocksWebProxy.Proxy;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -109,46 +107,6 @@ namespace Moonbyte.Vermeer.Tor
         }
 
         #endregion StartTor
-
-        #region GetWebProxy
-
-        /// <summary>
-        /// Used to create a new WebProxy
-        /// </summary>
-        public SocksWebProxy GetWebProxy()
-        { return new SocksWebProxy(new ProxyConfig(IPAddress.Loopback, 8181, IPAddress.Loopback, 9150, com.LandonKey.SocksWebProxy.Proxy.ProxyConfig.SocksVersion.Five)); }
-
-        #endregion
-
-        #region Request HTTP HTML Text
-
-        /// <summary>
-        /// Used to get HTTP text for GUI navigation
-        /// </summary>
-        public string GetHTMLText(string URL)
-        {
-            string returnString = null;
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
-            //Lets invoke our translator
-            com.LandonKey.SocksWebProxy.Proxy.ProxyConfig config = new com.LandonKey.SocksWebProxy.Proxy.ProxyConfig(IPAddress.Loopback, 8181, IPAddress.Loopback, 9150, com.LandonKey.SocksWebProxy.Proxy.ProxyConfig.SocksVersion.Five);
-            //make request use it
-            request.Proxy = new SocksWebProxy(config);
-            request.KeepAlive = false;
-            //well now we wait...
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            {
-                using (var reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("utf-8")))
-                {
-                    //uuuuh, data, print me that^^
-                    returnString = reader.ReadToEnd();
-                }
-            }
-
-            return returnString;
-        }
-
-        #endregion Request HTTP HTML Text
 
         #region Dispose
 

@@ -5,7 +5,6 @@ using Moonbyte.Vermeer.bin;
 using Moonbyte.Vermeer.browser;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using TheDuffman85.Tools;
 

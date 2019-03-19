@@ -14,7 +14,9 @@ namespace Vermeer.Vermeer.bin
 
         public ILogger()
         {
-            SetLoggingEvents(); this.AddToLog("INFO", "Finished Initializing ILogger");
+            SetLoggingEvents();
+
+            this.AddToLog("INFO", "Finished Initializing ILogger");
         }
 
         #region Adding to the log
@@ -64,11 +66,7 @@ namespace Vermeer.Vermeer.bin
                 this.AddToLog("Current Domain Error", "StackTrace : " + ex.StackTrace);
                 this.AddToLog("Current Domain Error", "Source : " + ex.Source);
 
-                this.WriteLog(); vermeer.Dispose();
-            });
-            AppDomain.CurrentDomain.ProcessExit += ((obj, args) =>
-            {
-                this.WriteLog(); vermeer.Dispose();
+                this.WriteLog();
             });
         }
 

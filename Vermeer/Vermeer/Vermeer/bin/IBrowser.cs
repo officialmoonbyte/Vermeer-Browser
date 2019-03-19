@@ -16,16 +16,14 @@ namespace Vermeer.Vermeer.bin
         #region MaterialTabPage
 
         public static void GenerateNewBrowserTab(MaterialTabPage browserPage)
-        { generateCommon(browserPage, false); }
-        public static void GenerateNewBrowserTab()
-        { MaterialTabPage browserPage = new MaterialTabPage(); generateCommon(browserPage); }
+        { RenderTabPage(browserPage); }
+        public static MaterialTabPage GenerateNewBrowserTab()
+        { MaterialTabPage browserPage = new MaterialTabPage(); RenderTabPage(browserPage); return browserPage; }
 
-        private static void generateCommon(MaterialTabPage browserPage, bool showTab = true)
+        private static void RenderTabPage(MaterialTabPage browserPage)
         {
             browserPage.BackColor = Color.White;
             browserPage.Text = "New Tab";
-
-            if (showTab) { vermeer.baseTabControl.TabPages.Add(browserPage); }
 
             RenderBrowserUI(browserPage);
             RenderHeaderUI(browserPage);
@@ -177,10 +175,10 @@ namespace Vermeer.Vermeer.bin
 
         private static void RenderBrowserUI(MaterialTabPage mainPage)
         {
-            vermeer.InitializeTorConnection();
+            //vermeer.InitializeTorConnection();
 
             CefBrowserInterface browserEngine = new CefBrowserInterface();
-            browserEngine.OnInit(mainPage, "https://google.com", "socks5://127.0.0.1:9150");
+            browserEngine.OnInit(mainPage, "https://google.com", null); //"socks5://127.0.0.1:9150"
 
             VermeerBrowserInstance browserInstance = new VermeerBrowserInstance(browserEngine);
 

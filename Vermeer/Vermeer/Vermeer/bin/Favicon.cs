@@ -264,7 +264,7 @@ namespace TheDuffman85.Tools
                 return icon;
             } catch
             {
-                return Image.FromFile(Application.StartupPath + "\\icon.png");
+                return Image.FromFile(Application.StartupPath + "\\icon.ico");
             }
         }
 
