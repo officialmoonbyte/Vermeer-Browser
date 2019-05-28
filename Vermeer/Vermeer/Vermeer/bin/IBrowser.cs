@@ -75,7 +75,7 @@ namespace Vermeer.Vermeer.bin
 
             DefaultSearchBar searchBar = new DefaultSearchBar();
             searchBar.Anchor = (AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Left);
-            searchBar.Location = new Point(86 + 12, 4);
+            searchBar.Location = new Point(86 + 12, 2);
             searchBar.Font = new Font("Segoe UI", 12f);
             searchBar.GetURL = "";
             searchBar.Width = mainPage.Width - 86 - 64;
@@ -178,7 +178,7 @@ namespace Vermeer.Vermeer.bin
             //vermeer.InitializeTorConnection();
 
             CefBrowserInterface browserEngine = new CefBrowserInterface();
-            browserEngine.OnInit(mainPage, "https://google.com", null); //"socks5://127.0.0.1:9150"
+            browserEngine.OnInit(mainPage, "https://google.com", ""); //"socks5://127.0.0.1:9150"
 
             VermeerBrowserInstance browserInstance = new VermeerBrowserInstance(browserEngine);
 

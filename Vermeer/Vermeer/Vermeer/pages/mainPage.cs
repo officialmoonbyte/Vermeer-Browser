@@ -3,6 +3,7 @@ using MaterialFramework.Controls;
 using Moonbyte.Vermeer.bin;
 using Moonbyte.Vermeer.browser;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using Vermeer.Vermeer.bin;
 
@@ -24,6 +25,10 @@ namespace Vermeer.Vermeer.pages
         {
             InitializeComponent();
 
+            //Only perform layout when control has completly finished resizing
+            ResizeBegin += (s, e) => SuspendLayout();
+            ResizeEnd += (s, e) => ResumeLayout(true);
+
             //Setting form events
             this.FormClosed += (obj, args) =>
             { if (Application.OpenForms.Count == 0) { vermeer.Close(); } };
@@ -37,6 +42,7 @@ namespace Vermeer.Vermeer.pages
             this.ShowIcon = false;
             this.ShowTitle = false;
             this.HeaderColor = Color.FromArgb(35, 35, 64);
+            this.closebutton.FontColor = Color.White;
             this.HeaderHeight = 33;
 
             //
@@ -57,21 +63,23 @@ namespace Vermeer.Vermeer.pages
             // TabHeader
             //
             tabHeader = new TabHeader();
-            tabHeader.EnableAddButton = true;
-            tabHeader.ShowCloseButton = true;
+            tabHeader.EnableNewTabButton = true;
+            tabHeader.EnableArrowButton = false;
+            tabHeader.EnableCloseButton = true;
             tabHeader.Location = new System.Drawing.Point(33, 1);
             tabHeader.Width = this.Width - 211;
             tabHeader.BackColor = Color.FromArgb(35, 35, 64);
             tabHeader.Anchor = (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right);
             tabHeader.BasedTabControl = tabControl;
-            tabHeader.CloseButtonHoverColor = Color.FromArgb(255, 90, 90);
             tabHeader.NewTabButtonClick += (obj, args) =>
             {
-                MaterialTabPage page = args.NewTabpage;
+                MaterialTabPage page = args.NewTabPage;
                 IBrowser.GenerateNewBrowserTab(page);
             };
-            tabHeader.MouseMove += (obj, args) => { if (args.Button == MouseButtons.Left && !tabHeader.IsMouseOverRectangle()) { this.MouseMoveExternal(true); } else { this.MouseMoveExternal(false); } };
-            
+            tabHeader.MouseMove += (obj, args) => {
+                if (tabHeader.MouseOverRect() == false && args.Button == MouseButtons.Left)
+                { this.MouseMoveExternal(true, true); }
+            };
             this.Controls.Add(tabHeader);
 
             //
@@ -79,6 +87,11 @@ namespace Vermeer.Vermeer.pages
             //
             MaterialTabPage browserPage = IBrowser.GenerateNewBrowserTab();
             tabControl.TabPages.Add(browserPage);
+
+            //
+            // Deletes BlobStorage Folder
+            //
+            if (Directory.Exists(Application.StartupPath + @"\blob_storage")) { Directory.Delete(Application.StartupPath + @"\blob_storage", true); }
 
         }
 

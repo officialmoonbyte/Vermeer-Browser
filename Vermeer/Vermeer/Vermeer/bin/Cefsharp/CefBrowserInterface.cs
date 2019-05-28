@@ -5,6 +5,7 @@ using Moonbyte.Vermeer.bin;
 using Moonbyte.Vermeer.browser;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Forms;
 using TheDuffman85.Tools;
 
@@ -32,8 +33,21 @@ namespace Vermeer.Vermeer.bin.Cefsharp
 
             if (!Cef.IsInitialized)
             {
-                CefSettings settings = new CefSettings();
-                Cef.Initialize(settings);
+                try
+                {
+                    CefSettings settings = new CefSettings();
+
+                    settings.RemoteDebuggingPort = 8088;
+                    settings.CachePath = Environment.CurrentDirectory + @"\Browser Cache";
+                    settings.CefCommandLineArgs.Add("enable-system-flash", "1");
+                    settings.UserAgent = "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 73.0.3683.103 Safari / 537.36";
+
+                    Cef.Initialize(settings);
+                }
+                catch
+                {
+
+                }
             }
 
             CreateBrowserHandle(StartURL, page);
@@ -53,6 +67,9 @@ namespace Vermeer.Vermeer.bin.Cefsharp
         {
             //Initializing new browser control
             chromeBrowser = new ChromiumWebBrowser(URL);
+
+            //Set browser handlers
+            chromeBrowser.DisplayHandler = new CefDisplayHandler();
 
             //Browser control properties
             chromeBrowser.Dock = DockStyle.Fill;
@@ -98,7 +115,14 @@ namespace Vermeer.Vermeer.bin.Cefsharp
         public bool IsForwardAvailable()
         { return chromeBrowser.GetBrowser().CanGoForward; }
         public void Navigate(string URL)
-        { chromeBrowser.Load(URL); vermeer.ApplicationLogger.AddToLog("INFO", "Chromium Browser Navigated"); }
+        {
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.DoWork += (obj, args) => { chromeBrowser.Load(URL); };
+            worker.RunWorkerAsync();
+
+            vermeer.ApplicationLogger.AddToLog("INFO", "Chromium Browser Navigated");
+        }
+
         public void GoBack()
         { chromeBrowser.GetBrowser().GoBack(); vermeer.ApplicationLogger.AddToLog("INFO", "Chromium Browser GoBack"); }
 
