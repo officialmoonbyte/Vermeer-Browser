@@ -68,9 +68,6 @@ namespace Vermeer.Vermeer.bin.Cefsharp
             //Initializing new browser control
             chromeBrowser = new ChromiumWebBrowser(URL);
 
-            //Set browser handlers
-            chromeBrowser.DisplayHandler = new CefDisplayHandler();
-
             //Browser control properties
             chromeBrowser.Dock = DockStyle.Fill;
 

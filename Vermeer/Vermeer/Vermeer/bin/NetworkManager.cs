@@ -1,6 +1,8 @@
-﻿using IndieGoat.Net.Tcp;
-using IndieGoat.Net.Updater;
+﻿using Moonbyte.Net.UniversalProjectUpdater;
+using Moonbyte.UniversalClient;
 using Moonbyte.Vermeer.bin;
+using System;
+using System.Net;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -10,7 +12,7 @@ namespace Vermeer.Vermeer.bin
     {
         #region Vars
 
-        public UniversalClient client = new UniversalClient();
+        public UniversalClient client = new UniversalClient(true);
         public bool isLoggedIn = false;
         bool isConnected = false;
 
@@ -38,17 +40,21 @@ namespace Vermeer.Vermeer.bin
         {
             new Thread(new ThreadStart(() =>
             {
-                client.ConnectToRemoteServer("moonbyte.us", 4543);
-                if (client.Client.Connected) { isConnected = true; }
+                string ServerIP = "moonbyte.us";
+
+                string externalip = new WebClient().DownloadString("http://icanhazip.com");
+                if (externalip.Contains(Dns.GetHostAddresses(new Uri("http://moonbyte.us").Host)[0].ToString())) { ServerIP = "192.168.0.16"; }
+                client.ConnectToRemoteServer(ServerIP, 7875);
+                if (client.IsConnected) { isConnected = true; }
 
                 if (!isConnected) vermeer.ApplicationLogger.AddToLog("INFO", "Could not connect to moonbyte.us");
                 if (isConnected)
                 {
-                    client.ClientSender.SendCommand("UserDatabase", new string[] { "EditServerValue", "VermeerVersion", "1.0.0.0" });
+                    client.SendCommand("UserDatabase", new string[] { "EditServerValue", "VermeerVersion", "1.0.0.0" });
                 // ** Logging in user if username is not null **
                 if (vermeer.settings.Username != "null")
                 {
-                        string userResponse = client.ClientSender.SendCommand("UserDatabase", new string[] { "LOGINUSER", vermeer.settings.Username, vermeer.settings.Password });
+                        string userResponse = client.SendCommand("UserDatabase", new string[] { "LOGINUSER", vermeer.settings.Username, vermeer.settings.Password });
                         if (userResponse == "USRLOG_TRUE") { IsLoggedIn = true; }
                         else
                         {
@@ -59,10 +65,9 @@ namespace Vermeer.Vermeer.bin
                         }
                     }
                 }
-                // ** Application Updating **
-                UniversalServiceUpdater updater = new UniversalServiceUpdater("https://moonbyte.net/download/vermeer.zip");
-                updater.UpdateUrlLocation = "https://moonbyte.net/download/vermeer.zip";
-                updater.CheckUpdate("moonbyte.us", 4543);
+
+                UniversalProjectUpdater Updater = new UniversalProjectUpdater(Application.ProductName);
+                Updater.CreateProject("1.0.0.0", "https://moonbyte.net/Download/Vermeer/Vermeer.zip");
 
             })).Start();
         }

@@ -21,13 +21,13 @@ namespace Vermeer.Vermeer.bin
         {
             new Thread(new ThreadStart(() =>
             {
-                string checkHistory = vermeer.networkManager.client.ClientSender.SendCommand("userdatabase", new string[] { "CheckUserSetting", vermeer.settings.Username, vermeer.settings.Password, _HistoryName});
+                string checkHistory = vermeer.networkManager.client.SendCommand("userdatabase", new string[] { "CheckUserSetting", vermeer.settings.Username, vermeer.settings.Password, _HistoryName});
                 if (checkHistory == "CETSET_TRUEF")
                 {
                     WriteHistoryToNetwork(); vermeer.ApplicationLogger.AddToLog("INFO", "User account history was null!");
                 }
 
-                DateTime lastEdit = DateTime.Parse(vermeer.networkManager.client.ClientSender.SendCommand("userdatabase", new string[] { "GetUserSetting", vermeer.settings.Username, vermeer.settings.Password, _HistoryDate }));
+                DateTime lastEdit = DateTime.Parse(vermeer.networkManager.client.SendCommand("userdatabase", new string[] { "GetUserSetting", vermeer.settings.Username, vermeer.settings.Password, _HistoryDate }));
 
                 if (lastEdit > vermeer.settings.LastEdit)
                 {
@@ -48,15 +48,15 @@ namespace Vermeer.Vermeer.bin
         private static void WriteHistoryToNetwork()
         {
             vermeer.settings.LastEdit = DateTime.Now;
-            vermeer.networkManager.client.ClientSender.SendCommand("userdatabase", new string[] { "EditUserSetting", vermeer.settings.Username, vermeer.settings.Password, _HistoryName, string.Join(vermeer.settings.seperator, vermeer.settings.History) });
-            vermeer.networkManager.client.ClientSender.SendCommand("userdatabase", new string[] { "EditUserSetting", vermeer.settings.Username, vermeer.settings.Password, _HistoryDate, vermeer.settings.LastEdit.ToString()});
+            vermeer.networkManager.client.SendCommand("userdatabase", new string[] { "EditUserSetting", vermeer.settings.Username, vermeer.settings.Password, _HistoryName, string.Join(vermeer.settings.seperator, vermeer.settings.History) });
+            vermeer.networkManager.client.SendCommand("userdatabase", new string[] { "EditUserSetting", vermeer.settings.Username, vermeer.settings.Password, _HistoryDate, vermeer.settings.LastEdit.ToString()});
         }
 
         private static void WriteHistoryToFile()
         {
             vermeer.settings.LastEdit = DateTime.Now;
-            vermeer.settings.History = vermeer.networkManager.client.ClientSender.SendCommand("userdatabase", new string[] { "GetUserSetting", vermeer.settings.Username, vermeer.settings.Password, _HistoryName }).Split(new string[] { vermeer.settings.seperator }, StringSplitOptions.RemoveEmptyEntries).ToList();
-            vermeer.networkManager.client.ClientSender.SendCommand("userdatabase", new string[] { "EditUserSetting", vermeer.settings.Username, vermeer.settings.Password, _HistoryDate, vermeer.settings.LastEdit.ToString() });
+            vermeer.settings.History = vermeer.networkManager.client.SendCommand("userdatabase", new string[] { "GetUserSetting", vermeer.settings.Username, vermeer.settings.Password, _HistoryName }).Split(new string[] { vermeer.settings.seperator }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            vermeer.networkManager.client.SendCommand("userdatabase", new string[] { "EditUserSetting", vermeer.settings.Username, vermeer.settings.Password, _HistoryDate, vermeer.settings.LastEdit.ToString() });
         }
 
         #endregion

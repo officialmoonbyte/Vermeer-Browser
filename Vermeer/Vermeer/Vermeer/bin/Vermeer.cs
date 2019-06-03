@@ -30,7 +30,7 @@ namespace Moonbyte.Vermeer.bin
         {
             InitializeILogger();
             settings = new SettingsManager(); // Load settings first before networkManager.
-            //networkManager = new NetworkManager();
+            networkManager = new NetworkManager();
         }
 
         #endregion
