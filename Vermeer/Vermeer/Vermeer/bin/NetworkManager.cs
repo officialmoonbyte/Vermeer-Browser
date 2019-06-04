@@ -67,7 +67,17 @@ namespace Vermeer.Vermeer.bin
                 }
 
                 UniversalProjectUpdater Updater = new UniversalProjectUpdater(Application.ProductName);
-                Updater.CreateProject("1.0.0.0", "https://moonbyte.net/Download/Vermeer/Vermeer.zip");
+                string version = Updater.GetVersion();
+
+                if (version != Application.ProductVersion)
+                {
+                    string DownloadURL = Updater.GetDownloadURL();
+                    Updater.InitializeIDownloader(DownloadURL);
+
+                    vermeer.ApplicationLogger.AddToLog("INFO", "Initialized IDownloader for a new Vermeer update! Update " + version + " is available at " + DownloadURL);
+                    vermeer.ApplicationLogger.AddToLog("INFO", "Current vermeer version : " + Application.ProductVersion);
+                }
+
 
             })).Start();
         }

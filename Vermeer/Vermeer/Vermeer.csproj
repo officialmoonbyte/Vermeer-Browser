@@ -88,8 +88,8 @@
     <Reference Include="UniversalClient, Version=4.4.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\UniversalClient.4.4.4\lib\net45\UniversalClient.dll</HintPath>
     </Reference>
-    <Reference Include="UniversalProjectUpdater, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\UniversalProjectUpdater.1.0.0\lib\net45\UniversalProjectUpdater.dll</HintPath>
+    <Reference Include="UniversalProjectUpdater, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UniversalProjectUpdater.1.0.1\lib\net45\UniversalProjectUpdater.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
