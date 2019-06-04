@@ -47,8 +47,8 @@ namespace Vermeer_Installer
         {
             string DesktopShortcutLocation = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
             string StartMenuShortcutLocation = Environment.GetFolderPath(Environment.SpecialFolder.StartMenu);
-            string VermeerLocation = InstallerObject.extractPath + "Vermeer.exe";
-            string VermeerIconLocation = InstallerObject.extractPath + "icon.ico";
+            string VermeerLocation = InstallerObject.extractPath + @"\Vermeer.exe";
+            string VermeerIconLocation = InstallerObject.extractPath + @"\icon.ico";
 
             if (cek_DesktopShortcut.Checked)
             { CreateShortcut("Vermeer", DesktopShortcutLocation, VermeerLocation); Console.WriteLine("G"); }
@@ -73,7 +73,7 @@ namespace Vermeer_Installer
                 WshShell shell = new WshShell();
                 IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
 
-                shortcut.IconLocation = InstallerObject.extractPath + "icon.ico";
+                shortcut.IconLocation = InstallerObject.extractPath + @"\icon.ico";
                 shortcut.TargetPath = targetFileLocation;
                 shortcut.Save();
             }

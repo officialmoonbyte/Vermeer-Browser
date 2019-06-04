@@ -50,6 +50,16 @@ namespace Vermeer.Vermeer.bin
 
         #endregion
 
+        #region LogExcetpion
+
+        public void LogException(Exception e)
+        {
+            this.AddToLog("EXCE", e.Message);
+            this.AddToLog("EXCE", e.StackTrace);
+        }
+
+        #endregion LogException
+
         #region Set Logging Events
 
         public void SetLoggingEvents()

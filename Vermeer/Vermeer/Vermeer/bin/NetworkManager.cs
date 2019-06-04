@@ -40,6 +40,8 @@ namespace Vermeer.Vermeer.bin
         {
             new Thread(new ThreadStart(() =>
             {
+            try
+            {
                 string ServerIP = "moonbyte.us";
 
                 string externalip = new WebClient().DownloadString("http://icanhazip.com");
@@ -51,9 +53,9 @@ namespace Vermeer.Vermeer.bin
                 if (isConnected)
                 {
                     client.SendCommand("UserDatabase", new string[] { "EditServerValue", "VermeerVersion", "1.0.0.0" });
-                // ** Logging in user if username is not null **
-                if (vermeer.settings.Username != "null")
-                {
+                    // ** Logging in user if username is not null **
+                    if (vermeer.settings.Username != "null")
+                    {
                         string userResponse = client.SendCommand("UserDatabase", new string[] { "LOGINUSER", vermeer.settings.Username, vermeer.settings.Password });
                         if (userResponse == "USRLOG_TRUE") { IsLoggedIn = true; }
                         else
@@ -66,7 +68,7 @@ namespace Vermeer.Vermeer.bin
                     }
                 }
 
-                UniversalProjectUpdater Updater = new UniversalProjectUpdater(Application.ProductName);
+                UniversalProjectUpdater Updater = new UniversalProjectUpdater(Application.ProductName, "moonbyte.us", 7777);
                 string version = Updater.GetVersion();
 
                 if (version != Application.ProductVersion)
@@ -77,8 +79,12 @@ namespace Vermeer.Vermeer.bin
                     vermeer.ApplicationLogger.AddToLog("INFO", "Initialized IDownloader for a new Vermeer update! Update " + version + " is available at " + DownloadURL);
                     vermeer.ApplicationLogger.AddToLog("INFO", "Current vermeer version : " + Application.ProductVersion);
                 }
-
-
+            }
+            catch (Exception e)
+            {
+                vermeer.ApplicationLogger.AddToLog("INFO", "Couldn't connect to Moonbyte servers!");
+                vermeer.ApplicationLogger.LogException(e);
+                }
             })).Start();
         }
 

@@ -59,7 +59,7 @@ namespace Vermeer_Installer
 
         #region Extracting
 
-        public string extractPath = @"c:\MoonByte\Vermeer";
+        public string extractPath = @"C:\Moonbyte\Vermeer";
         public void StartExtraction()
         {
             if (Directory.Exists(extractPath)) { Directory.Delete(extractPath, true); }
