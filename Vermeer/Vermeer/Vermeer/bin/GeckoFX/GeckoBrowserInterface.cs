@@ -27,7 +27,7 @@ namespace Vermeer.Vermeer.bin.GeckoFX
         public void CreateBrowserHandle(string URL, MaterialTabPage tabPage)
         {
             //Initialize firefox Xpcom
-            Xpcom.Initialize("Firefox64");
+            Xpcom.Initialize("Firefox");
 
             //Initialize the web browser comp
             webBrowser = new GeckoWebBrowser { Dock = DockStyle.Fill };
@@ -35,7 +35,10 @@ namespace Vermeer.Vermeer.bin.GeckoFX
 
             //GeckoPreferences
             Gecko.GeckoPreferences.User["general.useragent.override"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Gecko/20081201 Firefox/60.0";
-
+            Gecko.GeckoPreferences.User["browser.cache.disk.enable"] = true;
+            Gecko.GeckoPreferences.User["places.history.enabled"] = false;
+            Gecko.GeckoPreferences.User["plugin.state.flash"] = true;
+            Gecko.GeckoPreferences.User["browser.cache.memory.enable"] = true;
         }
 
         #endregion CreateBrowserHandle

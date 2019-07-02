@@ -44,7 +44,6 @@ namespace Vermeer.Vermeer.pages
             this.HeaderColor = Color.FromArgb(35, 35, 64);
             this.closebutton.FontColor = Color.White;
             this.HeaderHeight = 33;
-
             //
             // TabControl
             //

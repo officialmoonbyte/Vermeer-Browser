@@ -77,6 +77,8 @@ namespace Moonbyte.Vermeer.bin
             if (isTorInitialized) { ApplicationLogger.AddToLog("INFO", "Disposing Tor."); tor.Dispose(); }
             ApplicationLogger.AddToLog("INFO", "Setting application last edit value"); settings.LastEdit = DateTime.Now;
             ApplicationLogger.AddToLog("INFO", "Disposing SettingsManager!"); settings.Dispose();
+            ApplicationLogger.AddToLog("INFO", "Shutting down Xpcom"); Gecko.Xpcom.Shutdown();
+            ApplicationLogger.AddToLog("INFO", "Shutting down CefSharp");
             ApplicationLogger.AddToLog("INFO", "Disposing Vermeer. Goodbye Human!");
             ApplicationLogger.WriteLog();
             Environment.Exit(0);
