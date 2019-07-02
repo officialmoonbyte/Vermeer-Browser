@@ -1,11 +1,15 @@
-﻿using IndieGoat.MaterialFramework.Controls;
+﻿using CefSharp;
+using CefSharp.WinForms;
+using IndieGoat.MaterialFramework.Controls;
 using Moonbyte.Vermeer.bin;
 using Moonbyte.Vermeer.browser;
 using System;
 using System.Drawing;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 using System.Windows.Forms;
 using Vermeer.Vermeer.bin.Cefsharp;
+using Vermeer.Vermeer.bin.GeckoFX;
 using Vermeer.Vermeer.Controls;
 
 namespace Vermeer.Vermeer.bin
@@ -176,9 +180,8 @@ namespace Vermeer.Vermeer.bin
         private static void RenderBrowserUI(MaterialTabPage mainPage)
         {
             //vermeer.InitializeTorConnection();
-
-            CefBrowserInterface browserEngine = new CefBrowserInterface();
-            browserEngine.OnInit(mainPage, "https://google.com", ""); //"socks5://127.0.0.1:9150"
+            GeckoBrowserInterface browserEngine = new GeckoBrowserInterface();
+            browserEngine.OnInit(mainPage, "https://google.com", ""); //"socks5://127.0.0.1:9150";
 
             VermeerBrowserInstance browserInstance = new VermeerBrowserInstance(browserEngine);
 

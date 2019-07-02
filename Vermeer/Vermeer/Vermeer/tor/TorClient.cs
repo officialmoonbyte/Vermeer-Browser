@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Windows.Forms;
 
 
 #region README
@@ -95,7 +96,7 @@ namespace Moonbyte.Vermeer.Tor
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = "Tor\\tor.exe",
+                    FileName = Application.StartupPath + "\\TorBrowser\\Tor\\tor.exe",
                     Arguments = "-f .\\torrc",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
@@ -104,6 +105,8 @@ namespace Moonbyte.Vermeer.Tor
                 }
             };
             proc.Start();
+
+            Console.WriteLine("Proc Exit" + proc.HasExited);
         }
 
         #endregion StartTor

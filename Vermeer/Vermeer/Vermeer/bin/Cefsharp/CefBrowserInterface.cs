@@ -40,7 +40,7 @@ namespace Vermeer.Vermeer.bin.Cefsharp
                     settings.RemoteDebuggingPort = 8088;
                     settings.CachePath = Environment.CurrentDirectory + @"\Browser Cache";
                     settings.CefCommandLineArgs.Add("enable-system-flash", "1");
-                    settings.UserAgent = "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 73.0.3683.103 Safari / 537.36";
+                    //settings.UserAgent = "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 73.0.3683.103 Safari / 537.36";
 
                     Cef.Initialize(settings);
                 }
@@ -62,7 +62,7 @@ namespace Vermeer.Vermeer.bin.Cefsharp
         #endregion
 
         #region CreateBrowserHandle
-
+        bool b = false;
         public void CreateBrowserHandle(string URL, MaterialTabPage tabPage)
         {
             //Initializing new browser control
@@ -70,6 +70,10 @@ namespace Vermeer.Vermeer.bin.Cefsharp
 
             //Browser control properties
             chromeBrowser.Dock = DockStyle.Fill;
+
+            //Browser classes
+            chromeBrowser.RenderProcessMessageHandler = new RenderProcessMessageHandler();
+            chromeBrowser.RequestHandler = new RequestHandler();
 
             //Browser Events
             chromeBrowser.TitleChanged += (obj, args) =>
@@ -88,6 +92,14 @@ namespace Vermeer.Vermeer.bin.Cefsharp
                 LoadingStateChangedEventArgs rArgs = (LoadingStateChangedEventArgs)args;
                 OnDocumentLoadChange?.Invoke(this, new DocumentLoadingChange { Status = rArgs.IsLoading, VermeerVars = new DefaultVermeerVars(this, vermeerEngine.GetBrowserInstance(this)) });
             };
+            chromeBrowser.FrameLoadEnd += (sender, args) =>
+            {
+                if (args.Frame.IsMain)
+                {
+                    if (b == false) { chromeBrowser.ExecuteScriptAsync("document.cookie=\"VISITOR_INFO1_LIVE = oKckVSqvaGw; path =/; domain =.youtube.com\";window.location.reload();"); b = true; }
+                }
+            };
+            
         }
 
         #endregion
