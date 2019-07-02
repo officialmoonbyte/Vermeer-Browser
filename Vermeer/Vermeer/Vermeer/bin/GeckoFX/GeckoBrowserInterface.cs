@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 using Gecko;
 using IndieGoat.MaterialFramework.Controls;
@@ -29,16 +30,28 @@ namespace Vermeer.Vermeer.bin.GeckoFX
             //Initialize firefox Xpcom
             Xpcom.Initialize("Firefox");
 
+            //GeckoPreferences
+
+            //Disable history
+            Gecko.GeckoPreferences.User["places.history.enabled"] = false;
+            //Browser useragent
+            Gecko.GeckoPreferences.User["general.useragent.override"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Gecko/20081201 Firefox/60.0";
+            //Browser caching
+            Gecko.GeckoPreferences.User["browser.cache.disk.enable"] = true;
+            Gecko.GeckoPreferences.User["browser.cache.memory.enable"] = true;
+            Gecko.GeckoPreferences.User["browser.cache.disk.capacity"] = 358400;
+            //Flash plugin
+            Gecko.GeckoPreferences.User["plugin.state.flash"] = true;
+            //Profile Directory
+            string ProfileDirectoryName = "FirefoxData"; string ProfileDirectory = Path.Combine(Environment.CurrentDirectory, ProfileDirectoryName);
+            if (!Directory.Exists(ProfileDirectory)) { Directory.CreateDirectory(ProfileDirectory); }
+            Gecko.Xpcom.ProfileDirectory = ProfileDirectory;
+            Console.WriteLine(ProfileDirectory);
+            Console.WriteLine(Xpcom.ProfileDirectory);
+
             //Initialize the web browser comp
             webBrowser = new GeckoWebBrowser { Dock = DockStyle.Fill };
             webBrowser.Navigate(URL);
-
-            //GeckoPreferences
-            Gecko.GeckoPreferences.User["general.useragent.override"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Gecko/20081201 Firefox/60.0";
-            Gecko.GeckoPreferences.User["browser.cache.disk.enable"] = true;
-            Gecko.GeckoPreferences.User["places.history.enabled"] = false;
-            Gecko.GeckoPreferences.User["plugin.state.flash"] = true;
-            Gecko.GeckoPreferences.User["browser.cache.memory.enable"] = true;
         }
 
         #endregion CreateBrowserHandle
@@ -123,6 +136,19 @@ namespace Vermeer.Vermeer.bin.GeckoFX
         }
 
         #endregion SetProxyConnection
+
+        #region Delete Cookies
+
+        public void DeleteCookies()
+        {
+            nsICookieManager GeckoCookieManager;
+            GeckoCookieManager = Xpcom.GetService<nsICookieManager>("@mozilla.org/cookiemanager;1");
+            GeckoCookieManager = Xpcom.QueryInterface<nsICookieManager>(GeckoCookieManager);
+            GeckoCookieManager.RemoveAll();
+
+        }
+
+        #endregion
 
     }
 }

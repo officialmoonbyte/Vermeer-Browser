@@ -31,6 +31,7 @@ namespace Moonbyte.Vermeer.browser
         void Reload();
         void Navigate(string URL);
         void SetProxyConnection(string ProxyURI);
+        void DeleteCookies();
     }
 
     public class DocumentTitleChange : EventArgs
