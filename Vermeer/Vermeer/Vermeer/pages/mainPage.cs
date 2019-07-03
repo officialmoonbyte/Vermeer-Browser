@@ -63,7 +63,7 @@ namespace Vermeer.Vermeer.pages
             //
             tabHeader = new TabHeader();
             tabHeader.EnableNewTabButton = true;
-            tabHeader.EnableArrowButton = false;
+            tabHeader.EnableArrowButton = true;
             tabHeader.EnableCloseButton = true;
             tabHeader.Location = new System.Drawing.Point(33, 1);
             tabHeader.Width = this.Width - 211;

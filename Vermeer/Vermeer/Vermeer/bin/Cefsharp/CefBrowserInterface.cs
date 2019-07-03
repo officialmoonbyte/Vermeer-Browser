@@ -6,6 +6,7 @@ using Moonbyte.Vermeer.browser;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Windows.Forms;
 using TheDuffman85.Tools;
 
@@ -37,16 +38,15 @@ namespace Vermeer.Vermeer.bin.Cefsharp
                 {
                     CefSettings settings = new CefSettings();
 
-                    settings.RemoteDebuggingPort = 8088;
-                    settings.CachePath = Environment.CurrentDirectory + @"\Browser Cache";
-                    settings.CefCommandLineArgs.Add("enable-system-flash", "1");
-                    //settings.UserAgent = "Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 73.0.3683.103 Safari / 537.36";
+                    settings.CachePath = Path.Combine(Environment.CurrentDirectory, "ChromeCache");
+                    if (!Directory.Exists(settings.CachePath)) Directory.CreateDirectory(settings.CachePath);
 
                     Cef.Initialize(settings);
                 }
-                catch
+                catch (Exception e)
                 {
-
+                    vermeer.ApplicationLogger.AddToLog("error", "Failed to initialize CefSharp! " + e.Message);
+                    vermeer.ApplicationLogger.AddToLog("error", e.StackTrace);
                 }
             }
 
@@ -62,7 +62,6 @@ namespace Vermeer.Vermeer.bin.Cefsharp
         #endregion
 
         #region CreateBrowserHandle
-        bool b = false;
         public void CreateBrowserHandle(string URL, MaterialTabPage tabPage)
         {
             //Initializing new browser control
@@ -91,13 +90,6 @@ namespace Vermeer.Vermeer.bin.Cefsharp
             {
                 LoadingStateChangedEventArgs rArgs = (LoadingStateChangedEventArgs)args;
                 OnDocumentLoadChange?.Invoke(this, new DocumentLoadingChange { Status = rArgs.IsLoading, VermeerVars = new DefaultVermeerVars(this, vermeerEngine.GetBrowserInstance(this)) });
-            };
-            chromeBrowser.FrameLoadEnd += (sender, args) =>
-            {
-                if (args.Frame.IsMain)
-                {
-                    if (b == false) { chromeBrowser.ExecuteScriptAsync("document.cookie=\"VISITOR_INFO1_LIVE = oKckVSqvaGw; path =/; domain =.youtube.com\";window.location.reload();"); b = true; }
-                }
             };
             
         }
