@@ -13,7 +13,7 @@ namespace Vermeer.Vermeer.bin.Cefsharp
 {
     public class CefBrowserInterface : VermeerBrowserInterface
     {
-        public event EventHandler<DocumentTitleChange> OnTitleChange;
+        public event EventHandler<DocumentTitleChange> OnDocumentTitleChange;
         public event EventHandler<DocumentURLChange> OnDocumentURLChange;
         public event EventHandler<DocumentIconChange> OnDocumentIconChange;
         public event EventHandler<DocumentLoadingChange> OnDocumentLoadChange;
@@ -79,7 +79,7 @@ namespace Vermeer.Vermeer.bin.Cefsharp
             chromeBrowser.TitleChanged += (obj, args) =>
             {
                 TitleChangedEventArgs rArgs = (TitleChangedEventArgs)args;
-                OnTitleChange?.Invoke(this, new DocumentTitleChange { DocumentTitle = rArgs.Title, VermeerVars = new DefaultVermeerVars(this, vermeerEngine.GetBrowserInstance(this)) });
+                OnDocumentTitleChange?.Invoke(this, new DocumentTitleChange { DocumentTitle = rArgs.Title, VermeerVars = new DefaultVermeerVars(this, vermeerEngine.GetBrowserInstance(this)) });
             };
             chromeBrowser.AddressChanged += (obj, args) =>
             {

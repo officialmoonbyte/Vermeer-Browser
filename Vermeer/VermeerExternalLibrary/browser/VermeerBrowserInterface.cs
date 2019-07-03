@@ -8,7 +8,7 @@ namespace Moonbyte.Vermeer.browser
     public interface VermeerBrowserInterface
     {
         /* Default / required browser events */
-        event EventHandler<DocumentTitleChange> OnTitleChange;
+        event EventHandler<DocumentTitleChange> OnDocumentTitleChange;
         event EventHandler<DocumentURLChange> OnDocumentURLChange;
         event EventHandler<DocumentIconChange> OnDocumentIconChange;
         event EventHandler<DocumentLoadingChange> OnDocumentLoadChange;

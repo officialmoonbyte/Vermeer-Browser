@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 using Gecko;
+using Gecko.Events;
 using IndieGoat.MaterialFramework.Controls;
 using Moonbyte.Vermeer.bin;
 using Moonbyte.Vermeer.browser;
@@ -10,7 +11,7 @@ namespace Vermeer.Vermeer.bin.GeckoFX
 {
     public class GeckoBrowserInterface : VermeerBrowserInterface
     {
-        public event EventHandler<DocumentTitleChange> OnTitleChange;
+        public event EventHandler<DocumentTitleChange> OnDocumentTitleChange;
         public event EventHandler<DocumentURLChange> OnDocumentURLChange;
         public event EventHandler<DocumentIconChange> OnDocumentIconChange;
         public event EventHandler<DocumentLoadingChange> OnDocumentLoadChange;
@@ -51,6 +52,18 @@ namespace Vermeer.Vermeer.bin.GeckoFX
 
             //Initialize the web browser comp
             webBrowser = new GeckoWebBrowser { Dock = DockStyle.Fill };
+
+            //Browser Events
+            webBrowser.DocumentTitleChanged += (obj, args) =>
+            {
+                Console.WriteLine("DUIFOAHSDUOBFIASUDBF");
+                DefaultVermeerVars vermeerVars = new DefaultVermeerVars(this, vermeerEngine.GetBrowserInstance(this));
+                GeckoDocumentCompletedEventArgs e = (GeckoDocumentCompletedEventArgs)args;
+                OnDocumentTitleChange.Invoke(this, new DocumentTitleChange { DocumentTitle = webBrowser.DocumentTitle, VermeerVars = vermeerVars });
+                OnDocumentURLChange.Invoke(this, new DocumentURLChange { DocumentURL = webBrowser.Url.ToString(), VermeerVars = vermeerVars });
+            };
+
+            //Navigate
             webBrowser.Navigate(URL);
         }
 

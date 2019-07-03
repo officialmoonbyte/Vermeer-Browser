@@ -93,18 +93,12 @@ namespace Vermeer.Vermeer.bin
             };
             mainPage.Controls.Add(searchBar);
 
-            // ** Design Timer ** //
-            DesignTimer designTimer = new DesignTimer(mainPage, BrowserInstance(mainPage), forwardButton, backButton);
-            instance.BrowserInterface.OnDocumentIconChange += (obj, args) =>
-            {
-                DocumentIconChange e = args;
-                instance.BrowserInterface.getTabPage().ChangeTabIcon(e.icon); vermeer.ApplicationLogger.AddToLog("INFO", "Changed Tab Icon");
-            };
-
             //Setting browser instance events
-            instance.BrowserInterface.OnTitleChange += (obj, Args) =>
+            instance.BrowserInterface.OnDocumentTitleChange += (obj, Args) =>
             {
-                if (mainPage.InvokeRequired) { mainPage.Invoke((MethodInvoker)delegate 
+                if (mainPage.InvokeRequired)
+                {
+                    mainPage.Invoke((MethodInvoker)delegate
                     {
                         try
                         {
@@ -115,9 +109,11 @@ namespace Vermeer.Vermeer.bin
                                 GetTabPage(args.VermeerVars.Instance).Text = args.DocumentTitle;
                                 vermeer.ApplicationLogger.AddToLog("INFO", "Changed mainPage text from args.DocumentTitle, DocumentTitle : " + args.DocumentTitle);
                             }
-                        } catch (Exception e){ vermeer.ApplicationLogger.AddToLog("ERROR", "Exception : " + e.Message); vermeer.ApplicationLogger.AddToLog("EROR", e.StackTrace); vermeer.ApplicationLogger.AddToLog("WARN", "Last two error's can be natural if the browser was closed by the header."); }
+                        }
+                        catch (Exception e) { vermeer.ApplicationLogger.AddToLog("ERROR", "Exception : " + e.Message); vermeer.ApplicationLogger.AddToLog("EROR", e.StackTrace); vermeer.ApplicationLogger.AddToLog("WARN", "Last two error's can be natural if the browser was closed by the header."); }
                     });
                 }
+                else { Console.WriteLine("JDBGIAHBSDG"); }
             };
 
             instance.BrowserInterface.OnDocumentURLChange += (obj, Args) =>
@@ -170,6 +166,14 @@ namespace Vermeer.Vermeer.bin
                         backButton.Enabled = instance.BrowserInterface.IsBackEnabled();
                     });
                 }
+            };
+
+            // ** Design Timer ** //
+            DesignTimer designTimer = new DesignTimer(mainPage, BrowserInstance(mainPage), forwardButton, backButton);
+            instance.BrowserInterface.OnDocumentIconChange += (obj, args) =>
+            {
+                DocumentIconChange e = args;
+                instance.BrowserInterface.getTabPage().ChangeTabIcon(e.icon); vermeer.ApplicationLogger.AddToLog("INFO", "Changed Tab Icon");
             };
         }
 
