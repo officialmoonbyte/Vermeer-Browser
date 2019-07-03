@@ -1,6 +1,7 @@
 ﻿using IndieGoat.MaterialFramework.Controls;
 using Moonbyte.Vermeer.Tor;
 using System;
+using System.Threading;
 using System.Windows.Forms;
 using Vermeer.Vermeer.bin;
 using Vermeer.Vermeer.pages;
@@ -74,6 +75,14 @@ namespace Moonbyte.Vermeer.bin
 
         public static void Dispose()
         {
+            new Thread(new ThreadStart(() =>
+            {
+                ApplicationLogger.AddToLog("INFO", "Starting Vermeer shutdown timer! After 10 seconds, Vermeer will forcefully close.");
+                Thread.Sleep(10000);
+                ApplicationLogger.AddToLog("INFO", "10 seconds has passed, closing Vermeer forcefully");
+                Environment.Exit(0);
+            })).Start();
+
             if (isTorInitialized) { ApplicationLogger.AddToLog("INFO", "Disposing Tor."); tor.Dispose(); }
             ApplicationLogger.AddToLog("INFO", "Setting application last edit value"); settings.LastEdit = DateTime.Now;
             ApplicationLogger.AddToLog("INFO", "Disposing SettingsManager!"); settings.Dispose();

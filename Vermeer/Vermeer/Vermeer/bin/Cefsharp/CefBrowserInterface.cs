@@ -164,6 +164,11 @@ namespace Vermeer.Vermeer.bin.Cefsharp
             OnDocumentIconChange?.Invoke(this, new DocumentIconChange { icon = favicon.Icon, VermeerVars = new DefaultVermeerVars(this, vermeerEngine.GetBrowserInstance(this)) });
         }
 
+        public void DeleteCookies()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
     }
