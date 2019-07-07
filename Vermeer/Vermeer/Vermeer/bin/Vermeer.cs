@@ -1,4 +1,5 @@
-﻿using IndieGoat.MaterialFramework.Controls;
+﻿using CefSharp;
+using IndieGoat.MaterialFramework.Controls;
 using Moonbyte.Vermeer.Tor;
 using System;
 using System.Threading;
@@ -22,6 +23,7 @@ namespace Moonbyte.Vermeer.bin
         public static Control UIThread;
 
         public static bool isTorInitialized = false;
+        public static bool XpcomInitialized = false;
 
         #endregion
 
@@ -86,8 +88,9 @@ namespace Moonbyte.Vermeer.bin
             if (isTorInitialized) { ApplicationLogger.AddToLog("INFO", "Disposing Tor."); tor.Dispose(); }
             ApplicationLogger.AddToLog("INFO", "Setting application last edit value"); settings.LastEdit = DateTime.Now;
             ApplicationLogger.AddToLog("INFO", "Disposing SettingsManager!"); settings.Dispose();
-            ApplicationLogger.AddToLog("INFO", "Shutting down Xpcom"); Gecko.Xpcom.Shutdown();
-            ApplicationLogger.AddToLog("INFO", "Shutting down CefSharp");
+            if (vermeer.XpcomInitialized) { ApplicationLogger.AddToLog("INFO", "Shutting down Xpcom"); Gecko.Xpcom.Shutdown(); }
+            else { ApplicationLogger.AddToLog("INFO", "Xpcom was never initialized! Skipping..."); }
+            ApplicationLogger.AddToLog("INFO", "Shutting down CefSharp"); Cef.Shutdown();
             ApplicationLogger.AddToLog("INFO", "Disposing Vermeer. Goodbye Human!");
             ApplicationLogger.WriteLog();
             Environment.Exit(0);

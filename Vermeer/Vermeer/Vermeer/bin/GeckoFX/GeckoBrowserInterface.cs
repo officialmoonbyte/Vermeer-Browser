@@ -30,6 +30,7 @@ namespace Vermeer.Vermeer.bin.GeckoFX
         {
             //Initialize firefox Xpcom
             Xpcom.Initialize("Firefox");
+            vermeer.XpcomInitialized = true;
 
             //GeckoPreferences
 
@@ -56,11 +57,10 @@ namespace Vermeer.Vermeer.bin.GeckoFX
             //Browser Events
             webBrowser.DocumentTitleChanged += (obj, args) =>
             {
-                Console.WriteLine("DUIFOAHSDUOBFIASUDBF");
-                DefaultVermeerVars vermeerVars = new DefaultVermeerVars(this, vermeerEngine.GetBrowserInstance(this));
-                GeckoDocumentCompletedEventArgs e = (GeckoDocumentCompletedEventArgs)args;
-                OnDocumentTitleChange.Invoke(this, new DocumentTitleChange { DocumentTitle = webBrowser.DocumentTitle, VermeerVars = vermeerVars });
-                OnDocumentURLChange.Invoke(this, new DocumentURLChange { DocumentURL = webBrowser.Url.ToString(), VermeerVars = vermeerVars });
+                DefaultVermeerVars vermeerVars = new DefaultVermeerVars(this, vermeerEngine.GetBrowserInstance(this)); Console.WriteLine("DEEEE");
+                OnDocumentTitleChange.Invoke(this, new DocumentTitleChange { DocumentTitle = webBrowser.DocumentTitle, VermeerVars = vermeerVars }); Console.WriteLine("DEEEE");
+                OnDocumentURLChange.Invoke(this, new DocumentURLChange { DocumentURL = webBrowser.Url.ToString(), VermeerVars = vermeerVars }); Console.WriteLine("DEEEE");
+                OnDocumentLoadChange?.Invoke(this, new DocumentLoadingChange { Status = true, VermeerVars = vermeerVars }); Console.WriteLine("DEEEE");
             };
 
             //Navigate

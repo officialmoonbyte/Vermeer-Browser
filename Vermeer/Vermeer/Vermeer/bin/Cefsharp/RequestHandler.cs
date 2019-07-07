@@ -73,7 +73,6 @@ namespace Vermeer.Vermeer.bin.Cefsharp
                     //vermeer.ApplicationLogger.AddToLog("adblock", "Blocked " + mainURL);
                     return CefReturnValue.Cancel; }
             }
-            vermeer.ApplicationLogger.AddToLog("adblock", "Allowing " + mainURL + " to load.");
             return CefReturnValue.Continue;
         }
 

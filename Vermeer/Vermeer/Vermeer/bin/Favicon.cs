@@ -195,33 +195,40 @@ namespace TheDuffman85.Tools
 
         private string ExtractFavIconUrl(Uri url)
         {
-            WebClient client = new WebClient();
             string iconUrl = null;
-
-            string html = client.DownloadString(url);
-
-            Match match;
-
-            // Link
-            foreach (Match m in Regex.Matches(html, "<link[^>]*(rel=\"icon\"|rel=\"shortcut icon\"|rel=\"apple-touch-icon\"|rel=\"apple-touch-icon-precomposed\")[^>]*[\\/]?>", RegexOptions.IgnoreCase))
+            try
             {
-                match = Regex.Match(m.Value, "href=\"([^\"]*)\"", RegexOptions.IgnoreCase);
+                WebClient client = new WebClient();
 
-                if (match.Success)
+                string html = client.DownloadString(url);
+
+                Match match;
+
+                // Link
+                foreach (Match m in Regex.Matches(html, "<link[^>]*(rel=\"icon\"|rel=\"shortcut icon\"|rel=\"apple-touch-icon\"|rel=\"apple-touch-icon-precomposed\")[^>]*[\\/]?>", RegexOptions.IgnoreCase))
                 {
-                    return match.Groups[1].Value;
+                    match = Regex.Match(m.Value, "href=\"([^\"]*)\"", RegexOptions.IgnoreCase);
+
+                    if (match.Success)
+                    {
+                        return match.Groups[1].Value;
+                    }
+                }
+
+                // Meta
+                foreach (Match m in Regex.Matches(html, "<meta[^>]*(itemprop=\"image\")[^>]*[\\/]?>", RegexOptions.IgnoreCase))
+                {
+                    match = Regex.Match(m.Value, "content=\"([^\"]*)\"", RegexOptions.IgnoreCase);
+
+                    if (match.Success)
+                    {
+                        return match.Groups[1].Value;
+                    }
                 }
             }
-
-            // Meta
-            foreach (Match m in Regex.Matches(html, "<meta[^>]*(itemprop=\"image\")[^>]*[\\/]?>", RegexOptions.IgnoreCase))
+            catch
             {
-                match = Regex.Match(m.Value, "content=\"([^\"]*)\"", RegexOptions.IgnoreCase);
 
-                if (match.Success)
-                {
-                    return match.Groups[1].Value;
-                }
             }
 
             return iconUrl;

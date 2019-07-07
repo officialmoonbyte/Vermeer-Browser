@@ -29,8 +29,8 @@ namespace Vermeer.Vermeer.bin
             browserPage.BackColor = Color.White;
             browserPage.Text = "New Tab";
 
-            RenderBrowserUI(browserPage);
-            RenderHeaderUI(browserPage);
+            RenderBrowserUI(browserPage); vermeer.ApplicationLogger.AddToLog("info", "RenderBrowserUI initialized");
+            RenderHeaderUI(browserPage); vermeer.ApplicationLogger.AddToLog("info", "RenderHeaderUI initialized");
         }
 
         #endregion
@@ -47,6 +47,7 @@ namespace Vermeer.Vermeer.bin
             // ** Back Button ** //
             BackButton backButton = new BackButton();
             backButton.Location = new Point(0, 0);
+            backButton.Enabled = true;
             backButton.Click += (obj, args) =>
             {
                 vermeer.ApplicationLogger.AddToLog("INFO", "Browser backButton.Click invoked");
@@ -96,48 +97,24 @@ namespace Vermeer.Vermeer.bin
             //Setting browser instance events
             instance.BrowserInterface.OnDocumentTitleChange += (obj, Args) =>
             {
+                DocumentTitleChange args = (DocumentTitleChange)Args;
                 if (mainPage.InvokeRequired)
                 {
                     mainPage.Invoke((MethodInvoker)delegate
-                    {
-                        try
-                        {
-                            DocumentTitleChange args = (DocumentTitleChange)Args;
-
-                            if (args.DocumentTitle != "")
-                            {
-                                GetTabPage(args.VermeerVars.Instance).Text = args.DocumentTitle;
-                                vermeer.ApplicationLogger.AddToLog("INFO", "Changed mainPage text from args.DocumentTitle, DocumentTitle : " + args.DocumentTitle);
-                            }
-                        }
-                        catch (Exception e) { vermeer.ApplicationLogger.AddToLog("ERROR", "Exception : " + e.Message); vermeer.ApplicationLogger.AddToLog("EROR", e.StackTrace); vermeer.ApplicationLogger.AddToLog("WARN", "Last two error's can be natural if the browser was closed by the header."); }
-                    });
+                    { OnDocumentTitleChange(args); });
                 }
-                else { Console.WriteLine("JDBGIAHBSDG"); }
+                else { OnDocumentTitleChange(args); }
             };
 
             instance.BrowserInterface.OnDocumentURLChange += (obj, Args) =>
             {
+                DocumentURLChange args = (DocumentURLChange)Args;
                 if (mainPage.InvokeRequired)
                 {
                     mainPage.Invoke((MethodInvoker)delegate
-                    {
-                        DocumentURLChange args = (DocumentURLChange)Args;
-                        try
-                        {
-                            X509Certificate2 cert2 = Ssl.GetSSLCertificate(args.DocumentURL);
-
-                            searchBar.secureButton.SecureLogo = Ssl.VerifySSLCertificate(cert2);
-                        }
-                        catch
-                        {
-                            vermeer.ApplicationLogger.AddToLog("INFO", "Failed to find local ssl encryption. Assuming there's no tls / ssl.");
-                            searchBar.secureButton.SecureLogo = false;
-                        }
-
-                        searchBar.baseTextBox.Text = args.DocumentURL;
-                    });
+                    { OnDocumentURLChange(args, searchBar); });
                 }
+                else { OnDocumentURLChange(args, searchBar); }
             };
 
             instance.BrowserInterface.OnDocumentIconChange += (obj, Args) =>
@@ -147,11 +124,10 @@ namespace Vermeer.Vermeer.bin
                 if (mainPage.InvokeRequired)
                 {
                     mainPage.Invoke((MethodInvoker)delegate
-                    {
-                        MaterialTabPage Page = GetTabPage(rArgs.VermeerVars.Instance);
-                        Page.ChangeTabIcon(rArgs.icon);
-                    });
+                    { OnDocumentIconChange(rArgs); });
                 }
+                else
+                { OnDocumentIconChange(rArgs); }
             };
 
             instance.BrowserInterface.OnDocumentLoadChange += (obj, Args) =>
@@ -161,11 +137,10 @@ namespace Vermeer.Vermeer.bin
                 if (mainPage.InvokeRequired)
                 {
                     mainPage.Invoke((MethodInvoker)delegate
-                    {
-                        forwardButton.Enabled = instance.BrowserInterface.IsForwardAvailable();
-                        backButton.Enabled = instance.BrowserInterface.IsBackEnabled();
-                    });
+                    { OnDocumentLoadChange(forwardButton, backButton, instance); });
                 }
+                else
+                { OnDocumentLoadChange(forwardButton, backButton, instance); }
             };
 
             // ** Design Timer ** //
@@ -179,12 +154,75 @@ namespace Vermeer.Vermeer.bin
 
         #endregion
 
+        #region Interface Menthods
+
+        #region OnDocumentTitleChange
+
+        private static void OnDocumentTitleChange(DocumentTitleChange args)
+        {
+            try
+            {
+                if (args.DocumentTitle != "")
+                {
+                    GetTabPage(args.VermeerVars.Instance).Text = args.DocumentTitle;
+                    vermeer.ApplicationLogger.AddToLog("INFO", "Changed mainPage text from args.DocumentTitle, DocumentTitle : " + args.DocumentTitle);
+                }
+            }
+            catch (Exception e)
+            {
+                vermeer.ApplicationLogger.AddToLog("ERROR", "Exception : " + e.Message); vermeer.ApplicationLogger.AddToLog("EROR", e.StackTrace); vermeer.ApplicationLogger.AddToLog("WARN", "Last two error's can be natural if the browser was closed by the header.");
+            }
+        }
+
+        #endregion OnDocumentTitleChange
+
+        #region OnDocumentURLChange
+
+        private static void OnDocumentURLChange(DocumentURLChange args, DefaultSearchBar searchBar)
+        {
+            try
+            {
+                X509Certificate2 cert2 = Ssl.GetSSLCertificate(args.DocumentURL);
+                searchBar.secureButton.SecureLogo = Ssl.VerifySSLCertificate(cert2);
+            }
+            catch
+            {
+                vermeer.ApplicationLogger.AddToLog("INFO", "Failed to find local ssl encryption. Assuming there's no tls / ssl.");
+                searchBar.secureButton.SecureLogo = false;
+            }
+            searchBar.baseTextBox.Text = args.DocumentURL;
+        }
+
+        #endregion OnDocumentURLChange
+
+        #region OnDocumentIconChange
+
+        private static void OnDocumentIconChange(DocumentIconChange rArgs)
+        {
+            MaterialTabPage Page = GetTabPage(rArgs.VermeerVars.Instance);
+            Page.ChangeTabIcon(rArgs.icon);
+        }
+
+        #endregion OnDocumentIconChange
+
+        #region OnDocumentLoadChange
+
+        private static void OnDocumentLoadChange(ForwardButton forwardButton, BackButton backButton, VermeerBrowserInstance instance)
+        {
+            forwardButton.Enabled = instance.BrowserInterface.IsForwardAvailable();
+            backButton.Enabled = instance.BrowserInterface.IsBackEnabled();
+        }
+
+        #endregion OnDocumentLoadChange
+
+        #endregion Interface Methods
+
         #region Browser Comp
 
         private static void RenderBrowserUI(MaterialTabPage mainPage)
         {
             //vermeer.InitializeTorConnection();
-            GeckoBrowserInterface browserEngine = new GeckoBrowserInterface();
+            CefBrowserInterface browserEngine = new CefBrowserInterface();
             browserEngine.OnInit(mainPage, "https://google.com", ""); //"socks5://127.0.0.1:9150";
 
             VermeerBrowserInstance browserInstance = new VermeerBrowserInstance(browserEngine);
