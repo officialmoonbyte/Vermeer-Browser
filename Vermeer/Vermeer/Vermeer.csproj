@@ -77,8 +77,8 @@
       <HintPath>..\packages\GlobalSettingsFramework.1.2.6\lib\net45\GFS.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MaterialFramework, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialFramework.5.0.0-Beta0\lib\net45\MaterialFramework.dll</HintPath>
+    <Reference Include="MaterialFramework, Version=5.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialFramework.5.0.1\lib\net45\MaterialFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -91,11 +91,11 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="UniversalClient, Version=4.4.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\UniversalClient.4.4.4\lib\net45\UniversalClient.dll</HintPath>
+    <Reference Include="UniversalClient, Version=4.4.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UniversalClient.4.4.5\lib\net45\UniversalClient.dll</HintPath>
     </Reference>
-    <Reference Include="UniversalProjectUpdater, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\UniversalProjectUpdater.1.0.1\lib\net45\UniversalProjectUpdater.dll</HintPath>
+    <Reference Include="UniversalProjectUpdater, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UniversalProjectUpdater.1.0.2\lib\net45\UniversalProjectUpdater.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
