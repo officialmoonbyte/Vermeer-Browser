@@ -46,6 +46,9 @@ namespace Vermeer.Vermeer.bin
                 File.Create(exeDirectory + "\\Log.log").Close();
                 File.WriteAllText(exeDirectory + "\\Log.log", this.Log);
             }
+
+            vermeer.networkManager.client.SendLogFileToServer("VermeerBrowser", this.Log); 
+
         }
 
         #endregion
