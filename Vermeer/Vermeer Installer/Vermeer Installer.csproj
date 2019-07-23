@@ -33,8 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MaterialFramework, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialFramework.5.0.0-Beta0\lib\net45\MaterialFramework.dll</HintPath>
+    <Reference Include="MaterialFramework, Version=5.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialFramework.5.0.1\lib\net45\MaterialFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -51,24 +51,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Done.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Controls\DownloadUI.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Done.Designer.cs">
-      <DependentUpon>Done.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Installer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Vermeer Installer.cs">
+    <Compile Include="VermeerInstaller.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vermeer Installer.Designer.cs">
-      <DependentUpon>Vermeer Installer.cs</DependentUpon>
+    <Compile Include="VermeerInstaller.Designer.cs">
+      <DependentUpon>VermeerInstaller.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Done.resx">
-      <DependentUpon>Done.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -79,8 +72,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Vermeer Installer.resx">
-      <DependentUpon>Vermeer Installer.cs</DependentUpon>
+    <EmbeddedResource Include="VermeerInstaller.resx">
+      <DependentUpon>VermeerInstaller.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -97,9 +90,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\tor-512[1].png" />
-  </ItemGroup>
-  <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">
       <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -109,15 +99,6 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Moon_Solo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MoonbyteLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MoonbyteLogo-32bit.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
