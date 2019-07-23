@@ -1,5 +1,9 @@
 ﻿using IndieGoat.MaterialFramework.Controls;
+using System;
 using System.Drawing;
+using System.IO;
+using System.Net;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Vermeer_Installer.Controls
@@ -10,7 +14,11 @@ namespace Vermeer_Installer.Controls
 
         #region Labels
 
+        MaterialLabel _MainDownloadTitle;
         MaterialLabel _DownloadTitle;
+        MaterialLabel _DownloadProgressPercent;
+
+        string tempDirectory = Path.GetTempPath();
 
         MaterialProgressBar DownloadProgressBar;
 
@@ -20,6 +28,7 @@ namespace Vermeer_Installer.Controls
 
         Font MainFont;
         Font MainFont_Bold;
+        Font MainFont_Title;
 
         #endregion
 
@@ -30,33 +39,91 @@ namespace Vermeer_Installer.Controls
         public DownloadUI()
         {
             // Download UI //
-            this.Size = new Size(398, 100);
+            this.Size = new Size(398, 75);
+            this.BackColor = Color.FromArgb(51, 170, 255);
 
             // Initialize Fonts //
             MainFont = new Font("Segoe UI", 9f, FontStyle.Regular);
             MainFont_Bold= new Font("Segoe UI", 9f, FontStyle.Bold);
+            MainFont_Title = new Font("Segoe UI", 14f, FontStyle.Regular);
 
             // DownloadProgressBar //
             DownloadProgressBar = new MaterialProgressBar();
-            DownloadProgressBar.Size = new Size(394, 24);
-            DownloadProgressBar.Location = new Point(2, 74);
+            DownloadProgressBar.Size = new Size(398, 3);
+            DownloadProgressBar.Location = new Point(0, 72);
+            DownloadProgressBar.Value = 0;
 
-            DownloadProgressBar.BackColor = Color.FromArgb(250, 250, 250);
-            DownloadProgressBar.BorderColor = Color.FromArgb(235, 235, 235);
+            DownloadProgressBar.BackColor = Color.FromArgb(36, 121, 181);
+            DownloadProgressBar.BorderColor = Color.Transparent;
+            DownloadProgressBar.ProgressBarColor = Color.FromArgb(15, 219, 0);
 
             this.Controls.Add(DownloadProgressBar);
 
-            // Download Title //
-            _DownloadTitle = new MaterialLabel();
-            _DownloadTitle.Font = MainFont_Bold;
-            _DownloadTitle.Text = "Download Progress";
+            // Main Download Title //
+            _MainDownloadTitle = new MaterialLabel();
+            _MainDownloadTitle.Font = MainFont_Title;
+            _MainDownloadTitle.BackColor = Color.Transparent;
+            _MainDownloadTitle.ForeColor = Color.FromArgb(48, 48, 48);
+            _MainDownloadTitle.TextAlign = ContentAlignment.MiddleCenter;
+            _MainDownloadTitle.Text = "Downloading... Please wait.";
+            _MainDownloadTitle.Click += (obj, args) =>
+            {
+                Console.WriteLine(_MainDownloadTitle.Width);
+            };
 
-            int downloadTitle_X = 0;
-            int downloadTitle_Y = 0;
-            _DownloadTitle.Location = new Point(downloadTitle_X, downloadTitle_Y);
+            this.Controls.Add(_MainDownloadTitle);
+
+            //Download Title//
+            _DownloadTitle = new MaterialLabel();
+            _DownloadTitle.Font = MainFont;
+            _DownloadTitle.BackColor = Color.Transparent;
+            _DownloadTitle.ForeColor = Color.FromArgb(48, 48, 48);
+            _DownloadTitle.TextAlign = ContentAlignment.MiddleCenter;
+            _DownloadTitle.Text = "Download percent at : ";
+            _DownloadTitle.Click += (obj, args) =>
+            {
+                Console.WriteLine(_DownloadTitle.Width);
+            };
 
             this.Controls.Add(_DownloadTitle);
 
+            //Download Progress Percent//
+            _DownloadProgressPercent = new MaterialLabel();
+            _DownloadProgressPercent.Font = MainFont;
+            _DownloadProgressPercent.BackColor = Color.Transparent;
+            _DownloadProgressPercent.ForeColor = Color.FromArgb(48, 48, 48);
+            _DownloadProgressPercent.TextAlign = ContentAlignment.MiddleCenter;
+            _DownloadProgressPercent.Text = "0";
+            _DownloadProgressPercent.Click += (obj, args) =>
+            {
+                Console.WriteLine(_DownloadProgressPercent.Width);
+            };
+
+            this.Controls.Add(_DownloadProgressPercent);
+
+            UpdateLabelLocations();
+
+            // Starts the downloader //
+            WebClient client = new WebClient();
+
+            client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
+
+            string DownloadDirectory = tempDirectory + @"\Moonbyte\";
+            string zipDirectory = DownloadDirectory + "vermeer.zip";
+
+            if (!Directory.Exists(DownloadDirectory)) { Directory.CreateDirectory(DownloadDirectory); }
+
+            client.DownloadFileAsync(new Uri("https://moonbyte.net/Download/Vermeer/Vermeer.zip"), zipDirectory);
+
+
+        }
+
+        public void ProgressChanged(object sender, DownloadProgressChangedEventArgs args)
+        {
+            double bytesIn = double.Parse(args.BytesReceived.ToString());
+            double totalBytes = double.Parse(args.TotalBytesToReceive.ToString());
+            double percentage = bytesIn / totalBytes * 100;
+            this.UpdatePercentData(int.Parse(Math.Truncate(percentage).ToString()));
         }
 
         #endregion Initialization
@@ -69,11 +136,44 @@ namespace Vermeer_Installer.Controls
             Graphics g = e.Graphics;
 
             //Draw the backcolor of the control
-            g.Clear(Color.FromArgb(250, 250, 250));
+            g.Clear(this.BackColor);
 
             base.OnPaint(e);
         }
 
         #endregion OnPaint
+
+        #region UpdateLabelLocations
+
+        public void UpdatePercentData(int progress)
+        {
+            Console.WriteLine(progress);
+             DownloadProgressBar.Value = progress;
+            _DownloadProgressPercent.Text = progress.ToString();
+        }
+
+        public void UpdateLabelLocations()
+        {
+            // Updates the MainDownloadTitle
+            decimal thisSize = decimal.Divide(this.Width, 2); decimal titleSize = decimal.Divide(_MainDownloadTitle.Width, 2); decimal final = thisSize - titleSize;
+            decimal controlPercentage = decimal.Divide(final, this.Width);
+            decimal controlPosition = decimal.Multiply(controlPercentage, this.Width);
+            int downloadTitle_X = decimal.ToInt32(controlPosition);
+            int downloadTitle_Y = 12;
+            _MainDownloadTitle.Location = new Point(downloadTitle_X, downloadTitle_Y);
+
+            //Update download status
+            decimal _wholeDownloadLabelSize = decimal.Add(_DownloadProgressPercent.Width, _DownloadTitle.Width);
+            decimal _downloadLabel_TitleSize = decimal.Divide(_wholeDownloadLabelSize, 2); decimal _downloadLabel_Final = thisSize - _downloadLabel_TitleSize;
+            decimal _downloadLabel_ControlPercent = decimal.Divide(_downloadLabel_Final, this.Width);
+            decimal _downloadLabel_controlPosition = decimal.Multiply(_downloadLabel_ControlPercent, this.Width);
+            int downloadLabel_X = decimal.ToInt32(_downloadLabel_controlPosition); int downloadLabel_Y = 40;
+            int ProgressLabel_X = (downloadLabel_X + _DownloadTitle.Width) - 3; int ProgressLabel_Y = downloadLabel_Y;
+
+            _DownloadTitle.Location = new Point(downloadLabel_X, downloadLabel_Y);
+            _DownloadProgressPercent.Location = new Point(ProgressLabel_X, ProgressLabel_Y);
+        }
+
+        #endregion 
     }
 }

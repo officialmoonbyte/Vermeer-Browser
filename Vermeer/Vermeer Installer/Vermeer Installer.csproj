@@ -51,6 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cards\TestCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Cards\TitleCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\DownloadUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
