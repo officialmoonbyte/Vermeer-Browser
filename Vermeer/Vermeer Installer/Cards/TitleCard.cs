@@ -1,4 +1,5 @@
 ﻿using IndieGoat.MaterialFramework.Controls;
+using System;
 using System.Drawing;
 using System.Net;
 using System.Windows.Forms;
@@ -46,18 +47,18 @@ namespace Vermeer_Installer.Cards
 
             // Continue Button //
             continueButton = new FlatButton();
-            continueButton.Size = new Size(200, 55);
+            continueButton.Size = new Size(160, 36);
             continueButton.BackColor = Color.White;
             continueButton.BorderColor = Color.FromArgb(245, 245, 245);
             continueButton.Text = "Agree and Continue";
             continueButton.Click += (obj, args) =>
             {
                 VermeerInstaller vermeerInstaller = (VermeerInstaller)this.Parent;
-                vermeerInstaller.SwapPage1();
+                vermeerInstaller.SwapPage1(); 
             };
 
             this.Controls.Add(continueButton);
-            UpdateButtonLocation(continueButton, 332);
+            UpdateButtonLocation(continueButton, 340);
 
             // Copyright Panel //
             copyrightPanel = new Panel();
@@ -103,8 +104,16 @@ namespace Vermeer_Installer.Cards
             copyrightContent.ForeColor = Color.FromArgb(48, 48, 48);
             copyrightContent.TextAlign = ContentAlignment.TopLeft;
             copyrightContent.Location = new Point(4, 125);
-            using (WebClient client = new WebClient())
-            { copyrightContent.Text = client.DownloadString("https://moonbyte.net/vermeer/eula.html"); }
+            try
+            {
+                using (WebClient client = new WebClient())
+                { copyrightContent.Text = client.DownloadString("https://moonbyte.net/vermeer/eula.html"); }
+            }
+            catch
+            {
+                MessageBox.Show("You have to be connected to the internet for Vermeer to download!");
+                Environment.Exit(0);
+            }
 
             copyrightPanel.Controls.Add(copyrightContent);
 

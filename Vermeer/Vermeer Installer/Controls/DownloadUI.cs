@@ -18,8 +18,6 @@ namespace Vermeer_Installer.Controls
         MaterialLabel _DownloadTitle;
         MaterialLabel _DownloadProgressPercent;
 
-        string tempDirectory = Path.GetTempPath();
-
         MaterialProgressBar DownloadProgressBar;
 
         #endregion Labels
@@ -31,6 +29,12 @@ namespace Vermeer_Installer.Controls
         Font MainFont_Title;
 
         #endregion
+
+        #region int
+
+        public int CurrentDownloadPercent = 0;
+
+        #endregion Int
 
         #endregion Vars
 
@@ -55,7 +59,7 @@ namespace Vermeer_Installer.Controls
 
             DownloadProgressBar.BackColor = Color.FromArgb(36, 121, 181);
             DownloadProgressBar.BorderColor = Color.Transparent;
-            DownloadProgressBar.ProgressBarColor = Color.FromArgb(15, 219, 0);
+            DownloadProgressBar.ProgressBarColor = Color.FromArgb(111, 220, 111);
 
             this.Controls.Add(DownloadProgressBar);
 
@@ -102,28 +106,6 @@ namespace Vermeer_Installer.Controls
             this.Controls.Add(_DownloadProgressPercent);
 
             UpdateLabelLocations();
-
-            // Starts the downloader //
-            WebClient client = new WebClient();
-
-            client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
-
-            string DownloadDirectory = tempDirectory + @"\Moonbyte\";
-            string zipDirectory = DownloadDirectory + "vermeer.zip";
-
-            if (!Directory.Exists(DownloadDirectory)) { Directory.CreateDirectory(DownloadDirectory); }
-
-            client.DownloadFileAsync(new Uri("https://moonbyte.net/Download/Vermeer/Vermeer.zip"), zipDirectory);
-
-
-        }
-
-        public void ProgressChanged(object sender, DownloadProgressChangedEventArgs args)
-        {
-            double bytesIn = double.Parse(args.BytesReceived.ToString());
-            double totalBytes = double.Parse(args.TotalBytesToReceive.ToString());
-            double percentage = bytesIn / totalBytes * 100;
-            this.UpdatePercentData(int.Parse(Math.Truncate(percentage).ToString()));
         }
 
         #endregion Initialization
@@ -147,9 +129,12 @@ namespace Vermeer_Installer.Controls
 
         public void UpdatePercentData(int progress)
         {
-            Console.WriteLine(progress);
-             DownloadProgressBar.Value = progress;
-            _DownloadProgressPercent.Text = progress.ToString();
+            if (progress != CurrentDownloadPercent)
+            {
+                DownloadProgressBar.Value = progress;
+                _DownloadProgressPercent.Text = progress.ToString();
+                CurrentDownloadPercent = progress;
+            }
         }
 
         public void UpdateLabelLocations()
