@@ -74,7 +74,7 @@ namespace Vermeer_Installer
 
             try
             {
-                client.DownloadFileAsync(new Uri("https://moonbyte.net/Download/Vermeer/Vermeer.zip"), zipDirectory);
+                client.DownloadFileAsync(new Uri("https://moonbyte.net/download/vermeer,zip"), zipDirectory);
             }
             catch
             {
