@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vermeer Installer", "Vermeer Installer\Vermeer Installer.csproj", "{6203C9AB-DB54-4E46-8443-25D536D04A45}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VermeerAPI", "VermeerAPI\VermeerAPI.csproj", "{820C8DD4-5BB3-45EC-8A61-27FC311EE89C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,18 @@ Global
 		{6203C9AB-DB54-4E46-8443-25D536D04A45}.Release|x64.Build.0 = Release|Any CPU
 		{6203C9AB-DB54-4E46-8443-25D536D04A45}.Release|x86.ActiveCfg = Release|Any CPU
 		{6203C9AB-DB54-4E46-8443-25D536D04A45}.Release|x86.Build.0 = Release|Any CPU
+		{820C8DD4-5BB3-45EC-8A61-27FC311EE89C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{820C8DD4-5BB3-45EC-8A61-27FC311EE89C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{820C8DD4-5BB3-45EC-8A61-27FC311EE89C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{820C8DD4-5BB3-45EC-8A61-27FC311EE89C}.Debug|x64.Build.0 = Debug|Any CPU
+		{820C8DD4-5BB3-45EC-8A61-27FC311EE89C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{820C8DD4-5BB3-45EC-8A61-27FC311EE89C}.Debug|x86.Build.0 = Debug|Any CPU
+		{820C8DD4-5BB3-45EC-8A61-27FC311EE89C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{820C8DD4-5BB3-45EC-8A61-27FC311EE89C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{820C8DD4-5BB3-45EC-8A61-27FC311EE89C}.Release|x64.ActiveCfg = Release|Any CPU
+		{820C8DD4-5BB3-45EC-8A61-27FC311EE89C}.Release|x64.Build.0 = Release|Any CPU
+		{820C8DD4-5BB3-45EC-8A61-27FC311EE89C}.Release|x86.ActiveCfg = Release|Any CPU
+		{820C8DD4-5BB3-45EC-8A61-27FC311EE89C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

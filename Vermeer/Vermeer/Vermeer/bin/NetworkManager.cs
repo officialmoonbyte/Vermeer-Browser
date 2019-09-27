@@ -45,14 +45,13 @@ namespace Vermeer.Vermeer.bin
                 string ServerIP = "moonbyte.us";
 
                 string externalip = new WebClient().DownloadString("http://icanhazip.com");
-                if (externalip.Contains(Dns.GetHostAddresses(new Uri("http://moonbyte.us").Host)[0].ToString())) { ServerIP = "192.168.0.16"; }
+                if (externalip.Contains(Dns.GetHostAddresses(new Uri("http://moonbyte.us").Host)[0].ToString())) { ServerIP = "192.168.0.17"; }
                 client.ConnectToRemoteServer(ServerIP, 7875);
                 if (client.IsConnected) { isConnected = true; }
 
                 if (!isConnected) vermeer.ApplicationLogger.AddToLog("INFO", "Could not connect to moonbyte.us");
                 if (isConnected)
                 {
-                    client.SendCommand("UserDatabase", new string[] { "EditServerValue", "VermeerVersion", "1.0.0.0" });
                     // ** Logging in user if username is not null **
                     if (vermeer.settings.Username != "null")
                     {
@@ -68,7 +67,7 @@ namespace Vermeer.Vermeer.bin
                     }
                 }
 
-                UniversalProjectUpdater Updater = new UniversalProjectUpdater(Application.ProductName, "moonbyte.us", 7777);
+                UniversalProjectUpdater Updater = new UniversalProjectUpdater(Application.ProductName, ServerIP, 7777);
                 string version = Updater.GetVersion();
 
                 if (version != Application.ProductVersion)
