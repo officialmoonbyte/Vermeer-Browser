@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using VermeerInstaller.Pages;
 
-namespace Vermeer_Installer
+namespace VermeerInstaller
 {
     static class Program
     {
@@ -16,7 +14,7 @@ namespace Vermeer_Installer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new VermeerInstaller());
+            Application.Run(new InstallerPage());
         }
     }
 }

@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6203C9AB-DB54-4E46-8443-25D536D04A45}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Vermeer_Installer</RootNamespace>
+    <RootNamespace>VermeerInstaller</RootNamespace>
     <AssemblyName>Vermeer Installer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -51,29 +51,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cards\Settings.cs">
+    <Compile Include="Controls\LogoHeader.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Cards\InstallingCard.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="Managers\DownloadManager.cs" />
+    <Compile Include="Managers\InstallerManager.cs" />
+    <Compile Include="Pages\InstallerPage.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Cards\TestCard.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Cards\TitleCard.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\DownloadUI.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="Pages\InstallerPage.Designer.cs">
+      <DependentUpon>InstallerPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VermeerInstaller.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="VermeerInstaller.Designer.cs">
-      <DependentUpon>VermeerInstaller.cs</DependentUpon>
-    </Compile>
+    <EmbeddedResource Include="Pages\InstallerPage.resx">
+      <DependentUpon>InstallerPage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -84,9 +77,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="VermeerInstaller.resx">
-      <DependentUpon>VermeerInstaller.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -112,5 +102,6 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
