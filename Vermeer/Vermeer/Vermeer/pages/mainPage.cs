@@ -1,7 +1,6 @@
-﻿using IndieGoat.MaterialFramework.Controls;
-using MaterialFramework.Controls;
+﻿using Moonbyte.MaterialFramework.Controls;
 using Moonbyte.Vermeer.bin;
-using Moonbyte.Vermeer.browser;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -21,7 +20,7 @@ namespace Vermeer.Vermeer.pages
 
         #region Page Initialization
 
-        public mainPage()
+        public mainPage(MaterialTabPage DraggedPage = null)
         {
             InitializeComponent();
 
@@ -54,7 +53,11 @@ namespace Vermeer.Vermeer.pages
             tabControl.MouseMove += (obj, args) => { if (args.Button == MouseButtons.Left) { this.MouseMoveExternal(true); } else { this.MouseMoveExternal(false); } };
             tabControl.MouseDown += (obj, args) => { if (args.Button == MouseButtons.Left) { this.MouseDownExternal(true); } else { this.MouseDownExternal(false); } };
             tabControl.MouseUp += (obj, args) => { this.MouseUpExternal(); };
-            tabControl.ControlRemoved += (obj, args) => { if (tabControl.TabPages.Count == 1) { this.Close(); } };
+            Timer tabControlTimer = new Timer();
+            tabControlTimer.Interval = 20; int trackTabTimerTick = 0;
+            tabControlTimer.Tick += (obj, args) => { if (tabControl.TabPages.Count == 0) { this.Close(); }
+            if (trackTabTimerTick >= 20) { trackTabTimerTick = 0; tabControlTimer.Stop(); } else { trackTabTimerTick++; } };
+            tabControl.ControlRemoved += (obj, args) => { tabControlTimer.Start(); };
 
             this.Controls.Add(tabControl);
 
@@ -79,12 +82,22 @@ namespace Vermeer.Vermeer.pages
                 if (tabHeader.MouseOverRect() == false && args.Button == MouseButtons.Left)
                 { this.MouseMoveExternal(true, true); }
             };
+            tabHeader.TabDragOut += (obj, args) =>
+            {
+                TabDragOutEventArgs realArgs = (TabDragOutEventArgs)args;
+
+                mainPage page = new mainPage(realArgs.DraggedTab);
+                page.Show();
+                page.Location = MousePosition;
+            };
             this.Controls.Add(tabHeader);
 
             //
             // TabPage
             //
-            MaterialTabPage browserPage = IBrowser.GenerateNewBrowserTab();
+            MaterialTabPage browserPage;
+            if (DraggedPage != null) { browserPage = DraggedPage; }
+            else { browserPage = IBrowser.GenerateNewBrowserTab(); }
             tabControl.TabPages.Add(browserPage);
 
             //

@@ -1,4 +1,4 @@
-﻿using IndieGoat.MaterialFramework.Controls;
+﻿using Moonbyte.MaterialFramework.Controls;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -12,6 +12,11 @@ namespace Moonbyte.Vermeer.browser
         event EventHandler<DocumentURLChange> OnDocumentURLChange;
         event EventHandler<DocumentIconChange> OnDocumentIconChange;
         event EventHandler<DocumentLoadingChange> OnDocumentLoadChange;
+
+        bool FirstNavigateCheck();
+        void SetFirstNavigateCheck(bool value);
+        string CurrentURL();
+        string BrowserVersion();
 
         /* Default / required Browser Properties */
         Control GetBrowserControl();
@@ -32,6 +37,8 @@ namespace Moonbyte.Vermeer.browser
         void Navigate(string URL);
         void SetProxyConnection(string ProxyURI);
         void DeleteCookies();
+
+        void ReloadPage();
     }
 
     public class DocumentTitleChange : EventArgs

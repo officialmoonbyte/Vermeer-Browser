@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6203C9AB-DB54-4E46-8443-25D536D04A45}</ProjectGuid>
+    <ProjectGuid>{0F5AEF57-365B-4FDB-B422-A4E71516CD84}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Vermeer_Installer</RootNamespace>
     <AssemblyName>Vermeer Installer</AssemblyName>
@@ -32,9 +32,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MaterialFramework, Version=5.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialFramework.5.0.1\lib\net45\MaterialFramework.dll</HintPath>
+    <Reference Include="MaterialFramework, Version=5.1.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialFramework.5.1.6\lib\net45\MaterialFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -51,29 +57,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cards\Settings.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="Confirm.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Cards\InstallingCard.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="Confirm.Designer.cs">
+      <DependentUpon>Confirm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Cards\TestCard.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="Installing.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Cards\TitleCard.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\DownloadUI.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="Installing.Designer.cs">
+      <DependentUpon>Installing.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VermeerInstaller.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="VermeerInstaller.Designer.cs">
-      <DependentUpon>VermeerInstaller.cs</DependentUpon>
-    </Compile>
+    <EmbeddedResource Include="Confirm.resx">
+      <DependentUpon>Confirm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Installing.resx">
+      <DependentUpon>Installing.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -82,11 +85,8 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="VermeerInstaller.resx">
-      <DependentUpon>VermeerInstaller.cs</DependentUpon>
-    </EmbeddedResource>
+    <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -111,6 +111,9 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

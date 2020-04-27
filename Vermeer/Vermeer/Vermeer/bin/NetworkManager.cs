@@ -1,10 +1,9 @@
-﻿using Moonbyte.Net.UniversalProjectUpdater;
-using Moonbyte.UniversalClient;
-using Moonbyte.Vermeer.bin;
+﻿using Moonbyte.Vermeer.bin;
 using System;
 using System.Net;
 using System.Threading;
 using System.Windows.Forms;
+using UniversalClient;
 
 namespace Vermeer.Vermeer.bin
 {
@@ -12,7 +11,7 @@ namespace Vermeer.Vermeer.bin
     {
         #region Vars
 
-        public UniversalClient client = new UniversalClient(true);
+        public Universalclient client = new Universalclient(true);
         public bool isLoggedIn = false;
         bool isConnected = false;
 
@@ -21,7 +20,7 @@ namespace Vermeer.Vermeer.bin
         #region Properties
 
         public bool IsLoggedIn { get { return isLoggedIn; } set
-            { isLoggedIn = value; if (value == true) { HistoryManager.Sync(); } } }
+            { isLoggedIn = value; if (value == true) {  } } }
 
         #endregion
 
@@ -40,49 +39,24 @@ namespace Vermeer.Vermeer.bin
         {
             new Thread(new ThreadStart(() =>
             {
-            try
-            {
-                string ServerIP = "moonbyte.us";
-
-                string externalip = new WebClient().DownloadString("http://icanhazip.com");
-                if (externalip.Contains(Dns.GetHostAddresses(new Uri("http://moonbyte.us").Host)[0].ToString())) { ServerIP = "192.168.0.17"; }
-                client.ConnectToRemoteServer(ServerIP, 7875);
-                if (client.IsConnected) { isConnected = true; }
-
-                if (!isConnected) vermeer.ApplicationLogger.AddToLog("INFO", "Could not connect to moonbyte.us");
-                if (isConnected)
+                try
                 {
-                    // ** Logging in user if username is not null **
-                    if (vermeer.settings.Username != "null")
-                    {
-                        string userResponse = client.SendCommand("UserDatabase", new string[] { "LOGINUSER", vermeer.settings.Username, vermeer.settings.Password });
-                        if (userResponse == "USRLOG_TRUE") { IsLoggedIn = true; }
-                        else
-                        {
-                            vermeer.settings.Username = "null";
-                            vermeer.settings.Password = "null";
+                    string ServerIP = "moonbyte.ddns.net";
 
-                            vermeer.ApplicationLogger.AddToLog("INFO", "Username and password is invalid! Deleting saved user information.");
-                        }
-                    }
+                    string externalip = new WebClient().DownloadString("http://icanhazip.com");
+                    if (externalip.Contains(Dns.GetHostAddresses(new Uri("https://moonbyte.ddns.net").Host)[0].ToString())) { ServerIP = "192.168.0.16"; }
+                    client.ConnectToRemoteServer(ServerIP, 7876);
+                    if (client.IsConnected) { isConnected = true; }
+                    vermeer.ApplicationLogger.AddToLog("INFO", "Connected to Universal Server! ServerIP : " + ServerIP);
+
+                    // Checks for update
+                    string LatestVersion = client.SendCommand("userdatabase", new string[] { "getvalue", "VermeerVersion" });
+                    vermeer.ApplicationLogger.AddToLog("INFO", "Latest vermeer version : " + LatestVersion);
                 }
-
-                UniversalProjectUpdater Updater = new UniversalProjectUpdater(Application.ProductName, ServerIP, 7777);
-                string version = Updater.GetVersion();
-
-                if (version != Application.ProductVersion)
+                catch (Exception e)
                 {
-                    string DownloadURL = Updater.GetDownloadURL();
-                    Updater.InitializeIDownloader(DownloadURL);
-
-                    vermeer.ApplicationLogger.AddToLog("INFO", "Initialized IDownloader for a new Vermeer update! Update " + version + " is available at " + DownloadURL);
-                    vermeer.ApplicationLogger.AddToLog("INFO", "Current vermeer version : " + Application.ProductVersion);
-                }
-            }
-            catch (Exception e)
-            {
-                vermeer.ApplicationLogger.AddToLog("INFO", "Couldn't connect to Moonbyte servers!");
-                vermeer.ApplicationLogger.LogException(e);
+                    vermeer.ApplicationLogger.AddToLog("INFO", "Couldn't connect to Moonbyte servers!");
+                    vermeer.ApplicationLogger.LogException(e);
                 }
             })).Start();
         }

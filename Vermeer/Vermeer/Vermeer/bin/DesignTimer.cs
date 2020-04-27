@@ -1,4 +1,4 @@
-﻿using IndieGoat.MaterialFramework.Controls;
+﻿using Moonbyte.MaterialFramework.Controls;
 using Moonbyte.Vermeer.browser;
 using System.Drawing;
 using System.Windows.Forms;

@@ -1,11 +1,10 @@
 ﻿using CefSharp;
-using IndieGoat.MaterialFramework.Controls;
-using Moonbyte.Vermeer.Tor;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 using Vermeer.Vermeer.bin;
-using Vermeer.Vermeer.pages;
 
 namespace Moonbyte.Vermeer.bin
 {
@@ -17,13 +16,19 @@ namespace Moonbyte.Vermeer.bin
 
         #region Vars
 
-        public static SettingsManager settings;
+        private static string Seperators = "^%69%^";
+
         public static NetworkManager networkManager;
-        private static TorClient tor;
+        public static ISettingsManager SettingsManager = new ISettingsManager();
         public static Control UIThread;
 
         public static bool isTorInitialized = false;
         public static bool XpcomInitialized = false;
+
+        public static string HomeWebsite = "https://duckduckgo.com/";
+        public static string SearchEngineSite = "https://duckduckgo.com/?q=";
+
+        public static List<string> IgnoredSSLErrorSites = new List<string>();
 
         #endregion
 
@@ -32,7 +37,6 @@ namespace Moonbyte.Vermeer.bin
         public static void ExecuteStartupEvents()
         {
             InitializeILogger();
-            settings = new SettingsManager(); // Load settings first before networkManager.
             networkManager = new NetworkManager();
         }
 
@@ -57,20 +61,15 @@ namespace Moonbyte.Vermeer.bin
 
         #endregion
 
-        #region Tor
-
-        /// <summary>
-        /// Creates a new Tor object
-        /// </summary>
-        public static void InitializeTorConnection()
-        { tor = new TorClient(); isTorInitialized = true; ApplicationLogger.AddToLog("INFO", "Tor Proxy is currently in use"); }
-
-        #endregion tor
-
         #region Closing Application
 
         public static void Close()
         {
+            var stackFrame = new StackFrame(1);
+            var callerMethod = stackFrame.GetMethod();
+            var callingClass = callerMethod.DeclaringType; // <-- this should be your calling class
+
+            ApplicationLogger.AddToLog("INFO", "Calling Class : " + callingClass);
             ApplicationLogger.AddToLog("INFO", "Application exiting through vermeer.Close()");
             Dispose();
         }
@@ -85,9 +84,6 @@ namespace Moonbyte.Vermeer.bin
                 Environment.Exit(0);
             })).Start();
 
-            if (isTorInitialized) { ApplicationLogger.AddToLog("INFO", "Disposing Tor."); tor.Dispose(); }
-            ApplicationLogger.AddToLog("INFO", "Setting application last edit value"); settings.LastEdit = DateTime.Now;
-            ApplicationLogger.AddToLog("INFO", "Disposing SettingsManager!"); settings.Dispose();
             if (vermeer.XpcomInitialized) { ApplicationLogger.AddToLog("INFO", "Shutting down Xpcom"); Gecko.Xpcom.Shutdown(); }
             else { ApplicationLogger.AddToLog("INFO", "Xpcom was never initialized! Skipping..."); }
             ApplicationLogger.AddToLog("INFO", "Shutting down CefSharp"); Cef.Shutdown();

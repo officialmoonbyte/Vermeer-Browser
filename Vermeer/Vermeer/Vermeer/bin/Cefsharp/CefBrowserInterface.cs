@@ -1,12 +1,15 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
-using IndieGoat.MaterialFramework.Controls;
+using Moonbyte.MaterialFramework.Controls;
 using Moonbyte.Vermeer.bin;
 using Moonbyte.Vermeer.browser;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
+using System.Net;
+using System.Net.Http;
 using System.Windows.Forms;
 using TheDuffman85.Tools;
 
@@ -19,10 +22,28 @@ namespace Vermeer.Vermeer.bin.Cefsharp
         public event EventHandler<DocumentIconChange> OnDocumentIconChange;
         public event EventHandler<DocumentLoadingChange> OnDocumentLoadChange;
 
+        string _currentURL;
+        public string CurrentURL()
+        { return _currentURL; }
+        public string BrowserVersion()
+        { return "CEF"; }
+
         #region Vars
 
         MaterialTabPage mainpage;
         ChromiumWebBrowser chromeBrowser;
+
+        string UserAgent = "Mozilla/5.0 (Windows NT 6.2; Win64; x64; rv:60.0) Gecko/20100101 Firefox/74.0";
+
+        bool _firstNavigateCheck = false;
+        public void SetFirstNavigateCheck(bool value)
+        {
+            _firstNavigateCheck = value;
+        }
+        public bool FirstNavigateCheck()
+        {
+            return _firstNavigateCheck;
+        }
 
         #endregion
 
@@ -36,12 +57,15 @@ namespace Vermeer.Vermeer.bin.Cefsharp
             {
                 try
                 {
-                    CefSettings settings = new CefSettings();
+                    CefSettings settings = new CefSettings(); vermeer.ApplicationLogger.AddToLog("INFO", "Started initializing CefSharp");
 
-                    settings.CachePath = Path.Combine(Environment.CurrentDirectory, "ChromeCache");
+                    settings.UserAgent = UserAgent;
+                    settings.CachePath = Path.Combine(Environment.CurrentDirectory, "ChromeCache"); vermeer.ApplicationLogger.AddToLog("CEFSHARP", "Set cache directory to " + settings.CachePath);
+                    //settings.CefCommandLineArgs.Add("disable-gpu-vsync"); vermeer.ApplicationLogger.AddToLog("CEFSHARP", "Disabled GPU Vsync.");
+
                     if (!Directory.Exists(settings.CachePath)) Directory.CreateDirectory(settings.CachePath);
 
-                    Cef.Initialize(settings);
+                    Cef.Initialize(settings); vermeer.ApplicationLogger.AddToLog("CEFSHARP", "Initialized");
                 }
                 catch (Exception e)
                 {
@@ -52,11 +76,8 @@ namespace Vermeer.Vermeer.bin.Cefsharp
 
             CreateBrowserHandle(StartURL, page);
 
-            if (ProxyURI != null)
-            {
-                chromeBrowser.IsBrowserInitializedChanged += (obj, args) =>
-                { if (args.IsBrowserInitialized) { this.SetProxyConnection(ProxyURI); } };
-            }
+            //if (ProxyURI != null)
+            //{ this.SetProxyConnection(ProxyURI); }
         }
 
         #endregion
@@ -72,7 +93,8 @@ namespace Vermeer.Vermeer.bin.Cefsharp
 
             //Browser classes
             chromeBrowser.RenderProcessMessageHandler = new RenderProcessMessageHandler();
-            chromeBrowser.RequestHandler = new RequestHandler();
+            chromeBrowser.RequestHandler = new RequestHandler(this);
+            chromeBrowser.DisplayHandler = new DisplayHandler(this);
 
             //Browser Events
             chromeBrowser.TitleChanged += (obj, args) =>
@@ -83,14 +105,23 @@ namespace Vermeer.Vermeer.bin.Cefsharp
             chromeBrowser.AddressChanged += (obj, args) =>
             {
                 AddressChangedEventArgs rArgs = (AddressChangedEventArgs)args;
+                _currentURL = rArgs.Address;
                 OnDocumentURLChange?.Invoke(this, new DocumentURLChange { DocumentURL = rArgs.Address, VermeerVars = new DefaultVermeerVars(this, vermeerEngine.GetBrowserInstance(this)) });
-                ChangeTabIcon(rArgs.Address);
             };
             chromeBrowser.LoadingStateChanged += (obj, args) =>
             {
                 LoadingStateChangedEventArgs rArgs = (LoadingStateChangedEventArgs)args;
                 OnDocumentLoadChange?.Invoke(this, new DocumentLoadingChange { Status = rArgs.IsLoading, VermeerVars = new DefaultVermeerVars(this, vermeerEngine.GetBrowserInstance(this)) });
             };
+            chromeBrowser.IsBrowserInitializedChanged += (obj, args) =>
+            {
+                if (chromeBrowser.IsBrowserInitialized)
+                {
+                    
+                }
+            };
+
+            
             
         }
 
@@ -152,8 +183,8 @@ namespace Vermeer.Vermeer.bin.Cefsharp
 
         public void ChangeTabIcon(string URL)
         {
-            Favicon favicon = Favicon.GetFromUrl(URL);
-            OnDocumentIconChange?.Invoke(this, new DocumentIconChange { icon = favicon.Icon, VermeerVars = new DefaultVermeerVars(this, vermeerEngine.GetBrowserInstance(this)) });
+            Image favicon = DownloadImage(URL);
+            OnDocumentIconChange?.Invoke(this, new DocumentIconChange { icon = favicon, VermeerVars = new DefaultVermeerVars(this, vermeerEngine.GetBrowserInstance(this)) });
         }
 
         public void DeleteCookies()
@@ -162,6 +193,32 @@ namespace Vermeer.Vermeer.bin.Cefsharp
         }
 
         #endregion
+
+        #region Download Image
+
+        Image DownloadImage(string fromUrl)
+        {
+            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+
+            try
+            {
+                using (System.Net.WebClient webClient = new System.Net.WebClient())
+                {
+                    using (Stream stream = webClient.OpenRead(fromUrl))
+                    { return Image.FromStream(stream); }
+                } 
+            } catch (Exception e)
+                { return Image.FromFile(Environment.CurrentDirectory + @"\icon.ico"); }
+        }
+
+        #endregion Download Image
+
+        #region Reload Page
+
+        public void ReloadPage()
+        { chromeBrowser.Reload(); }
+
+        #endregion Reload Page
 
     }
 }

@@ -1,8 +1,14 @@
-﻿using System;
+﻿using Moonbyte.MaterialFramework.Controls;
+using Moonbyte.Vermeer.bin;
+using Moonbyte.Vermeer.browser;
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Vermeer.Vermeer.bin;
+using Vermeer.Vermeer.bin.Cefsharp;
+using Vermeer.Vermeer.bin.GeckoFX;
 
 namespace Vermeer.Vermeer.Controls
 {
@@ -184,6 +190,7 @@ namespace Vermeer.Vermeer.Controls
         Color DrawColor = Color.FromArgb(48, 48, 48);
         Color OnMouseOverColor = Color.FromArgb(220, 220, 220);
         Color LockColor = Color.FromArgb(18, 188, 0);
+        Color UnsecureLockColor = Color.FromArgb(188, 18, 0);
         States buttonState = States.Default;
 
         bool isLoading = false;
@@ -243,28 +250,53 @@ namespace Vermeer.Vermeer.Controls
             e.Graphics.SmoothingMode = SmoothingMode.None;
 
             // ** Lock ** //
-            if (secureLogo)
-            {
-                this.Width = 47;
+            Color lColor = LockColor;
+            if (!SecureLogo) { lColor = UnsecureLockColor; }
+            this.Width = 47;
 
-                Rectangle rightElipseRectangle = new Rectangle(31, 5, 7, 12);
-                Rectangle bottomRightRectangle = new Rectangle(28, 11, 14, 9);
-                e.Graphics.FillRectangle(new SolidBrush(LockColor), bottomRightRectangle);
+            Rectangle rightElipseRectangle = new Rectangle(31, 5, 7, 12);
+            Rectangle bottomRightRectangle = new Rectangle(28, 11, 14, 9);
+            e.Graphics.FillRectangle(new SolidBrush(lColor), bottomRightRectangle);
 
-                //Setting smoothing mode
-                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            //Setting smoothing mode
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-                e.Graphics.DrawEllipse(new Pen(new SolidBrush(LockColor), 2), rightElipseRectangle);
+            e.Graphics.DrawEllipse(new Pen(new SolidBrush(lColor), 2), rightElipseRectangle);
 
-                //Setting smoothing mode
-                e.Graphics.SmoothingMode = SmoothingMode.Default;
-            }
-            else { this.Width = 27; }
+            //Setting smoothing mode
+            e.Graphics.SmoothingMode = SmoothingMode.Default;
         }
 
         #endregion
 
         #region MouseEvents
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            base.OnMouseUp(e);
+
+            MaterialTabPage tabPage = (MaterialTabPage)((DefaultSearchBar)this.Parent).Parent;
+            VermeerBrowserInstance instance = GetBrowserInstance(tabPage);
+
+            ISettingsManager.browserEngine BrowserEngine = ISettingsManager.browserEngine.Chromium;
+            if (instance.BrowserInterface.BrowserVersion() == "CEF") { BrowserEngine = ISettingsManager.browserEngine.Firefox; }
+            else if (instance.BrowserInterface.BrowserVersion() == "GECKO") { BrowserEngine = ISettingsManager.browserEngine.Chromium; }
+
+            VermeerBrowserInterface NewBrowserInterface;
+
+            if (BrowserEngine == ISettingsManager.browserEngine.Firefox)
+            { NewBrowserInterface = new GeckoBrowserInterface(); }
+            else if (BrowserEngine == ISettingsManager.browserEngine.Chromium)
+            { NewBrowserInterface = new CefBrowserInterface(); }
+            else { NewBrowserInterface = new CefBrowserInterface(); }
+
+            string url = instance.BrowserInterface.CurrentURL();
+
+            NewBrowserInterface.OnInit(tabPage, url, ""); //"socks5://127.0.0.1:9150";
+
+            instance.ChangeInterface(NewBrowserInterface);
+            IBrowser.SetBrowserEvents(instance);
+        }
 
         protected override void OnMouseEnter(EventArgs e)
         { eOnMouseEnter(); base.OnMouseEnter(e); }
@@ -276,6 +308,23 @@ namespace Vermeer.Vermeer.Controls
         { this.buttonState = States.Default; this.Invalidate(); }
 
         #endregion
+
+        #region GetBrowserInstance
+
+        public static VermeerBrowserInstance GetBrowserInstance(MaterialTabPage mainPage)
+        {
+            //Initialize the return panel
+            VermeerBrowserInstance returnPanel = null;
+
+            //Gets Panel control on the TabPage
+            foreach (Control userControl in mainPage.Controls)
+            { if (userControl is VermeerBrowserInstance) { returnPanel = (VermeerBrowserInstance)userControl; } }
+
+            //Returns the panel
+            if (returnPanel == null) { vermeer.ApplicationLogger.AddToLog("WARN", "TabPanel was not found!"); return null; } else { return returnPanel; }
+        }
+
+        #endregion GetBrowserInstance
 
         #region OnClick
 
@@ -293,6 +342,9 @@ namespace Vermeer.Vermeer.Controls
 
     public class BaseTextbox : TextBox
     {
+
+        bool AlreadyFocused = false;
+
         public BaseTextbox(Color BackColor, Font font)
         {
             this.BackColor = BackColor;
@@ -301,6 +353,82 @@ namespace Vermeer.Vermeer.Controls
             this.BorderStyle = BorderStyle.None;
 
         }
+
+        protected override void OnGotFocus(EventArgs e)
+        {
+            if (MouseButtons == MouseButtons.None)
+            {
+                this.SelectAll();
+                AlreadyFocused = true;
+            }
+
+            base.OnGotFocus(e);
+        }
+
+        protected override void OnLeave(EventArgs e)
+        {
+            AlreadyFocused = false;
+
+            base.OnLeave(e);
+        }
+
+        protected override void OnMouseUp(MouseEventArgs mevent)
+        {
+
+            if (!AlreadyFocused && this.SelectionLength == 0)
+            {
+                AlreadyFocused = true;
+                this.SelectAll();
+            }
+
+            base.OnMouseUp(mevent);
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                MaterialTabPage tabPage = (MaterialTabPage)((DefaultSearchBar)this.Parent).Parent;
+                VermeerBrowserInterface browserInterface = GetBrowserInstance(tabPage).BrowserInterface;
+
+                if (IsValidURL(this.Text))
+                { browserInterface.Navigate(this.Text); }
+                else
+                { browserInterface.Navigate(vermeer.SearchEngineSite + this.Text); }
+
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+
+            base.OnKeyDown(e);
+        }
+
+        public static VermeerBrowserInstance GetBrowserInstance(MaterialTabPage mainPage)
+        {
+            //Initialize the return panel
+            VermeerBrowserInstance returnPanel = null;
+
+            //Gets Panel control on the TabPage
+            foreach (Control userControl in mainPage.Controls)
+            { if (userControl is VermeerBrowserInstance) { returnPanel = (VermeerBrowserInstance)userControl; } }
+
+            //Returns the panel
+            if (returnPanel == null) { vermeer.ApplicationLogger.AddToLog("WARN", "TabPanel was not found!"); return null; } else { return returnPanel; }
+        }
+
+        #region IsValidURL
+
+        /// <summary>
+        /// Checks if the input from the search bar is a valid URL before searching
+        /// </summary>
+        static bool IsValidURL(string URL)
+        {
+            string Pattern = @"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
+            Regex Rgx = new Regex(Pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            return Rgx.IsMatch(URL);
+        }
+
+        #endregion IsValidURL
 
     }
 

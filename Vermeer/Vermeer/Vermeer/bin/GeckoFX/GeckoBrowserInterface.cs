@@ -2,8 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 using Gecko;
-using Gecko.Events;
-using IndieGoat.MaterialFramework.Controls;
+using Moonbyte.MaterialFramework.Controls;
 using Moonbyte.Vermeer.bin;
 using Moonbyte.Vermeer.browser;
 
@@ -16,11 +15,25 @@ namespace Vermeer.Vermeer.bin.GeckoFX
         public event EventHandler<DocumentIconChange> OnDocumentIconChange;
         public event EventHandler<DocumentLoadingChange> OnDocumentLoadChange;
 
-
+        string _currentURL;
+        public string CurrentURL()
+        { return _currentURL; }
+        public string BrowserVersion()
+        { return "GECKO"; }
         #region Vars
 
         GeckoWebBrowser webBrowser;
         MaterialTabPage hostTabPage;
+
+        bool _firstNavigateCheck = false;
+        public void SetFirstNavigateCheck(bool value)
+        {
+            _firstNavigateCheck = value;
+        }
+        public bool FirstNavigateCheck()
+        {
+            return _firstNavigateCheck;
+        }
 
         #endregion
 
@@ -29,25 +42,31 @@ namespace Vermeer.Vermeer.bin.GeckoFX
         public void CreateBrowserHandle(string URL, MaterialTabPage tabPage)
         {
             //Initialize firefox Xpcom
-            Xpcom.Initialize("Firefox");
+            Xpcom.Initialize("Firefox64");
             vermeer.XpcomInitialized = true;
 
             //GeckoPreferences
 
             //Disable history
-            Gecko.GeckoPreferences.User["places.history.enabled"] = false;
+            GeckoPreferences.User["places.history.enabled"] = false;
             //Browser useragent
-            Gecko.GeckoPreferences.User["general.useragent.override"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Gecko/20081201 Firefox/60.0";
+            //Gecko.GeckoPreferences.User["general.useragent.override"] = "Mozilla/5.0 (Windows NT 6.2; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0";
             //Browser caching
-            Gecko.GeckoPreferences.User["browser.cache.disk.enable"] = true;
-            Gecko.GeckoPreferences.User["browser.cache.memory.enable"] = true;
-            Gecko.GeckoPreferences.User["browser.cache.disk.capacity"] = 358400;
+            GeckoPreferences.User["browser.cache.disk.enable"] = true;
+            GeckoPreferences.User["browser.cache.memory.enable"] = true;
+            GeckoPreferences.User["browser.cache.disk.capacity"] = 358400;
             //Flash plugin
             Gecko.GeckoPreferences.User["plugin.state.flash"] = true;
             //Profile Directory
             string ProfileDirectoryName = "FirefoxData"; string ProfileDirectory = Path.Combine(Environment.CurrentDirectory, ProfileDirectoryName);
             if (!Directory.Exists(ProfileDirectory)) { Directory.CreateDirectory(ProfileDirectory); }
             Gecko.Xpcom.ProfileDirectory = ProfileDirectory;
+
+            GeckoPreferences.User["browser.xul.error_pages.enabled"] = true;
+            GeckoPreferences.User["javascript.enabled"] = true;
+            //GeckoPreferences.User["gfx.font_rendering.graphite.enabled"] = true;
+            GeckoPreferences.User["full-screen-api.enabled"] = true;
+
             Console.WriteLine(ProfileDirectory);
             Console.WriteLine(Xpcom.ProfileDirectory);
 
@@ -57,10 +76,14 @@ namespace Vermeer.Vermeer.bin.GeckoFX
             //Browser Events
             webBrowser.DocumentTitleChanged += (obj, args) =>
             {
-                DefaultVermeerVars vermeerVars = new DefaultVermeerVars(this, vermeerEngine.GetBrowserInstance(this)); Console.WriteLine("DEEEE");
-                OnDocumentTitleChange.Invoke(this, new DocumentTitleChange { DocumentTitle = webBrowser.DocumentTitle, VermeerVars = vermeerVars }); Console.WriteLine("DEEEE");
-                OnDocumentURLChange.Invoke(this, new DocumentURLChange { DocumentURL = webBrowser.Url.ToString(), VermeerVars = vermeerVars }); Console.WriteLine("DEEEE");
-                OnDocumentLoadChange?.Invoke(this, new DocumentLoadingChange { Status = true, VermeerVars = vermeerVars }); Console.WriteLine("DEEEE");
+                DefaultVermeerVars vermeerVars = new DefaultVermeerVars(this, vermeerEngine.GetBrowserInstance(this));
+                OnDocumentTitleChange.Invoke(this, new DocumentTitleChange { DocumentTitle = webBrowser.DocumentTitle, VermeerVars = vermeerVars });
+                OnDocumentURLChange.Invoke(this, new DocumentURLChange { DocumentURL = webBrowser.Url.ToString(), VermeerVars = vermeerVars });
+                OnDocumentLoadChange?.Invoke(this, new DocumentLoadingChange { Status = true, VermeerVars = vermeerVars });
+            };
+            webBrowser.DocumentCompleted += (obj, args) =>
+            {
+                _currentURL = args.Uri.OriginalString;
             };
 
             //Navigate
@@ -159,6 +182,11 @@ namespace Vermeer.Vermeer.bin.GeckoFX
             GeckoCookieManager = Xpcom.QueryInterface<nsICookieManager>(GeckoCookieManager);
             GeckoCookieManager.RemoveAll();
 
+        }
+
+        public void ReloadPage()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
