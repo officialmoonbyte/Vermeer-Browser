@@ -17,6 +17,7 @@ namespace Moonbyte.Vermeer.browser
         void SetFirstNavigateCheck(bool value);
         string CurrentURL();
         string BrowserVersion();
+        Image GetBrowserIcon();
 
         /* Default / required Browser Properties */
         Control GetBrowserControl();

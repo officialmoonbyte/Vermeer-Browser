@@ -148,6 +148,7 @@ namespace Vermeer.Vermeer.bin
             string browserEngine = "null";
 
             if (browserChange == null) { return; }
+            vermeer.ApplicationLogger.AddToLog("YEET", "0" + browserChange.aStates + " " + browserChange.state);
             if (bInterface is CefBrowserInterface) { browserEngine = "chrome"; vermeer.ApplicationLogger.AddToLog("UPDATE", "UPDATED TO CHROME"); }
             else if (bInterface is GeckoBrowserInterface) { browserEngine = "firefox"; vermeer.ApplicationLogger.AddToLog("UPDATE", "UPDATE TO FIREFOX"); }
             else { vermeer.ApplicationLogger.AddToLog("UPDATE ERROR", "FAILED TO FIND BROWSER ENGINE INTERFACE. BROWSER ENGINE UNKNOWN!"); }
@@ -155,17 +156,20 @@ namespace Vermeer.Vermeer.bin
             System.Windows.Forms.Timer BrowserChangeTimer = new System.Windows.Forms.Timer();
             BrowserChangeTimer.Tick += (obj, args) =>
             {
-                vermeer.ApplicationLogger.AddToLog("YEET", "1" + browserChange.aStates + " " + browserChange.state);
-                if (browserEngine == "chrome") { browserChange.ChangeToChrome(); vermeer.ApplicationLogger.AddToLog("CHANGEBUTTON", "Change state to Chrome"); vermeer.ApplicationLogger.AddToLog("YEET", "2"); }
-                else if (browserEngine == "firefox") { browserChange.ChangeToFirefox(); vermeer.ApplicationLogger.AddToLog("CHANGEBUTTON", "Change state to Firefox"); vermeer.ApplicationLogger.AddToLog("YEET", "3"); }
-                else { vermeer.ApplicationLogger.AddToLog("CHANGEBUTTON", "FAILED TO FIND BROWSER ENGINE INTERFACE. BROWSER ENGINE UNKNOWN!"); }
-                vermeer.ApplicationLogger.AddToLog("YEET", "4" + browserChange.aStates + " " + browserChange.state);
-                if (browserChange.state != BrowserChangeButton.States.Changing)
+                if (browserChange.aStates == BrowserChangeButton.AnimatingStates.Changing || browserChange.state == BrowserChangeButton.States.Startup)
                 {
-                    vermeer.ApplicationLogger.AddToLog("YEET", "5");
-                    BrowserChangeTimer.Stop();
+                    vermeer.ApplicationLogger.AddToLog("YEET", "1" + browserChange.aStates + " " + browserChange.state);
+                    if (browserEngine == "chrome") { browserChange.ChangeToChrome(); vermeer.ApplicationLogger.AddToLog("CHANGEBUTTON", "Change state to Chrome"); vermeer.ApplicationLogger.AddToLog("YEET", "2"); }
+                    else if (browserEngine == "firefox") { browserChange.ChangeToFirefox(); vermeer.ApplicationLogger.AddToLog("CHANGEBUTTON", "Change state to Firefox"); vermeer.ApplicationLogger.AddToLog("YEET", "3"); }
+                    else { vermeer.ApplicationLogger.AddToLog("CHANGEBUTTON", "FAILED TO FIND BROWSER ENGINE INTERFACE. BROWSER ENGINE UNKNOWN!"); }
+                    vermeer.ApplicationLogger.AddToLog("YEET", "4" + browserChange.aStates + " " + browserChange.state);
+                    if (browserChange.state != BrowserChangeButton.States.Changing)
+                    {
+                        vermeer.ApplicationLogger.AddToLog("YEET", "5");
+                        BrowserChangeTimer.Stop();
+                    }
+                    vermeer.ApplicationLogger.AddToLog("YEET", "6");
                 }
-                vermeer.ApplicationLogger.AddToLog("YEET", "6");
             };
             BrowserChangeTimer.Start();
         }

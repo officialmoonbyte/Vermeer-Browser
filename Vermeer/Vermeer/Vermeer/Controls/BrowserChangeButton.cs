@@ -106,6 +106,40 @@ namespace Vermeer.Controls
 
         #region MouseEvents
 
+        private void StartTimer()
+        {
+            int count = 0; Timer testTimer = new Timer();
+            testTimer.Interval = 5000;
+            testTimer.Tick += (obj, args) =>
+            {
+                bool log = false;
+                if (IsAnimating) { return; }
+                if (this.state == States.Chrome)
+                {
+                    onFirefoxChange?.Invoke(this, GenerateFirefoxChangeArgs());
+                    LogEvent("CHANGEBUTTON", "Invoked onFirefoxChange");
+                    Animate(AnimationState.ChromeToChanging);
+                    log = true;
+                }
+                if (this.state == States.Firefox)
+                {
+                    onChromeChange?.Invoke(this, GenerateChromeChangeArgs());
+                    LogEvent("CHANGEBUTTON", "Invoked onChromeChange");
+                    Animate(AnimationState.FirefoxToChanging);
+                    log = true;
+                }
+                
+                if (log)
+                {
+                    count++;
+                    long Memory = GC.GetTotalMemory(true);
+                    vermeer.ApplicationLogger.AddToLog("BENCHMARK", "Changed browser : " + count + " times");
+                    vermeer.ApplicationLogger.AddToLog("BENCHMARK", "Memory Used : " + Memory);
+                }
+            };
+            testTimer.Start();
+        }
+
         protected override void OnMouseClick(MouseEventArgs e)
         {
             base.OnMouseClick(e);
@@ -122,7 +156,6 @@ namespace Vermeer.Controls
                 LogEvent("CHANGEBUTTON", "Invoked onChromeChange");
                 Animate(AnimationState.FirefoxToChanging);
             }
-
         }
 
         protected override void OnMouseEnter(EventArgs e)
@@ -384,6 +417,9 @@ namespace Vermeer.Controls
 
                     this.Invalidate();
 
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+
                     return;
                 }
                 timerTick++;
@@ -461,6 +497,9 @@ namespace Vermeer.Controls
                     this.state = States.Firefox;
 
                     this.Invalidate();
+
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
 
                     return;
                 }

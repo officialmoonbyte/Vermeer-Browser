@@ -129,12 +129,6 @@
     <Reference Include="UniversalClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\UniversalClient.5.0.0\lib\net45\UniversalClient.dll</HintPath>
     </Reference>
-    <Reference Include="Xilium.CefGlue">
-      <HintPath>..\..\..\..\..\..\Desktop\cefglue-master\CefGlue.WindowsForms\bin\Release\Xilium.CefGlue.dll</HintPath>
-    </Reference>
-    <Reference Include="Xilium.CefGlue.WindowsForms">
-      <HintPath>..\..\..\..\..\..\Desktop\cefglue-master\CefGlue.WindowsForms\bin\Release\Xilium.CefGlue.WindowsForms.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Vermeer\bin\Cefsharp\DisplayHandler.cs" />
@@ -191,9 +185,6 @@
     </Compile>
     <Compile Include="Vermeer\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Vermeer\pages\CertError.resx">
-      <DependentUpon>CertError.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Vermeer\pages\mainPage.resx">
       <DependentUpon>mainPage.cs</DependentUpon>
     </EmbeddedResource>

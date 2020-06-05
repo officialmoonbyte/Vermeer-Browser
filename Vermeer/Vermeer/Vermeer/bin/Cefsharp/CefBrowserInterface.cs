@@ -10,6 +10,7 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using TheDuffman85.Tools;
 
@@ -60,8 +61,8 @@ namespace Vermeer.Vermeer.bin.Cefsharp
                     CefSettings settings = new CefSettings(); vermeer.ApplicationLogger.AddToLog("INFO", "Started initializing CefSharp");
 
                     settings.UserAgent = UserAgent;
-                    settings.CachePath = Path.Combine(Environment.CurrentDirectory, "ChromeCache"); vermeer.ApplicationLogger.AddToLog("CEFSHARP", "Set cache directory to " + settings.CachePath);
-                    //settings.CefCommandLineArgs.Add("disable-gpu-vsync"); vermeer.ApplicationLogger.AddToLog("CEFSHARP", "Disabled GPU Vsync.");
+                    settings.CachePath = Path.Combine(vermeer.SettingsManager.CacheDataDirectory, "CefCache"); vermeer.ApplicationLogger.AddToLog("CEFSHARP", "Set cache directory to " + settings.CachePath);
+                    settings.CefCommandLineArgs.Add("disable-gpu-vsync"); vermeer.ApplicationLogger.AddToLog("CEFSHARP", "Disabled GPU Vsync.");
 
                     if (!Directory.Exists(settings.CachePath)) Directory.CreateDirectory(settings.CachePath);
 
@@ -217,6 +218,11 @@ namespace Vermeer.Vermeer.bin.Cefsharp
 
         public void ReloadPage()
         { chromeBrowser.Reload(); }
+
+        public Image GetBrowserIcon()
+        {
+            return null;
+        }
 
         #endregion Reload Page
 

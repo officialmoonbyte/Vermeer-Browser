@@ -16,7 +16,7 @@ namespace Vermeer_Installer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Confirm());
+            Application.Run(new MainForm());
         }
     }
 }

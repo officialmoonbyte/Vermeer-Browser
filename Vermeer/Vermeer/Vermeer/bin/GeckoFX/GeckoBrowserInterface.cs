@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 using Gecko;
 using Moonbyte.MaterialFramework.Controls;
@@ -14,7 +16,10 @@ namespace Vermeer.Vermeer.bin.GeckoFX
         public event EventHandler<DocumentURLChange> OnDocumentURLChange;
         public event EventHandler<DocumentIconChange> OnDocumentIconChange;
         public event EventHandler<DocumentLoadingChange> OnDocumentLoadChange;
-
+        public Image GetBrowserIcon()
+        {
+            return null;
+        }
         string _currentURL;
         public string CurrentURL()
         { return _currentURL; }
@@ -41,8 +46,11 @@ namespace Vermeer.Vermeer.bin.GeckoFX
 
         public void CreateBrowserHandle(string URL, MaterialTabPage tabPage)
         {
+            Gecko.Xpcom.ProfileDirectory = Path.Combine(vermeer.SettingsManager.CacheDataDirectory, "GeckoCache");
+
             //Initialize firefox Xpcom
-            Xpcom.Initialize("Firefox64");
+            string xpcomDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location); Console.WriteLine(Path.Combine(xpcomDirectory, "Firefox64"));
+            Xpcom.Initialize(Path.Combine(xpcomDirectory, "Firefox64"));
             vermeer.XpcomInitialized = true;
 
             //GeckoPreferences
@@ -55,20 +63,14 @@ namespace Vermeer.Vermeer.bin.GeckoFX
             GeckoPreferences.User["browser.cache.disk.enable"] = true;
             GeckoPreferences.User["browser.cache.memory.enable"] = true;
             GeckoPreferences.User["browser.cache.disk.capacity"] = 358400;
+            GeckoPreferences.User.SetCharPref("browser.cache.disk.parent_directory", Path.Combine(vermeer.SettingsManager.CacheDataDirectory, "GeckoCache"));
             //Flash plugin
             Gecko.GeckoPreferences.User["plugin.state.flash"] = true;
-            //Profile Directory
-            string ProfileDirectoryName = "FirefoxData"; string ProfileDirectory = Path.Combine(Environment.CurrentDirectory, ProfileDirectoryName);
-            if (!Directory.Exists(ProfileDirectory)) { Directory.CreateDirectory(ProfileDirectory); }
-            Gecko.Xpcom.ProfileDirectory = ProfileDirectory;
 
             GeckoPreferences.User["browser.xul.error_pages.enabled"] = true;
             GeckoPreferences.User["javascript.enabled"] = true;
-            //GeckoPreferences.User["gfx.font_rendering.graphite.enabled"] = true;
+            GeckoPreferences.User["gfx.font_rendering.graphite.enabled"] = true;
             GeckoPreferences.User["full-screen-api.enabled"] = true;
-
-            Console.WriteLine(ProfileDirectory);
-            Console.WriteLine(Xpcom.ProfileDirectory);
 
             //Initialize the web browser comp
             webBrowser = new GeckoWebBrowser { Dock = DockStyle.Fill };

@@ -1,4 +1,5 @@
 ﻿using CefSharp;
+using Moonbyte.Vermeer.API;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -38,6 +39,10 @@ namespace Moonbyte.Vermeer.bin
         {
             InitializeILogger();
             networkManager = new NetworkManager();
+
+            //Setting events
+            VermeerAPI.OnLogEvent += (obj, args) =>
+            { ApplicationLogger.AddToLog(args.title, args.log); };
         }
 
         #endregion

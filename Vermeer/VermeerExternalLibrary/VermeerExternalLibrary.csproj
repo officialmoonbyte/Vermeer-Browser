@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\VermeerAPI.cs" />
     <Compile Include="browser\Ssl.cs" />
     <Compile Include="browser\VermeerBrowserInstance.cs">
       <SubType>UserControl</SubType>
@@ -94,5 +95,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
