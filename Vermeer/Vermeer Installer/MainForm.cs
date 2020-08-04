@@ -1,10 +1,14 @@
 ﻿using IWshRuntimeLibrary;
 using Moonbyte.MaterialFramework.Controls;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Net;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Windows.Forms;
 
 namespace Vermeer_Installer
@@ -14,7 +18,7 @@ namespace Vermeer_Installer
 
         #region Vars
 
-        public string DefaultInstallDirectory = @"C:\Program Files\Vermeer";
+        public string DefaultInstallDirectory = @"C:\Moonbyte\Vermeer";
         public string DesktopDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         public string StartMenuDirectory = Environment.GetFolderPath(Environment.SpecialFolder.StartMenu);
         public string TempDirectory = Path.Combine(Path.GetTempPath(), "Moonbyte", "Vermeer");
@@ -52,6 +56,7 @@ namespace Vermeer_Installer
             lbl_DownloadedStatus.UpdateOpacityColor();
             pbg_DownloadProgressBar.UpdateOpacityColor();
             pbox_InstallImage.UpdateOpacityColor();
+            btn_ezinstall.UpdateOpacityColor();
 
             pbox_logo.Opacity = 255;
             lbl_CompanyName.Opacity = 255;
@@ -76,6 +81,7 @@ namespace Vermeer_Installer
             lbl_DownloadedStatus.Opacity = 255;
             pbg_DownloadProgressBar.Opacity = 255;
             pbox_InstallImage.Opacity = 255;
+            btn_ezinstall.Opacity = 255;
 
             //Center Objects
             CenterObject(pnl_Title);
@@ -305,6 +311,70 @@ namespace Vermeer_Installer
 
         #endregion SwitchToPage2
 
+        #region Switch to done
+
+        private void finalFade()
+        {
+            Timer timer = new Timer();
+            timer.Interval = 16;
+            btn_Continue.Enabled = false;
+
+            txt_InstallDirectory.Visible = false;
+
+            int tick = 0; timer.Tick += (obj, args) =>
+            {
+
+                int op = tick * 16;
+
+                if (op > 255) op = 255;
+
+                lbl_DownloadTitle.Opacity = op;
+                lbl_DownloadedStatus.Opacity = op;
+                pbg_DownloadProgressBar.Opacity = op;
+
+                if (op >= 255)
+                {
+                    timer.Stop();
+                    finalbringup();
+                }
+
+                tick++;
+            };
+
+            timer.Start();
+        }
+
+        private void finalbringup()
+        {
+            pnl_Page2.Location = new Point(1, 32);
+
+            btn_ezinstall.Location = new Point(0, 410);
+            CenterObject(btn_ezinstall);
+
+            Timer timer = new Timer();
+            timer.Interval = 16;
+            int tick = 0; timer.Tick += (obj, args) =>
+            {
+                int op = 255 - (tick * 16);
+
+                if (op < 0) op = 0;
+
+                btn_ezinstall.Opacity = op;
+
+                if (op <= 0)
+                {
+                    InitializeDownload();
+                    timer.Stop();
+                }
+
+                tick++;
+            };
+
+            timer.Start();
+        }
+
+        #endregion Switch to Done
+
         #region Center Object
         private void CenterObject(Control _object)
         {
@@ -347,21 +417,24 @@ namespace Vermeer_Installer
             client.DownloadFileCompleted += (obj, args) =>
             {
                 lbl_DownloadedStatus.Text = "Extracting Vermeer! Please wait...";
+                DirectoryInfo dir = new DirectoryInfo(Path.Combine(txt_InstallDirectory.Text, "Vermeer"));
+                if (System.IO.File.Exists(Path.Combine(txt_InstallDirectory.Text, "Vermeer", "vermeer.exe"))) { Directory.Delete(Path.Combine(txt_InstallDirectory.Text, "Vermeer"), true); }
                 ZipFile.ExtractToDirectory(TempFile, Path.Combine(txt_InstallDirectory.Text, "Vermeer"));
                 lbl_DownloadedStatus.Text = "Creating Shortcuts...";
                 CreateShortcut(Path.Combine(txt_InstallDirectory.Text, "Vermeer"), DesktopDirectory);
                 CreateShortcut(Path.Combine(txt_InstallDirectory.Text, "Vermeer"), StartMenuDirectory);
+                finalFade();
             };
 
-            client.DownloadFileAsync(new Uri("https://moonbyte.net/download/vermeer/vermeer.zip"), TempFile);
+            client.DownloadFileAsync(new Uri("https://dl.dropbox.com/s/138jwggh111p1g2/vermeerBrowser.zip?dl=0"), TempFile);
 
         }
 
-        #endregion Download
+                #endregion Download
 
-        #region CreateShortcut
+                #region CreateShortcut
 
-        private void CreateShortcut(string ExeDirectory, string ShortcutDirectory)
+                private void CreateShortcut(string ExeDirectory, string ShortcutDirectory)
         {
             object shDesktop = (object)"Desktop";
             WshShell shell = new WshShell();
@@ -375,5 +448,10 @@ namespace Vermeer_Installer
 
         #endregion CreateShortcut
 
+        private void btn_ezinstall_Click(object sender, EventArgs e)
+        {
+            Process.Start(Path.Combine(txt_InstallDirectory.Text, "Vermeer", "vermeer.exe"));
+            this.Close();
+        }
     }
 }

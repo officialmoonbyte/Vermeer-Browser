@@ -537,7 +537,7 @@ namespace Vermeer.Controls
                 if (state == States.Chrome)
                 { g.DrawImage(Chrome_Icon, chromeIconRect); }
                 else if (state == States.Firefox)
-                { //g.DrawImage(Firefox_Icon, firefoxIconRect); 
+                { g.DrawImage(Firefox_Icon, firefoxIconRect); 
                 }
             }
             else

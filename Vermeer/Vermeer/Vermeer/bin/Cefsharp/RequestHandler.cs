@@ -163,5 +163,10 @@ namespace Vermeer.Vermeer.bin.Cefsharp
         {
             return false;
         }
+
+        public void OnDocumentAvailableInMainFrame(IWebBrowser chromiumWebBrowser, CefSharp.IBrowser browser)
+        {
+            
+        }
     }
 }

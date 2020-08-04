@@ -46,7 +46,7 @@ namespace Vermeer.Vermeer.bin.GeckoFX
 
         public void CreateBrowserHandle(string URL, MaterialTabPage tabPage)
         {
-            Gecko.Xpcom.ProfileDirectory = Path.Combine(vermeer.SettingsManager.CacheDataDirectory, "GeckoCache");
+
 
             //Initialize firefox Xpcom
             string xpcomDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location); Console.WriteLine(Path.Combine(xpcomDirectory, "Firefox64"));

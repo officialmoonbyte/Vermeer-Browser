@@ -62,6 +62,7 @@
             this.lbl_DownloadTitle = new Moonbyte.MaterialFramework.Controls.MaterialLabel();
             this.pbg_DownloadProgressBar = new Moonbyte.MaterialFramework.Controls.MaterialProgressBar();
             this.pbox_InstallImage = new MaterialFramework.Controls.MaterialPictureBox();
+            this.btn_ezinstall = new Moonbyte.MaterialFramework.Controls.FlatButton();
             this.pnl_Page0.SuspendLayout();
             this.pnl_EULA.SuspendLayout();
             this.pnl_Title.SuspendLayout();
@@ -103,7 +104,7 @@
             this.pnl_Page0.Controls.Add(this.lbl_ProductName);
             this.pnl_Page0.Controls.Add(this.lbl_Welcome);
             this.pnl_Page0.Controls.Add(this.pnl_Title);
-            this.pnl_Page0.Location = new System.Drawing.Point(726, 32);
+            this.pnl_Page0.Location = new System.Drawing.Point(898, 9);
             this.pnl_Page0.Name = "pnl_Page0";
             this.pnl_Page0.Size = new System.Drawing.Size(548, 467);
             this.pnl_Page0.TabIndex = 3;
@@ -482,7 +483,7 @@
             // 
             this.pnl_Page2.Controls.Add(this.pnl_DownloadProgress);
             this.pnl_Page2.Controls.Add(this.pbox_InstallImage);
-            this.pnl_Page2.Location = new System.Drawing.Point(723, 35);
+            this.pnl_Page2.Location = new System.Drawing.Point(864, 12);
             this.pnl_Page2.Name = "pnl_Page2";
             this.pnl_Page2.Size = new System.Drawing.Size(548, 467);
             this.pnl_Page2.TabIndex = 5;
@@ -551,12 +552,32 @@
             this.pbox_InstallImage.TabIndex = 0;
             this.pbox_InstallImage.TabStop = false;
             // 
+            // btn_ezinstall
+            // 
+            this.btn_ezinstall.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(150)))), ((int)(((byte)(120)))));
+            this.btn_ezinstall.BackgroundColorClicked = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            this.btn_ezinstall.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(150)))), ((int)(((byte)(120)))));
+            this.btn_ezinstall.BorderWidth = 0;
+            this.btn_ezinstall.Font = new System.Drawing.Font("Gadugi", 12F);
+            this.btn_ezinstall.Location = new System.Drawing.Point(797, 433);
+            this.btn_ezinstall.MouseOverColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
+            this.btn_ezinstall.Name = "btn_ezinstall";
+            this.btn_ezinstall.Opacity = 0;
+            this.btn_ezinstall.OpacityColor = System.Drawing.Color.White;
+            this.btn_ezinstall.Size = new System.Drawing.Size(269, 54);
+            this.btn_ezinstall.TabIndex = 12;
+            this.btn_ezinstall.text = "Close and launch Vermeer";
+            this.btn_ezinstall.TextColor = System.Drawing.Color.White;
+            this.btn_ezinstall.WaveColor = System.Drawing.Color.Black;
+            this.btn_ezinstall.Click += new System.EventHandler(this.btn_ezinstall_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(550, 500);
+            this.Controls.Add(this.btn_ezinstall);
             this.Controls.Add(this.pnl_Page2);
             this.Controls.Add(this.pnl_Page1);
             this.Controls.Add(this.pnl_Page0);
@@ -574,6 +595,7 @@
             this.Controls.SetChildIndex(this.pnl_Page0, 0);
             this.Controls.SetChildIndex(this.pnl_Page1, 0);
             this.Controls.SetChildIndex(this.pnl_Page2, 0);
+            this.Controls.SetChildIndex(this.btn_ezinstall, 0);
             this.pnl_Page0.ResumeLayout(false);
             this.pnl_Page0.PerformLayout();
             this.pnl_EULA.ResumeLayout(false);
@@ -632,5 +654,6 @@
         private Moonbyte.MaterialFramework.Controls.MaterialLabel lbl_DownloadedStatus;
         private Moonbyte.MaterialFramework.Controls.MaterialLabel lbl_DownloadTitle;
         private Moonbyte.MaterialFramework.Controls.MaterialProgressBar pbg_DownloadProgressBar;
+        private Moonbyte.MaterialFramework.Controls.FlatButton btn_ezinstall;
     }
 }

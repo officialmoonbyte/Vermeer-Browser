@@ -29,7 +29,7 @@ namespace Moonbyte.Vermeer.browser
         public static bool VerifySSLCertificate(string URL)
         { return VerifySSLCertificate(GetSSLCertificate(URL)); }
         public static bool VerifySSLCertificate(X509Certificate2 cert2)
-        { try { return cert2.Verify(); } catch { return false; } }
+        { try { if (cert2 != null) { return cert2.Verify(); } else { return false; } } catch { return false; } }
 
         #endregion
 
