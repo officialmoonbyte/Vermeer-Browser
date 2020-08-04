@@ -37,8 +37,17 @@
             this.lbl_ProductName = new Moonbyte.MaterialFramework.Controls.MaterialLabel();
             this.lbl_Welcome = new Moonbyte.MaterialFramework.Controls.MaterialLabel();
             this.pnl_Title = new System.Windows.Forms.Panel();
+            this.pbox_logo = new MaterialFramework.Controls.MaterialPictureBox();
             this.lbl_CompanyName = new Moonbyte.MaterialFramework.Controls.MaterialLabel();
             this.pnl_Page1 = new System.Windows.Forms.Panel();
+            this.btn_Continue2 = new Moonbyte.MaterialFramework.Controls.FlatButton();
+            this.pnl_VermeerAccount = new System.Windows.Forms.Panel();
+            this.btn_ConnectVermeerAccount = new Moonbyte.MaterialFramework.Controls.FlatButton();
+            this.lbl_VermeerAccount = new Moonbyte.MaterialFramework.Controls.MaterialLabel();
+            this.pnl_InstallDirectory = new System.Windows.Forms.Panel();
+            this.txt_InstallDirectory = new Moonbyte.MaterialFramework.Controls.MaterialTextBox();
+            this.lbl_InstallDirectoryTitle = new Moonbyte.MaterialFramework.Controls.MaterialLabel();
+            this.btn_SelectInstallDirectory = new Moonbyte.MaterialFramework.Controls.FlatButton();
             this.pnl_Shortcut = new System.Windows.Forms.Panel();
             this.lbl_DesktopTitle = new Moonbyte.MaterialFramework.Controls.MaterialLabel();
             this.lbl_StartMenuTitle = new Moonbyte.MaterialFramework.Controls.MaterialLabel();
@@ -47,33 +56,23 @@
             this.lbl_ShortcutTitle = new Moonbyte.MaterialFramework.Controls.MaterialLabel();
             this.lbl_Page2_Desc = new Moonbyte.MaterialFramework.Controls.MaterialLabel();
             this.lbl_Page2_Title = new Moonbyte.MaterialFramework.Controls.MaterialLabel();
-            this.pnl_InstallDirectory = new System.Windows.Forms.Panel();
-            this.lbl_InstallDirectoryTitle = new Moonbyte.MaterialFramework.Controls.MaterialLabel();
-            this.txt_InstallDirectory = new Moonbyte.MaterialFramework.Controls.MaterialTextBox();
-            this.btn_SelectInstallDirectory = new Moonbyte.MaterialFramework.Controls.FlatButton();
-            this.pnl_VermeerAccount = new System.Windows.Forms.Panel();
-            this.btn_ConnectVermeerAccount = new Moonbyte.MaterialFramework.Controls.FlatButton();
-            this.lbl_VermeerAccount = new Moonbyte.MaterialFramework.Controls.MaterialLabel();
-            this.btn_Continue2 = new Moonbyte.MaterialFramework.Controls.FlatButton();
-            this.pnl_Page3 = new System.Windows.Forms.Panel();
-            this.materialPictureBox1 = new MaterialFramework.Controls.MaterialPictureBox();
-            this.pbox_logo = new MaterialFramework.Controls.MaterialPictureBox();
-            this.pbg_DownloadProgressBar = new Moonbyte.MaterialFramework.Controls.MaterialProgressBar();
+            this.pnl_Page2 = new System.Windows.Forms.Panel();
             this.pnl_DownloadProgress = new System.Windows.Forms.Panel();
-            this.lbl_DownloadTitle = new Moonbyte.MaterialFramework.Controls.MaterialLabel();
             this.lbl_DownloadedStatus = new Moonbyte.MaterialFramework.Controls.MaterialLabel();
-            this.lbl_TimeLeft = new Moonbyte.MaterialFramework.Controls.MaterialLabel();
+            this.lbl_DownloadTitle = new Moonbyte.MaterialFramework.Controls.MaterialLabel();
+            this.pbg_DownloadProgressBar = new Moonbyte.MaterialFramework.Controls.MaterialProgressBar();
+            this.pbox_InstallImage = new MaterialFramework.Controls.MaterialPictureBox();
             this.pnl_Page0.SuspendLayout();
             this.pnl_EULA.SuspendLayout();
             this.pnl_Title.SuspendLayout();
-            this.pnl_Page1.SuspendLayout();
-            this.pnl_Shortcut.SuspendLayout();
-            this.pnl_InstallDirectory.SuspendLayout();
-            this.pnl_VermeerAccount.SuspendLayout();
-            this.pnl_Page3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.materialPictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbox_logo)).BeginInit();
+            this.pnl_Page1.SuspendLayout();
+            this.pnl_VermeerAccount.SuspendLayout();
+            this.pnl_InstallDirectory.SuspendLayout();
+            this.pnl_Shortcut.SuspendLayout();
+            this.pnl_Page2.SuspendLayout();
             this.pnl_DownloadProgress.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbox_InstallImage)).BeginInit();
             this.SuspendLayout();
             // 
             // closebutton
@@ -208,6 +207,18 @@
             this.pnl_Title.Size = new System.Drawing.Size(259, 43);
             this.pnl_Title.TabIndex = 3;
             // 
+            // pbox_logo
+            // 
+            this.pbox_logo.Image = global::Vermeer_Installer.Properties.Resources.Moonbyte_Logo;
+            this.pbox_logo.Location = new System.Drawing.Point(1, 1);
+            this.pbox_logo.Name = "pbox_logo";
+            this.pbox_logo.Opacity = 0;
+            this.pbox_logo.OpacityColor = System.Drawing.Color.White;
+            this.pbox_logo.Size = new System.Drawing.Size(40, 40);
+            this.pbox_logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbox_logo.TabIndex = 2;
+            this.pbox_logo.TabStop = false;
+            // 
             // lbl_CompanyName
             // 
             this.lbl_CompanyName.AutoSize = true;
@@ -236,6 +247,122 @@
             this.pnl_Page1.Name = "pnl_Page1";
             this.pnl_Page1.Size = new System.Drawing.Size(548, 467);
             this.pnl_Page1.TabIndex = 4;
+            // 
+            // btn_Continue2
+            // 
+            this.btn_Continue2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(150)))), ((int)(((byte)(120)))));
+            this.btn_Continue2.BackgroundColorClicked = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            this.btn_Continue2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(150)))), ((int)(((byte)(120)))));
+            this.btn_Continue2.BorderWidth = 0;
+            this.btn_Continue2.Font = new System.Drawing.Font("Gadugi", 12F);
+            this.btn_Continue2.Location = new System.Drawing.Point(141, 391);
+            this.btn_Continue2.MouseOverColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
+            this.btn_Continue2.Name = "btn_Continue2";
+            this.btn_Continue2.Opacity = 0;
+            this.btn_Continue2.OpacityColor = System.Drawing.Color.White;
+            this.btn_Continue2.Size = new System.Drawing.Size(198, 45);
+            this.btn_Continue2.TabIndex = 11;
+            this.btn_Continue2.text = "Continue";
+            this.btn_Continue2.TextColor = System.Drawing.Color.White;
+            this.btn_Continue2.WaveColor = System.Drawing.Color.Black;
+            // 
+            // pnl_VermeerAccount
+            // 
+            this.pnl_VermeerAccount.Controls.Add(this.btn_ConnectVermeerAccount);
+            this.pnl_VermeerAccount.Controls.Add(this.lbl_VermeerAccount);
+            this.pnl_VermeerAccount.Location = new System.Drawing.Point(45, 298);
+            this.pnl_VermeerAccount.Name = "pnl_VermeerAccount";
+            this.pnl_VermeerAccount.Size = new System.Drawing.Size(396, 77);
+            this.pnl_VermeerAccount.TabIndex = 10;
+            // 
+            // btn_ConnectVermeerAccount
+            // 
+            this.btn_ConnectVermeerAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.btn_ConnectVermeerAccount.BackgroundColorClicked = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            this.btn_ConnectVermeerAccount.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this.btn_ConnectVermeerAccount.BorderWidth = 0;
+            this.btn_ConnectVermeerAccount.Font = new System.Drawing.Font("Gadugi", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_ConnectVermeerAccount.Location = new System.Drawing.Point(104, 32);
+            this.btn_ConnectVermeerAccount.MouseOverColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
+            this.btn_ConnectVermeerAccount.Name = "btn_ConnectVermeerAccount";
+            this.btn_ConnectVermeerAccount.Opacity = 0;
+            this.btn_ConnectVermeerAccount.OpacityColor = System.Drawing.Color.White;
+            this.btn_ConnectVermeerAccount.Size = new System.Drawing.Size(179, 34);
+            this.btn_ConnectVermeerAccount.TabIndex = 11;
+            this.btn_ConnectVermeerAccount.text = "Connect a Vermeer Account";
+            this.btn_ConnectVermeerAccount.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.btn_ConnectVermeerAccount.WaveColor = System.Drawing.Color.Black;
+            // 
+            // lbl_VermeerAccount
+            // 
+            this.lbl_VermeerAccount.AutoSize = true;
+            this.lbl_VermeerAccount.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_VermeerAccount.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lbl_VermeerAccount.Location = new System.Drawing.Point(1, 2);
+            this.lbl_VermeerAccount.Name = "lbl_VermeerAccount";
+            this.lbl_VermeerAccount.Opacity = 0;
+            this.lbl_VermeerAccount.OpacityColor = System.Drawing.Color.White;
+            this.lbl_VermeerAccount.Size = new System.Drawing.Size(394, 19);
+            this.lbl_VermeerAccount.TabIndex = 9;
+            this.lbl_VermeerAccount.Text = "Finally, do you want to use a Vermeer account? Its not needed!";
+            this.lbl_VermeerAccount.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
+            // 
+            // pnl_InstallDirectory
+            // 
+            this.pnl_InstallDirectory.Controls.Add(this.txt_InstallDirectory);
+            this.pnl_InstallDirectory.Controls.Add(this.lbl_InstallDirectoryTitle);
+            this.pnl_InstallDirectory.Controls.Add(this.btn_SelectInstallDirectory);
+            this.pnl_InstallDirectory.Location = new System.Drawing.Point(44, 231);
+            this.pnl_InstallDirectory.Name = "pnl_InstallDirectory";
+            this.pnl_InstallDirectory.Size = new System.Drawing.Size(457, 54);
+            this.pnl_InstallDirectory.TabIndex = 4;
+            // 
+            // txt_InstallDirectory
+            // 
+            this.txt_InstallDirectory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.txt_InstallDirectory.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
+            this.txt_InstallDirectory.BottomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
+            this.txt_InstallDirectory.FontColor = System.Drawing.SystemColors.WindowText;
+            this.txt_InstallDirectory.Location = new System.Drawing.Point(6, 27);
+            this.txt_InstallDirectory.Name = "txt_InstallDirectory";
+            this.txt_InstallDirectory.Opacity = 100;
+            this.txt_InstallDirectory.OpacityColor = System.Drawing.Color.White;
+            this.txt_InstallDirectory.SelectedBottomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(135)))), ((int)(((byte)(250)))));
+            this.txt_InstallDirectory.Size = new System.Drawing.Size(423, 22);
+            this.txt_InstallDirectory.TabIndex = 8;
+            this.txt_InstallDirectory.UseSystemPasswordChar = false;
+            // 
+            // lbl_InstallDirectoryTitle
+            // 
+            this.lbl_InstallDirectoryTitle.AutoSize = true;
+            this.lbl_InstallDirectoryTitle.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_InstallDirectoryTitle.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lbl_InstallDirectoryTitle.Location = new System.Drawing.Point(83, 4);
+            this.lbl_InstallDirectoryTitle.Name = "lbl_InstallDirectoryTitle";
+            this.lbl_InstallDirectoryTitle.Opacity = 0;
+            this.lbl_InstallDirectoryTitle.OpacityColor = System.Drawing.Color.White;
+            this.lbl_InstallDirectoryTitle.Size = new System.Drawing.Size(294, 19);
+            this.lbl_InstallDirectoryTitle.TabIndex = 7;
+            this.lbl_InstallDirectoryTitle.Text = "Now, We need the install directory for Vermeer";
+            this.lbl_InstallDirectoryTitle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
+            // 
+            // btn_SelectInstallDirectory
+            // 
+            this.btn_SelectInstallDirectory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.btn_SelectInstallDirectory.BackgroundColorClicked = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            this.btn_SelectInstallDirectory.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.btn_SelectInstallDirectory.BorderWidth = 0;
+            this.btn_SelectInstallDirectory.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
+            this.btn_SelectInstallDirectory.Location = new System.Drawing.Point(432, 27);
+            this.btn_SelectInstallDirectory.MouseOverColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
+            this.btn_SelectInstallDirectory.Name = "btn_SelectInstallDirectory";
+            this.btn_SelectInstallDirectory.Opacity = 0;
+            this.btn_SelectInstallDirectory.OpacityColor = System.Drawing.Color.White;
+            this.btn_SelectInstallDirectory.Size = new System.Drawing.Size(22, 22);
+            this.btn_SelectInstallDirectory.TabIndex = 9;
+            this.btn_SelectInstallDirectory.text = "...";
+            this.btn_SelectInstallDirectory.TextColor = System.Drawing.Color.Black;
+            this.btn_SelectInstallDirectory.WaveColor = System.Drawing.Color.Black;
             // 
             // pnl_Shortcut
             // 
@@ -287,6 +414,8 @@
             this.checkbox_Desktop.MiddleColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(150)))), ((int)(((byte)(120)))));
             this.checkbox_Desktop.Name = "checkbox_Desktop";
             this.checkbox_Desktop.OnMouseOverColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.checkbox_Desktop.Opacity = 0;
+            this.checkbox_Desktop.OpacityColor = System.Drawing.Color.White;
             this.checkbox_Desktop.Size = new System.Drawing.Size(16, 16);
             this.checkbox_Desktop.TabIndex = 4;
             // 
@@ -300,6 +429,8 @@
             this.checkbox_StartMenu.MiddleColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(150)))), ((int)(((byte)(120)))));
             this.checkbox_StartMenu.Name = "checkbox_StartMenu";
             this.checkbox_StartMenu.OnMouseOverColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.checkbox_StartMenu.Opacity = 0;
+            this.checkbox_StartMenu.OpacityColor = System.Drawing.Color.White;
             this.checkbox_StartMenu.Size = new System.Drawing.Size(16, 16);
             this.checkbox_StartMenu.TabIndex = 3;
             // 
@@ -347,168 +478,17 @@
             this.lbl_Page2_Title.Text = "A few things before we install Vermeer...";
             this.lbl_Page2_Title.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
             // 
-            // pnl_InstallDirectory
+            // pnl_Page2
             // 
-            this.pnl_InstallDirectory.Controls.Add(this.txt_InstallDirectory);
-            this.pnl_InstallDirectory.Controls.Add(this.lbl_InstallDirectoryTitle);
-            this.pnl_InstallDirectory.Controls.Add(this.btn_SelectInstallDirectory);
-            this.pnl_InstallDirectory.Location = new System.Drawing.Point(44, 231);
-            this.pnl_InstallDirectory.Name = "pnl_InstallDirectory";
-            this.pnl_InstallDirectory.Size = new System.Drawing.Size(457, 54);
-            this.pnl_InstallDirectory.TabIndex = 4;
-            // 
-            // lbl_InstallDirectoryTitle
-            // 
-            this.lbl_InstallDirectoryTitle.AutoSize = true;
-            this.lbl_InstallDirectoryTitle.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_InstallDirectoryTitle.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lbl_InstallDirectoryTitle.Location = new System.Drawing.Point(83, 4);
-            this.lbl_InstallDirectoryTitle.Name = "lbl_InstallDirectoryTitle";
-            this.lbl_InstallDirectoryTitle.Opacity = 0;
-            this.lbl_InstallDirectoryTitle.OpacityColor = System.Drawing.Color.White;
-            this.lbl_InstallDirectoryTitle.Size = new System.Drawing.Size(294, 19);
-            this.lbl_InstallDirectoryTitle.TabIndex = 7;
-            this.lbl_InstallDirectoryTitle.Text = "Now, We need the install directory for Vermeer";
-            this.lbl_InstallDirectoryTitle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
-            // 
-            // txt_InstallDirectory
-            // 
-            this.txt_InstallDirectory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.txt_InstallDirectory.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
-            this.txt_InstallDirectory.BottomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
-            this.txt_InstallDirectory.FontColor = System.Drawing.SystemColors.WindowText;
-            this.txt_InstallDirectory.Location = new System.Drawing.Point(6, 27);
-            this.txt_InstallDirectory.Name = "txt_InstallDirectory";
-            this.txt_InstallDirectory.Opacity = 100;
-            this.txt_InstallDirectory.SelectedBottomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(135)))), ((int)(((byte)(250)))));
-            this.txt_InstallDirectory.Size = new System.Drawing.Size(423, 22);
-            this.txt_InstallDirectory.TabIndex = 8;
-            this.txt_InstallDirectory.UseSystemPasswordChar = false;
-            // 
-            // btn_SelectInstallDirectory
-            // 
-            this.btn_SelectInstallDirectory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.btn_SelectInstallDirectory.BackgroundColorClicked = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.btn_SelectInstallDirectory.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.btn_SelectInstallDirectory.BorderWidth = 0;
-            this.btn_SelectInstallDirectory.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
-            this.btn_SelectInstallDirectory.Location = new System.Drawing.Point(432, 27);
-            this.btn_SelectInstallDirectory.MouseOverColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
-            this.btn_SelectInstallDirectory.Name = "btn_SelectInstallDirectory";
-            this.btn_SelectInstallDirectory.Opacity = 0;
-            this.btn_SelectInstallDirectory.OpacityColor = System.Drawing.Color.White;
-            this.btn_SelectInstallDirectory.Size = new System.Drawing.Size(22, 22);
-            this.btn_SelectInstallDirectory.TabIndex = 9;
-            this.btn_SelectInstallDirectory.text = "...";
-            this.btn_SelectInstallDirectory.TextColor = System.Drawing.Color.Black;
-            this.btn_SelectInstallDirectory.WaveColor = System.Drawing.Color.Black;
-            // 
-            // pnl_VermeerAccount
-            // 
-            this.pnl_VermeerAccount.Controls.Add(this.btn_ConnectVermeerAccount);
-            this.pnl_VermeerAccount.Controls.Add(this.lbl_VermeerAccount);
-            this.pnl_VermeerAccount.Location = new System.Drawing.Point(45, 298);
-            this.pnl_VermeerAccount.Name = "pnl_VermeerAccount";
-            this.pnl_VermeerAccount.Size = new System.Drawing.Size(396, 77);
-            this.pnl_VermeerAccount.TabIndex = 10;
-            // 
-            // btn_ConnectVermeerAccount
-            // 
-            this.btn_ConnectVermeerAccount.BackgroundColorClicked = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.btn_ConnectVermeerAccount.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
-            this.btn_ConnectVermeerAccount.BorderWidth = 0;
-            this.btn_ConnectVermeerAccount.Font = new System.Drawing.Font("Gadugi", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_ConnectVermeerAccount.Location = new System.Drawing.Point(104, 32);
-            this.btn_ConnectVermeerAccount.MouseOverColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
-            this.btn_ConnectVermeerAccount.Name = "btn_ConnectVermeerAccount";
-            this.btn_ConnectVermeerAccount.Opacity = 0;
-            this.btn_ConnectVermeerAccount.OpacityColor = System.Drawing.Color.White;
-            this.btn_ConnectVermeerAccount.Size = new System.Drawing.Size(179, 34);
-            this.btn_ConnectVermeerAccount.TabIndex = 11;
-            this.btn_ConnectVermeerAccount.text = "Connect a Vermeer Account";
-            this.btn_ConnectVermeerAccount.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.btn_ConnectVermeerAccount.WaveColor = System.Drawing.Color.Black;
-            // 
-            // lbl_VermeerAccount
-            // 
-            this.lbl_VermeerAccount.AutoSize = true;
-            this.lbl_VermeerAccount.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_VermeerAccount.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lbl_VermeerAccount.Location = new System.Drawing.Point(1, 2);
-            this.lbl_VermeerAccount.Name = "lbl_VermeerAccount";
-            this.lbl_VermeerAccount.Opacity = 0;
-            this.lbl_VermeerAccount.OpacityColor = System.Drawing.Color.White;
-            this.lbl_VermeerAccount.Size = new System.Drawing.Size(394, 19);
-            this.lbl_VermeerAccount.TabIndex = 9;
-            this.lbl_VermeerAccount.Text = "Finally, do you want to use a Vermeer account? Its not needed!";
-            this.lbl_VermeerAccount.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
-            // 
-            // btn_Continue2
-            // 
-            this.btn_Continue2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(150)))), ((int)(((byte)(120)))));
-            this.btn_Continue2.BackgroundColorClicked = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.btn_Continue2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(150)))), ((int)(((byte)(120)))));
-            this.btn_Continue2.BorderWidth = 0;
-            this.btn_Continue2.Font = new System.Drawing.Font("Gadugi", 12F);
-            this.btn_Continue2.Location = new System.Drawing.Point(141, 391);
-            this.btn_Continue2.MouseOverColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
-            this.btn_Continue2.Name = "btn_Continue2";
-            this.btn_Continue2.Opacity = 0;
-            this.btn_Continue2.OpacityColor = System.Drawing.Color.White;
-            this.btn_Continue2.Size = new System.Drawing.Size(198, 45);
-            this.btn_Continue2.TabIndex = 11;
-            this.btn_Continue2.text = "Continue";
-            this.btn_Continue2.TextColor = System.Drawing.Color.White;
-            this.btn_Continue2.WaveColor = System.Drawing.Color.Black;
-            // 
-            // pnl_Page3
-            // 
-            this.pnl_Page3.Controls.Add(this.pnl_DownloadProgress);
-            this.pnl_Page3.Controls.Add(this.materialPictureBox1);
-            this.pnl_Page3.Location = new System.Drawing.Point(1, 32);
-            this.pnl_Page3.Name = "pnl_Page3";
-            this.pnl_Page3.Size = new System.Drawing.Size(548, 467);
-            this.pnl_Page3.TabIndex = 5;
-            // 
-            // materialPictureBox1
-            // 
-            this.materialPictureBox1.Image = global::Vermeer_Installer.Properties.Resources._38585;
-            this.materialPictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.materialPictureBox1.Name = "materialPictureBox1";
-            this.materialPictureBox1.Opacity = 0;
-            this.materialPictureBox1.OpacityColor = System.Drawing.Color.White;
-            this.materialPictureBox1.Size = new System.Drawing.Size(549, 346);
-            this.materialPictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.materialPictureBox1.TabIndex = 0;
-            this.materialPictureBox1.TabStop = false;
-            // 
-            // pbox_logo
-            // 
-            this.pbox_logo.Image = global::Vermeer_Installer.Properties.Resources.Moonbyte_Logo;
-            this.pbox_logo.Location = new System.Drawing.Point(1, 1);
-            this.pbox_logo.Name = "pbox_logo";
-            this.pbox_logo.Opacity = 0;
-            this.pbox_logo.OpacityColor = System.Drawing.Color.White;
-            this.pbox_logo.Size = new System.Drawing.Size(40, 40);
-            this.pbox_logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbox_logo.TabIndex = 2;
-            this.pbox_logo.TabStop = false;
-            // 
-            // pbg_DownloadProgressBar
-            // 
-            this.pbg_DownloadProgressBar.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
-            this.pbg_DownloadProgressBar.Location = new System.Drawing.Point(6, 35);
-            this.pbg_DownloadProgressBar.Maximum = 100;
-            this.pbg_DownloadProgressBar.Minimum = 0;
-            this.pbg_DownloadProgressBar.Name = "pbg_DownloadProgressBar";
-            this.pbg_DownloadProgressBar.ProgressBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(150)))), ((int)(((byte)(120)))));
-            this.pbg_DownloadProgressBar.Size = new System.Drawing.Size(496, 30);
-            this.pbg_DownloadProgressBar.TabIndex = 2;
-            this.pbg_DownloadProgressBar.Value = 0;
+            this.pnl_Page2.Controls.Add(this.pnl_DownloadProgress);
+            this.pnl_Page2.Controls.Add(this.pbox_InstallImage);
+            this.pnl_Page2.Location = new System.Drawing.Point(723, 35);
+            this.pnl_Page2.Name = "pnl_Page2";
+            this.pnl_Page2.Size = new System.Drawing.Size(548, 467);
+            this.pnl_Page2.TabIndex = 5;
             // 
             // pnl_DownloadProgress
             // 
-            this.pnl_DownloadProgress.Controls.Add(this.lbl_TimeLeft);
             this.pnl_DownloadProgress.Controls.Add(this.lbl_DownloadedStatus);
             this.pnl_DownloadProgress.Controls.Add(this.lbl_DownloadTitle);
             this.pnl_DownloadProgress.Controls.Add(this.pbg_DownloadProgressBar);
@@ -516,6 +496,20 @@
             this.pnl_DownloadProgress.Name = "pnl_DownloadProgress";
             this.pnl_DownloadProgress.Size = new System.Drawing.Size(507, 100);
             this.pnl_DownloadProgress.TabIndex = 3;
+            // 
+            // lbl_DownloadedStatus
+            // 
+            this.lbl_DownloadedStatus.AutoSize = true;
+            this.lbl_DownloadedStatus.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_DownloadedStatus.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lbl_DownloadedStatus.Location = new System.Drawing.Point(7, 68);
+            this.lbl_DownloadedStatus.Name = "lbl_DownloadedStatus";
+            this.lbl_DownloadedStatus.Opacity = 0;
+            this.lbl_DownloadedStatus.OpacityColor = System.Drawing.Color.White;
+            this.lbl_DownloadedStatus.Size = new System.Drawing.Size(202, 19);
+            this.lbl_DownloadedStatus.TabIndex = 4;
+            this.lbl_DownloadedStatus.Text = "Downloading 0.0 MB of 0.0 MB";
+            this.lbl_DownloadedStatus.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
             // 
             // lbl_DownloadTitle
             // 
@@ -531,34 +525,31 @@
             this.lbl_DownloadTitle.Text = "Downloading Vermeer... Please wait!";
             this.lbl_DownloadTitle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
             // 
-            // lbl_DownloadedStatus
+            // pbg_DownloadProgressBar
             // 
-            this.lbl_DownloadedStatus.AutoSize = true;
-            this.lbl_DownloadedStatus.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_DownloadedStatus.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lbl_DownloadedStatus.Location = new System.Drawing.Point(7, 68);
-            this.lbl_DownloadedStatus.Name = "lbl_DownloadedStatus";
-            this.lbl_DownloadedStatus.Opacity = 0;
-            this.lbl_DownloadedStatus.OpacityColor = System.Drawing.Color.White;
-            this.lbl_DownloadedStatus.Size = new System.Drawing.Size(198, 19);
-            this.lbl_DownloadedStatus.TabIndex = 4;
-            this.lbl_DownloadedStatus.Text = "Downlaoded 0.0 MB of 0.0 MB";
-            this.lbl_DownloadedStatus.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
+            this.pbg_DownloadProgressBar.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.pbg_DownloadProgressBar.Location = new System.Drawing.Point(6, 35);
+            this.pbg_DownloadProgressBar.Maximum = 100;
+            this.pbg_DownloadProgressBar.Minimum = 0;
+            this.pbg_DownloadProgressBar.Name = "pbg_DownloadProgressBar";
+            this.pbg_DownloadProgressBar.Opacity = 0;
+            this.pbg_DownloadProgressBar.OpacityColor = System.Drawing.Color.White;
+            this.pbg_DownloadProgressBar.ProgressBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(150)))), ((int)(((byte)(120)))));
+            this.pbg_DownloadProgressBar.Size = new System.Drawing.Size(496, 30);
+            this.pbg_DownloadProgressBar.TabIndex = 2;
+            this.pbg_DownloadProgressBar.Value = 0;
             // 
-            // lbl_TimeLeft
+            // pbox_InstallImage
             // 
-            this.lbl_TimeLeft.AutoSize = true;
-            this.lbl_TimeLeft.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_TimeLeft.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lbl_TimeLeft.Location = new System.Drawing.Point(355, 67);
-            this.lbl_TimeLeft.Name = "lbl_TimeLeft";
-            this.lbl_TimeLeft.Opacity = 0;
-            this.lbl_TimeLeft.OpacityColor = System.Drawing.Color.White;
-            this.lbl_TimeLeft.Size = new System.Drawing.Size(148, 19);
-            this.lbl_TimeLeft.TabIndex = 5;
-            this.lbl_TimeLeft.Text = "About 10 Minutes Left";
-            this.lbl_TimeLeft.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbl_TimeLeft.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
+            this.pbox_InstallImage.Image = global::Vermeer_Installer.Properties.Resources._38585;
+            this.pbox_InstallImage.Location = new System.Drawing.Point(0, 0);
+            this.pbox_InstallImage.Name = "pbox_InstallImage";
+            this.pbox_InstallImage.Opacity = 0;
+            this.pbox_InstallImage.OpacityColor = System.Drawing.Color.White;
+            this.pbox_InstallImage.Size = new System.Drawing.Size(549, 346);
+            this.pbox_InstallImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbox_InstallImage.TabIndex = 0;
+            this.pbox_InstallImage.TabStop = false;
             // 
             // MainForm
             // 
@@ -566,7 +557,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(550, 500);
-            this.Controls.Add(this.pnl_Page3);
+            this.Controls.Add(this.pnl_Page2);
             this.Controls.Add(this.pnl_Page1);
             this.Controls.Add(this.pnl_Page0);
             this.Controls.Add(this.closebutton);
@@ -582,26 +573,26 @@
             this.Controls.SetChildIndex(this.closebutton, 0);
             this.Controls.SetChildIndex(this.pnl_Page0, 0);
             this.Controls.SetChildIndex(this.pnl_Page1, 0);
-            this.Controls.SetChildIndex(this.pnl_Page3, 0);
+            this.Controls.SetChildIndex(this.pnl_Page2, 0);
             this.pnl_Page0.ResumeLayout(false);
             this.pnl_Page0.PerformLayout();
             this.pnl_EULA.ResumeLayout(false);
             this.pnl_EULA.PerformLayout();
             this.pnl_Title.ResumeLayout(false);
             this.pnl_Title.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbox_logo)).EndInit();
             this.pnl_Page1.ResumeLayout(false);
             this.pnl_Page1.PerformLayout();
-            this.pnl_Shortcut.ResumeLayout(false);
-            this.pnl_Shortcut.PerformLayout();
-            this.pnl_InstallDirectory.ResumeLayout(false);
-            this.pnl_InstallDirectory.PerformLayout();
             this.pnl_VermeerAccount.ResumeLayout(false);
             this.pnl_VermeerAccount.PerformLayout();
-            this.pnl_Page3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.materialPictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbox_logo)).EndInit();
+            this.pnl_InstallDirectory.ResumeLayout(false);
+            this.pnl_InstallDirectory.PerformLayout();
+            this.pnl_Shortcut.ResumeLayout(false);
+            this.pnl_Shortcut.PerformLayout();
+            this.pnl_Page2.ResumeLayout(false);
             this.pnl_DownloadProgress.ResumeLayout(false);
             this.pnl_DownloadProgress.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbox_InstallImage)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -635,10 +626,9 @@
         private System.Windows.Forms.Panel pnl_VermeerAccount;
         private Moonbyte.MaterialFramework.Controls.FlatButton btn_ConnectVermeerAccount;
         private Moonbyte.MaterialFramework.Controls.MaterialLabel lbl_VermeerAccount;
-        private System.Windows.Forms.Panel pnl_Page3;
-        private MaterialFramework.Controls.MaterialPictureBox materialPictureBox1;
+        private System.Windows.Forms.Panel pnl_Page2;
+        private MaterialFramework.Controls.MaterialPictureBox pbox_InstallImage;
         private System.Windows.Forms.Panel pnl_DownloadProgress;
-        private Moonbyte.MaterialFramework.Controls.MaterialLabel lbl_TimeLeft;
         private Moonbyte.MaterialFramework.Controls.MaterialLabel lbl_DownloadedStatus;
         private Moonbyte.MaterialFramework.Controls.MaterialLabel lbl_DownloadTitle;
         private Moonbyte.MaterialFramework.Controls.MaterialProgressBar pbg_DownloadProgressBar;
