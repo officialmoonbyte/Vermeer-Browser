@@ -39,7 +39,8 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Moonbyte Logo-1080.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Costura, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
@@ -132,8 +133,7 @@
     <None Include="Resources\38585.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Moonbyte Logo-1080.ico" />
-    <Content Include="Moonbyte-Logo.ico" />
+    <Content Include="Resources\Moonbyte-Logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.0\build\Fody.targets')" />
