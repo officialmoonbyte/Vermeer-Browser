@@ -111,9 +111,6 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Moonbyte Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\abstract-polygon-geometric-transparent-background-vector.jpg" />
   </ItemGroup>
   <ItemGroup>
