@@ -121,9 +121,6 @@
   <data name="34593bc301b2ab36e6fa1d7f7799d6fa" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\34593bc301b2ab36e6fa1d7f7799d6fa.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Moonbyte Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Moonbyte Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="87849" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\87849.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

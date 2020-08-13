@@ -210,7 +210,6 @@
             // 
             // pbox_logo
             // 
-            this.pbox_logo.Image = global::Vermeer_Installer.Properties.Resources.Moonbyte_Logo;
             this.pbox_logo.Location = new System.Drawing.Point(1, 1);
             this.pbox_logo.Name = "pbox_logo";
             this.pbox_logo.Opacity = 0;
