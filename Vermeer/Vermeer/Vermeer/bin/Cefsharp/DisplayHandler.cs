@@ -1,11 +1,7 @@
 ﻿using CefSharp;
 using CefSharp.Structs;
 using Moonbyte.Vermeer.bin;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Vermeer.Vermeer.bin.Cefsharp
 {

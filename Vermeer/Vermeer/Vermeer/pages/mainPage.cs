@@ -1,6 +1,5 @@
 ﻿using Moonbyte.MaterialFramework.Controls;
 using Moonbyte.Vermeer.bin;
-using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -68,7 +67,7 @@ namespace Vermeer.Vermeer.pages
             tabHeader.EnableNewTabButton = true;
             tabHeader.EnableArrowButton = true;
             tabHeader.EnableCloseButton = true;
-            tabHeader.Location = new System.Drawing.Point(33, 1);
+            tabHeader.Location = new System.Drawing.Point(1, 1);
             tabHeader.Width = this.Width - 211;
             tabHeader.BackColor = Color.FromArgb(35, 35, 64);
             tabHeader.Anchor = (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right);

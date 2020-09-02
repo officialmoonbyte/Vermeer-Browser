@@ -9,10 +9,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Net;
-using System.Net.Http;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
-using TheDuffman85.Tools;
 
 namespace Vermeer.Vermeer.bin.Cefsharp
 {

@@ -5,10 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Net;
-using System.Security.AccessControl;
-using System.Security.Principal;
 using System.Windows.Forms;
 
 namespace Vermeer_Installer

@@ -1,13 +1,10 @@
-﻿using CefSharp;
-using CefSharp.WinForms;
-using Moonbyte.MaterialFramework.Controls;
+﻿using Moonbyte.MaterialFramework.Controls;
 using Moonbyte.Vermeer.bin;
 using Moonbyte.Vermeer.browser;
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Security.Cryptography.X509Certificates;
-using System.Threading;
 using System.Windows.Forms;
 using Vermeer.Controls;
 using Vermeer.Vermeer.bin.Cefsharp;
@@ -15,7 +12,7 @@ using Vermeer.Vermeer.bin.GeckoFX;
 using Vermeer.Vermeer.Controls;
 
 namespace Vermeer.Vermeer.bin
-{ 
+{
     public static class IBrowser
     {
 

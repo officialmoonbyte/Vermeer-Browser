@@ -1,9 +1,10 @@
-﻿using Moonbyte.Vermeer.bin;
+﻿using Moonbyte.Networking;
+using Moonbyte.UniversalServer.Core.Networking;
+using Moonbyte.Vermeer.bin;
 using System;
 using System.Net;
-using System.Threading;
-using System.Windows.Forms;
-using UniversalClient;
+using System.Threading.Tasks;
+using UniversalServer.Core.Networking;
 
 namespace Vermeer.Vermeer.bin
 {
@@ -11,7 +12,7 @@ namespace Vermeer.Vermeer.bin
     {
         #region Vars
 
-        public Universalclient client = new Universalclient(true);
+        public UniversalClient client = new UniversalClient();
         public bool isLoggedIn = false;
         bool isConnected = false;
 
@@ -28,16 +29,16 @@ namespace Vermeer.Vermeer.bin
 
         public NetworkManager()
         {
-            ConnectToRemoteServer();
+            //ConnectToRemoteServer();
         }
 
         #endregion Initialization
 
         #region Connecting to the remote server
 
-        private void ConnectToRemoteServer()
+/*        private async void ConnectToRemoteServer()
         {
-            new Thread(new ThreadStart(() =>
+            await Task.Run(() =>
             {
                 try
                 {
@@ -50,7 +51,11 @@ namespace Vermeer.Vermeer.bin
                     vermeer.ApplicationLogger.AddToLog("INFO", "Connected to Universal Server! ServerIP : " + ServerIP);
 
                     // Checks for update
-                    string LatestVersion = client.SendCommand("userdatabase", new string[] { "getvalue", "VermeerVersion" });
+                    UniversalPacket updateCheck = new UniversalPacket(
+                        new Header() { status = UniversalPacket.HTTPSTATUS.GET },
+                        new Message() { Data = "userdatabase.getvalue VermeerVersion", IsEncrypted = false },
+                        //client.GetSignature());
+                    UniversalServerPacket LatestVersion = client.SendMessage(updateCheck);
                     vermeer.ApplicationLogger.AddToLog("INFO", "Latest vermeer version : " + LatestVersion);
                 }
                 catch (Exception e)
@@ -58,9 +63,28 @@ namespace Vermeer.Vermeer.bin
                     vermeer.ApplicationLogger.AddToLog("INFO", "Couldn't connect to Moonbyte servers!");
                     vermeer.ApplicationLogger.LogException(e);
                 }
-            })).Start();
-        }
+            });
+        }*/
 
         #endregion Connecting to the remote server
+
+        #region SendMessage
+
+/*        public async string SendMessage(string data, bool isEncrypted)
+        {
+            string returnString = null;
+            await Task.Run(() =>
+            {
+                UniversalPacket messageRequest = new UniversalPacket(
+                    new Header() { status = UniversalPacket.HTTPSTATUS.POST },
+                    new Message() { Data = data, IsEncrypted = isEncrypted },
+                    client.GetSignature());
+                UniversalServerPacket serverPacket = client.SendMessage(messageRequest);
+                returnString = serverPacket.Message;
+            });
+            return returnString;
+        }*/
+
+        #endregion SendMessage
     }
 }
