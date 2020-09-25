@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MoonbyteSettingsManager;
+using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Vermeer.Vermeer.bin
 {
@@ -17,15 +14,27 @@ namespace Vermeer.Vermeer.bin
 
         #region Vars
 
+        MSMCore vault;
         public browserEngine BrowserEngine = browserEngine.Chromium;
-        public string ApplicationDataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Moonbyte", "Vermeer");
-        public string CacheDataDirectory;
+
+        // Values managed by the settings manager
+        public string LocalNetworkServerIp = "192.168.0.16";
+        public int NetworkServerPort = 7876;
 
         #endregion Vars
 
+        #region Properties
+
+        public string ApplicationDataDirectory => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Moonbyte", "Vermeer");
+        public string ApplicationSettingsDirectory => Path.Combine(ApplicationDataDirectory, "Settings");
+        public string CacheDataDirectory => Path.Combine(ApplicationDataDirectory, "Cache");
+
+        #endregion Properties
+
         #region Setting Titles
 
-
+        private const string TTL_LocalNetworkServerIp = "LocalNetworkServerIP";
+        private const string TTL_NetworkServerPort = "NetworkServerPort";
 
         #endregion Setting Titles
 
@@ -33,9 +42,53 @@ namespace Vermeer.Vermeer.bin
 
         public ISettingsManager()
         {
-            CacheDataDirectory = Path.Combine(ApplicationDataDirectory, "Cache");
+            vault = new MSMCore()
+            {
+                SettingsDirectory = ApplicationSettingsDirectory
+            };
+
+            LoadValues();
+            SaveValues();
         }
 
         #endregion Startup
+
+        #region SaveValues
+
+        private void SaveValues()
+        {
+            vault.EditSetting(TTL_LocalNetworkServerIp, LocalNetworkServerIp);
+            vault.EditSetting(TTL_NetworkServerPort, NetworkServerPort.ToString());
+            vault.SaveSettings();
+        }
+
+        #endregion SaveValues
+
+        #region LoadValues
+
+        #region LoadValuesLocal
+
+        private string LoadSettingValue(string settingTitle, string defaultValue)
+        {
+            if (vault.CheckSetting(settingTitle))
+            {
+                return vault.ReadSetting(settingTitle);
+            }
+            else
+            {
+                vault.EditSetting(settingTitle, defaultValue);
+                return defaultValue;
+            }
+        }
+
+        #endregion LoadValuesLocal
+
+        private void LoadValues()
+        {
+            LocalNetworkServerIp = LoadSettingValue(TTL_LocalNetworkServerIp, LocalNetworkServerIp);
+            NetworkServerPort = int.Parse(LoadSettingValue(TTL_NetworkServerPort, NetworkServerPort.ToString()));
+        }
+
+        #endregion LoadValues
     }
 }

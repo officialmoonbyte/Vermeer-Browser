@@ -1,6 +1,7 @@
 ﻿using Moonbyte.Networking;
 using Moonbyte.UniversalServer.Core.Networking;
 using Moonbyte.Vermeer.bin;
+using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -12,16 +13,22 @@ namespace Vermeer.Vermeer.bin
     {
         #region Vars
 
-        public UniversalClient client = new UniversalClient();
-        public bool isLoggedIn = false;
-        bool isConnected = false;
+        public UniversalClient client;
+        private bool _isLoggedIn = false;
 
         #endregion Vars
 
         #region Properties
 
-        public bool IsLoggedIn { get { return isLoggedIn; } set
-            { isLoggedIn = value; if (value == true) {  } } }
+        public bool IsLoggedIn 
+        { 
+            get 
+            { 
+                if (client.IsConnected)
+                { return _isLoggedIn; }
+                return false; 
+            } 
+        }
 
         #endregion
 
@@ -29,10 +36,52 @@ namespace Vermeer.Vermeer.bin
 
         public NetworkManager()
         {
-            //ConnectToRemoteServer();
+            initializeNetworkManager();
+        }
+
+        private async void initializeNetworkManager()
+        {
+            Task sendUpdateCheckTask = ConnectToServers();
+            await sendUpdateCheckTask;
         }
 
         #endregion Initialization
+
+        private async Task ConnectToServers()
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    string ServerIP = "moonbyte.ddns.net";
+
+                    string externalip = new WebClient().DownloadString("http://icanhazip.com");
+                    if (externalip.Contains(Dns.GetHostAddresses(new Uri("https://moonbyte.ddns.net").Host)[0].ToString())) { ServerIP = vermeer.SettingsManager.LocalNetworkServerIp; }
+
+                    client = new UniversalClient();
+                    client.ConnectToRemoteServer(ServerIP, vermeer.SettingsManager.NetworkServerPort);
+
+                    UniversalPacket updateCheck = new UniversalPacket(
+                        new Header() { status = UniversalPacket.HTTPSTATUS.GET },
+                        new Message() { Data = JsonConvert.SerializeObject(new string[] { "userdatabase", "getvalue", "VermeerCurrentVersion" }), IsEncrypted = false },
+                        client.GetSignature);
+                    UniversalServerPacket LatestVersion = client.SendMessage(updateCheck);
+
+                    vermeer.ApplicationLogger.AddToLog("INFO", "Latest vermeer version : " + LatestVersion);
+
+                    if (!client.IsConnected)
+                    {
+                        vermeer.ApplicationLogger.AddToLog("ERROR", "Couldn't connect to Moonbyte servers! Please check your internet connection!");
+                        return;
+                    }
+                }
+                catch (Exception e)
+                {
+                    vermeer.ApplicationLogger.AddToLog("ERROR", "Error while trying to connect to Moonbyte servers! Details are listed below.");
+                    vermeer.ApplicationLogger.LogException(e);
+                }
+            });
+        }
 
         #region Connecting to the remote server
 
