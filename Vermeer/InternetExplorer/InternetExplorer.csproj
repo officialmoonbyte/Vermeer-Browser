@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MaterialFramework, Version=5.1.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialFramework.5.1.6\lib\net45\MaterialFramework.dll</HintPath>
+    <Reference Include="MaterialFramework, Version=5.3.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialFramework.5.3.8\lib\net45\MaterialFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
