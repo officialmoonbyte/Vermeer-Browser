@@ -1,4 +1,5 @@
 ﻿using IWshRuntimeLibrary;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using Moonbyte.MaterialFramework.Controls;
 using System;
 using System.Diagnostics;
@@ -107,6 +108,18 @@ namespace Vermeer_Installer
             btn_Continue2.Click += (obj, args) =>
             {
                 SwitchToPage2();
+            };
+
+            btn_SelectInstallDirectory.Click += (obj, args) =>
+            {
+                var dialog = new CommonOpenFileDialog();
+                dialog.IsFolderPicker = true;
+                dialog.InitialDirectory = txt_InstallDirectory.Text;
+
+                if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+                {
+                    txt_InstallDirectory.Text = dialog.FileName;
+                }
             };
 
             BringUpPage0();
@@ -414,12 +427,13 @@ namespace Vermeer_Installer
             client.DownloadFileCompleted += (obj, args) =>
             {
                 lbl_DownloadedStatus.Text = "Extracting Vermeer! Please wait...";
-                DirectoryInfo dir = new DirectoryInfo(Path.Combine(txt_InstallDirectory.Text, "Vermeer"));
-                if (System.IO.File.Exists(Path.Combine(txt_InstallDirectory.Text, "Vermeer", "vermeer.exe"))) { Directory.Delete(Path.Combine(txt_InstallDirectory.Text, "Vermeer"), true); }
-                ZipFile.ExtractToDirectory(TempFile, Path.Combine(txt_InstallDirectory.Text, "Vermeer"));
+                DirectoryInfo dir = new DirectoryInfo(txt_InstallDirectory.Text);
+                if (System.IO.File.Exists(Path.Combine(txt_InstallDirectory.Text, "vermeer.exe"))) { Directory.Delete(txt_InstallDirectory.Text, true); }
+                ZipFile.ExtractToDirectory(TempFile, txt_InstallDirectory.Text);
+                System.IO.File.Delete(TempFile);
                 lbl_DownloadedStatus.Text = "Creating Shortcuts...";
-                CreateShortcut(Path.Combine(txt_InstallDirectory.Text, "Vermeer"), DesktopDirectory);
-                CreateShortcut(Path.Combine(txt_InstallDirectory.Text, "Vermeer"), StartMenuDirectory);
+                CreateShortcut(txt_InstallDirectory.Text, DesktopDirectory);
+                CreateShortcut(txt_InstallDirectory.Text, StartMenuDirectory);
                 finalFade();
             };
 
@@ -447,7 +461,7 @@ namespace Vermeer_Installer
 
         private void btn_ezinstall_Click(object sender, EventArgs e)
         {
-            Process.Start(Path.Combine(txt_InstallDirectory.Text, "Vermeer", "vermeer.exe"));
+            Process.Start(Path.Combine(txt_InstallDirectory.Text, "vermeer.exe"));
             this.Close();
         }
     }

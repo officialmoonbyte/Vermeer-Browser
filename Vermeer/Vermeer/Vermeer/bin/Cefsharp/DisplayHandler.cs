@@ -1,6 +1,8 @@
 ﻿using CefSharp;
+using CefSharp.Enums;
 using CefSharp.Structs;
 using Moonbyte.Vermeer.bin;
+using System;
 using System.Collections.Generic;
 
 namespace Vermeer.Vermeer.bin.Cefsharp
@@ -34,6 +36,11 @@ namespace Vermeer.Vermeer.bin.Cefsharp
         public bool OnConsoleMessage(IWebBrowser chromiumWebBrowser, ConsoleMessageEventArgs consoleMessageArgs)
         {
             return true;
+        }
+
+        public bool OnCursorChange(IWebBrowser chromiumWebBrowser, CefSharp.IBrowser browser, IntPtr cursor, CursorType type, CursorInfo customCursorInfo)
+        {
+            return false;
         }
 
         public void OnFaviconUrlChange(IWebBrowser chromiumWebBrowser, CefSharp.IBrowser browser, IList<string> urls)
